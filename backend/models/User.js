@@ -4,11 +4,7 @@ const mongoose=require('mongoose');
 //2.Convert the schema
 
 const UserSchema=new mongoose.Schema({
-    firstName:{
-        type:String,
-        required:true,
-    },
-    lastName:{
+    name:{
         type:String,
         required:true,
     },
