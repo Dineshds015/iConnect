@@ -2,6 +2,7 @@ import React,{useState}from 'react'
 import cover from "../public/coverphoto.jpeg"
 import pic from "../public/profilepic.jpeg"
 import Education from './Education';
+import Experience from './Experience';
 const Profile = () => {
     const [addProfile,setAddProfile]=useState(false);
     const handleButtonClick=()=>{
@@ -9,12 +10,13 @@ const Profile = () => {
     }
   return (
     <div class="grid grid-cols-12">
-  <div class="col-span-1"> 
+  <div className="col-span-1"> 
   </div>
-  <div class="col-span-4 bg-gray-100"> 
-  <Education/>
+  <div className="col-span-4 bg-gray-100 flex flex-col"> 
+      <div className=''><Education/></div>
+      <div className=''><Experience/></div>
   </div>
-  <div class="col-span-6 bg-gray-200"> 
+  <div className="col-span-6 bg-gray-200"> 
        <div> <img className="object-cover h-96 w-full "  src={cover} alt="cover photo"/>
         <img className="object-cover rounded-full -mt-14 ml-2"  src={pic} alt="cover photo"/>
         <div className='flex flex-col'>
