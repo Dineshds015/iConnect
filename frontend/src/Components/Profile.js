@@ -1,6 +1,7 @@
 import React,{useState}from 'react'
 import cover from "../public/coverphoto.jpeg"
 import pic from "../public/profilepic.jpeg"
+import Education from './Education';
 const Profile = () => {
     const [addProfile,setAddProfile]=useState(false);
     const handleButtonClick=()=>{
@@ -10,7 +11,8 @@ const Profile = () => {
     <div class="grid grid-cols-12">
   <div class="col-span-1"> 
   </div>
-  <div class="col-span-4"> 
+  <div class="col-span-4 bg-gray-100"> 
+  <Education/>
   </div>
   <div class="col-span-6 bg-gray-200"> 
        <div> <img className="object-cover h-96 w-full "  src={cover} alt="cover photo"/>
