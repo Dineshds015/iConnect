@@ -8,12 +8,21 @@ const experienceRoutes=require("./routes/experience");
 const skillRoutes=require("./routes/skill");
 const projectRoutes=require("./routes/project");
 const User=require("./models/User");
+const cors=require('cors');
+const bodyParser=require('body-parser');
 
 require('./db/conn');
 
 require("dotenv").config();
 const app=express();
 app.use(express.json());
+app.use(cors({
+    origin:"http://localhost:3000/",
+    method:["POST","GET"],
+    credentials:true,
+}));
+
+app.use(bodyParser.json());
 
 
 //passport-jwt setup
