@@ -1,15 +1,20 @@
-import React,{useState}from 'react'
+import React,{useEffect, useState}from 'react'
 import cover from "../public/coverphoto.jpeg"
 import pic from "../public/profilepic.jpeg"
 import Education from './Education';
 import Experience from './Experience';
 const Profile = () => {
-    const [addProfile,setAddProfile]=useState(false);
-    const handleButtonClick=()=>{
-        setAddProfile(!addProfile);
-    }
+  const [addProfile,setAddProfile]=useState(false);
+  const handleButtonClick=()=>{
+      setAddProfile(!addProfile);
+  }
+
+  
+
+
   return (
     <div class="grid grid-cols-12">
+
   <div className="col-span-1"> 
   </div>
   <div className="col-span-4 bg-gray-100 flex flex-col"> 
@@ -44,9 +49,10 @@ const Profile = () => {
 </div>
       )}
 
-  <div class="col-span-1">
+
+    <div class="col-span-1">
+    </div>
   </div>
-</div>
   )
 }
 
