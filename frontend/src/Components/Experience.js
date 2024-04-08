@@ -1,13 +1,14 @@
-import React from 'react';
-import pen from "../public/pen.png";
-import clg from "../public/clgimg.png";
+import React from 'react'
+import pen from "../public/pen.png"
+import clg from "../public/clgimg.png"
 
-const Education = () => {
+
+const Experience = () => {
   return (
     <div className='bg-blue-200 shadow-2xl rounded-xl h-auto w-auto mx-4 my-6 p-4'>
       <div className='flex justify-between'>
         <div>
-          <span className='font-bold text-xl'>Education</span>
+          <span className='font-bold text-xl'>Experience</span>
         </div>
         <div className='flex items-center'>
           <span className='font-bold mr-2'>+ </span>
@@ -24,7 +25,7 @@ const Education = () => {
         </div>
       </div>
     </div>
-  );
+  )
 }
 
-export default Education;
+export default Experience
