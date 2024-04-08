@@ -1,9 +1,25 @@
 const express=require('express');
 const User=require("../models/User");
 const bcrypt=require('bcrypt');
+const nodemailer=require('nodemailer');
 const {getToken}=require("../utils/helpers");
 const router=express.Router();
+const crypto=require('crypto');
 
+const sendMailer=require('../utils/smtp');
+
+//Generating the alphanumeric OTP which is moreSecure
+function generateOTP(){
+    return crypto.randomBytes(3).toString('hex').toUpperCase();
+}
+const otp=generateOTP();
+//Starts the email verification using Etherial smtpServer
+router.post('/sendOtp',(req,res)=>{
+    console.log("Mail Id recieved of ",req.body.email);
+    const mailing=sendMailer.sendMail(req.body.email,otp);
+    if(mailing )    
+        console.log("Mail sent");
+})
 
 router.post("/register",async(req,res)=>{
     //This is the function that will handle the register user
