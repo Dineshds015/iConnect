@@ -1,10 +1,10 @@
-import React ,{useState} from 'react'
-import logo from "../public/logo.png"
-import google from "../public/google.png"
+import React, { useState } from 'react';
+import logo from "../public/logo.png";
+import google from "../public/google.png";
 import { useNavigate } from 'react-router-dom';
 import axios from "axios";
+import { validateFormData } from '../helper/validator'; // Import the validator
 
-//React Hooks
 const Signup = () => {
   const [formData, setFormData] = useState({
     name: "",
@@ -13,52 +13,124 @@ const Signup = () => {
     cPassword: ""
   });
 
-  const navigate = useNavigate()
-  const handleOnClick = ()=>{
-    navigate("/login")
-  }
+  const [errors, setErrors] = useState({}); // State to store validation errors
+  const [showOtp, setShowOtp] = useState(false); // State to control the visibility of OTP section
+  const [verifyClicked, setVerifyClicked] = useState(false); // State to track if verify button is clicked
+
+  const navigate = useNavigate();
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({
       ...formData,
       [name]: value
     });
-    console.log(name);
+    setErrors({
+      ...errors,
+      [name]: '' // Clear the error message when input changes
+    });
   };
 
-  //To communicate with backend using axios
-  const submitReg=(e)=>{
-      e.preventDefault();
-      console.log(formData);
-      
-      axios.post("http://localhost:8000/auth/register",formData).then((res)=>{
+  //Sending email to server for the OTP
+  const sendEmailToOtp = async () => {
+    try {
+      const response = await axios.post("http://localhost:8000/auth/sendOtp", { email: formData.email });
+      console.log(response.data); // Log the response data if needed
+    } catch (error) {
+      console.error("Error sending email:", error.message);
+      // Handle error gracefully
+    }
+  };
+
+  const handleVerifyClick = async () => {
+    const formErrors = validateFormData(formData); // Validate the form data
+    if (Object.keys(formErrors).length === 0) {
+      setVerifyClicked(true); // Set verifyClicked to true when verify button is clicked
+      setShowOtp(true); // Show the OTP section
+      await sendEmailToOtp(); // Send email to OTP endpoint
+    } else {
+      setErrors(formErrors); // Set validation errors to display to the user
+    }
+  };
+  const verifyOtp = async () => {
+    try {
+      const response = await axios.post("http://localhost:8000/auth/verify", { email: formData.email, otp: formData.otp });
+      console.log(response.data); // Log the response data if needed
+      return response.data; // Return the response data for further processing
+    } catch (error) {
+      console.log("Error verifying OTP:", error.message); 
+      setErrors({ otp: 'Invalid OTP' });
+      //throw error; // Re-throw the error to handle it in the calling code
+    }
+  };
+  
+  // Function to resend OTP
+  const resendOTP = async () => {
+    try {
+      await axios.post("http://localhost:8000/auth/resendOtp", { email: formData.email });
+      alert('OTP resent successfully. Please check your email.');
+    } catch (error) {
+      console.error("Error resending OTP:", error.message);
+      alert('An error occurred while resending OTP. Please try again later.');
+    }
+  };
+
+  const submitReg = async(e) => {
+    e.preventDefault();
+    const result = await verifyOtp(formData.email, formData.otp);
+    if (result && result.message === 'OTP verified successfully') {
+      axios.post("http://localhost:8000/auth/register", formData)
+        .then((res) => {
           console.log(res.data);
-      }).catch((err)=>{
-        console.log(err.message)
-      })
-  }
+          navigate('/login');
+        })
+        .catch((err) => {
+          console.log(err.message);
+        });
+    } else if(result && result.message === 'Incorrect OTP'){
+      alert('Incorrect OTP');
+    }
+  };
 
   return (
     <div className="flex flex-row justify-center shadow-lg">
-        <div className="flex flex-col">
-            <img className="rounded-2xl m-4" src={logo} alt="logo"/>
-            <form className='flex flex-col'>
-            <input className='mx-4 px-4 my-2 border border-solid w-auto h-12 rounded-full' type="text" name="name" placeholder='Enter Your Name' onChange={handleInputChange}/>
-            <input className='mx-4 px-4 my-2 border border-solid w-auto h-12 rounded-full' type="text" name="email" placeholder='Enter Your Email' onChange={handleInputChange}/>
-            <input className='mx-4 px-4 my-2 border border-solid w-auto h-12 rounded-full' type="text" name="password" placeholder='Enter Your Password' onChange={handleInputChange}/>
-            <input className='mx-4 px-4 my-2 border border-solid w-auto h-12 rounded-full' type="text" name="cPassword" placeholder='Confirm Password' onChange={handleInputChange}/>
+      <div className="flex flex-col">
+        <img className="rounded-2xl m-4" src={logo} alt="logo" />
+        <form className='flex flex-col'>
+          <input className='mx-4 px-4 my-2 border border-solid w-auto h-12 rounded-full' type="text" name="name" placeholder='Enter Your Name' onChange={handleInputChange} disabled={showOtp}/>
+          {errors.name && <span className="text-red-500">{errors.name}</span>}
+          <input className='mx-4 px-4 my-2 border border-solid w-auto h-12 rounded-full' type="text" name="email" placeholder='Enter Your Email' onChange={handleInputChange} disabled={showOtp}/>
+          {errors.email && <span className="text-red-500">{errors.email}</span>}
+          <input className='mx-4 px-4 my-2 border border-solid w-auto h-12 rounded-full' type="password" name="password" placeholder='Enter Your Password' onChange={handleInputChange} disabled={showOtp}/>
+          {errors.password && <span className="text-red-500">{errors.password}</span>}
+          <input className='mx-4 px-4 my-2 border border-solid w-auto h-12 rounded-full' type="password" name="cPassword" placeholder='Confirm Password' onChange={handleInputChange} disabled={showOtp}/>
+          {errors.cPassword && <span className="text-red-500">{errors.cPassword}</span>}
 
-            <button className='mx-4 px-4 my-2 mb-8 border border-solid w-auto h-12 rounded-full bg-blue-500 font-bold text-2xl' type = "submit"  onClick={submitReg}>Sign Up</button>
-            </form>
-        </div>
-        <div className='flex flex-col justify-center m-10 mt-44'>
-            <button className='mx-4 px-4 my-2 border border-solid w-96 h-12 rounded-full bg-teal-300 text-2xl flex items-center justify-center' type = "submit"  ><img className='h-8  mr-2' src={google} alt='Google Logo' />Login In with Google</button>
-            <button className='mx-4 px-4 my-2 border border-solid w-96 h-12 rounded-full bg-teal-300 text-2xl flex items-center justify-center' type = "submit"  ><img className='h-8 border border-solid mr-2' src='https://cdn.worldvectorlogo.com/logos/linkedin-icon-2.svg' alt='LinkedIn Logo' />Login In with LinkedIn</button>
-            <span className='ml-32 cursor-pointer' onClick={handleOnClick}>Already have an account? Sign In</span>
-
-        </div>
+          {!showOtp ? (
+            <button className='mx-4 px-4 my-2 mb-8 border border-solid w-auto h-12 rounded-full bg-blue-500 font-bold text-2xl' type="button" onClick={handleVerifyClick}>Verify</button>
+          ) : (
+            <div className='w-full'>
+              <div className='flex justify-center'>
+                <div className='w-1/2'>
+                  <input className='mx-4 px-4 my-2 border border-solid w-auto h-12 rounded-full' type="password" name="otp" placeholder='Enter 6 digit OTP' onChange={handleInputChange} />
+                  {errors.otp && <span className="text-red-500">{errors.otp}</span>}
+                  {errors.otp && <button type="button" onClick={resendOTP}>Resend OTP</button>}
+                </div>
+                <div className='w-1/2'>
+                  <button className='mx-4 px-4 my-2 pb-0 border border-solid w-auto h-12 rounded-full bg-blue-500 font-bold text-2xl' type="submit" onClick={submitReg}>Register</button>
+                </div>
+              </div>
+            </div>
+          )}
+        </form>
+      </div>
+      <div className='flex flex-col justify-center m-10 mt-44'>
+        <button className='mx-4 px-4 my-2 border border-solid w-96 h-12 rounded-full bg-teal-300 text-2xl flex items-center justify-center' type="submit"><img className='h-8  mr-2' src={google} alt='Google Logo' />Login In with Google</button>
+        <button className='mx-4 px-4 my-2 border border-solid w-96 h-12 rounded-full bg-teal-300 text-2xl flex items-center justify-center' type="submit"><img className='h-8 border border-solid mr-2' src='https://cdn.worldvectorlogo.com/logos/linkedin-icon-2.svg' alt='LinkedIn Logo' />Login In with LinkedIn</button>
+        <span className='ml-32 cursor-pointer' onClick={submitReg}>Already have an account? Sign In</span>
+      </div>
     </div>
   )
 }
 
-export default Signup
+export default Signup;

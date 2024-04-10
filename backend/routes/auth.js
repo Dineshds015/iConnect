@@ -1,9 +1,55 @@
 const express=require('express');
 const User=require("../models/User");
 const bcrypt=require('bcrypt');
+const nodemailer=require('nodemailer');
 const {getToken}=require("../utils/helpers");
 const router=express.Router();
+const crypto=require('crypto');
 
+const sendMailer=require('../utils/smtp');
+
+//Generating the alphanumeric OTP which is moreSecure
+function generateOTP(){
+    return crypto.randomBytes(3).toString('hex').toUpperCase();
+}
+let otp=generateOTP();
+//Starts the email verification using Etherial smtpServer
+router.post('/sendOtp',(req,res)=>{
+    console.log("Mail Id recieved of ",req.body.email);
+    const mailing=sendMailer.sendMail(req.body.email,otp);
+    if(mailing )    
+        console.log("Mail sent");
+    console.log(otp);
+})
+
+router.post('/resendOtp', (req, res) => {
+    // Generate a new OTP
+    otp = generateOTP();
+    console.log("ResendOTP:",otp);
+    // Send the new OTP to the user's email
+    const mailing = sendMailer.sendMail(req.body.email, otp);
+    if (mailing) {
+        console.log("Mail resent");
+        console.log("New OTP:", otp);
+        res.status(200).json({ message: "OTP resent successfully" });
+    } else {
+        console.log("Failed to resend mail");
+        res.status(500).json({ message: "Failed to resend OTP" });
+    }
+});
+
+// POST route for OTP verification
+router.post('/verify', (req, res) => {
+  //const { email, otp } = req.body;
+  console.log(req.body.otp," ",otp,":",req.body.otp === otp);
+  // Check if OTP matches the one sent to the user
+  if (req.body.otp && req.body.otp === otp) {
+    return res.status(200).json({ message: "OTP verified successfully" });
+  } else {
+    // If OTP does not match, send error response
+    return res.status(400).json({ error: "Invalid OTP" ,message:"Invalid OTP"});
+  }
+});
 
 router.post("/register",async(req,res)=>{
     //This is the function that will handle the register user
