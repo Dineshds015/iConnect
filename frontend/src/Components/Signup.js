@@ -52,10 +52,33 @@ const Signup = () => {
       setErrors(formErrors); // Set validation errors to display to the user
     }
   };
+  const verifyOtp = async () => {
+    try {
+      const response = await axios.post("http://localhost:8000/auth/verify", { email: formData.email, otp: formData.otp });
+      console.log(response.data); // Log the response data if needed
+      return response.data; // Return the response data for further processing
+    } catch (error) {
+      console.log("Error verifying OTP:", error.message); 
+      setErrors({ otp: 'Invalid OTP' });
+      //throw error; // Re-throw the error to handle it in the calling code
+    }
+  };
+  
+  // Function to resend OTP
+  const resendOTP = async () => {
+    try {
+      await axios.post("http://localhost:8000/auth/resendOtp", { email: formData.email });
+      alert('OTP resent successfully. Please check your email.');
+    } catch (error) {
+      console.error("Error resending OTP:", error.message);
+      alert('An error occurred while resending OTP. Please try again later.');
+    }
+  };
 
-  const submitReg = (e) => {
+  const submitReg = async(e) => {
     e.preventDefault();
-    if (verifyClicked) {
+    const result = await verifyOtp(formData.email, formData.otp);
+    if (result && result.message === 'OTP verified successfully') {
       axios.post("http://localhost:8000/auth/register", formData)
         .then((res) => {
           console.log(res.data);
@@ -64,8 +87,8 @@ const Signup = () => {
         .catch((err) => {
           console.log(err.message);
         });
-    } else {
-      alert('Please verify before registering.');
+    } else if(result && result.message === 'Incorrect OTP'){
+      alert('Incorrect OTP');
     }
   };
 
@@ -74,13 +97,13 @@ const Signup = () => {
       <div className="flex flex-col">
         <img className="rounded-2xl m-4" src={logo} alt="logo" />
         <form className='flex flex-col'>
-          <input className='mx-4 px-4 my-2 border border-solid w-auto h-12 rounded-full' type="text" name="name" placeholder='Enter Your Name' onChange={handleInputChange} />
+          <input className='mx-4 px-4 my-2 border border-solid w-auto h-12 rounded-full' type="text" name="name" placeholder='Enter Your Name' onChange={handleInputChange} disabled={showOtp}/>
           {errors.name && <span className="text-red-500">{errors.name}</span>}
-          <input className='mx-4 px-4 my-2 border border-solid w-auto h-12 rounded-full' type="text" name="email" placeholder='Enter Your Email' onChange={handleInputChange} />
+          <input className='mx-4 px-4 my-2 border border-solid w-auto h-12 rounded-full' type="text" name="email" placeholder='Enter Your Email' onChange={handleInputChange} disabled={showOtp}/>
           {errors.email && <span className="text-red-500">{errors.email}</span>}
-          <input className='mx-4 px-4 my-2 border border-solid w-auto h-12 rounded-full' type="password" name="password" placeholder='Enter Your Password' onChange={handleInputChange} />
+          <input className='mx-4 px-4 my-2 border border-solid w-auto h-12 rounded-full' type="password" name="password" placeholder='Enter Your Password' onChange={handleInputChange} disabled={showOtp}/>
           {errors.password && <span className="text-red-500">{errors.password}</span>}
-          <input className='mx-4 px-4 my-2 border border-solid w-auto h-12 rounded-full' type="password" name="cPassword" placeholder='Confirm Password' onChange={handleInputChange} />
+          <input className='mx-4 px-4 my-2 border border-solid w-auto h-12 rounded-full' type="password" name="cPassword" placeholder='Confirm Password' onChange={handleInputChange} disabled={showOtp}/>
           {errors.cPassword && <span className="text-red-500">{errors.cPassword}</span>}
 
           {!showOtp ? (
@@ -91,6 +114,7 @@ const Signup = () => {
                 <div className='w-1/2'>
                   <input className='mx-4 px-4 my-2 border border-solid w-auto h-12 rounded-full' type="password" name="otp" placeholder='Enter 6 digit OTP' onChange={handleInputChange} />
                   {errors.otp && <span className="text-red-500">{errors.otp}</span>}
+                  {errors.otp && <button type="button" onClick={resendOTP}>Resend OTP</button>}
                 </div>
                 <div className='w-1/2'>
                   <button className='mx-4 px-4 my-2 pb-0 border border-solid w-auto h-12 rounded-full bg-blue-500 font-bold text-2xl' type="submit" onClick={submitReg}>Register</button>
