@@ -4,6 +4,9 @@ import google from "../public/google.png";
 import { useNavigate } from 'react-router-dom';
 import axios from "axios";
 import { validateFormData } from '../helper/validator'; // Import the validator
+import {Link} from "react-router-dom";
+import Alert from '../helper/alert';
+import { ToastContainer, toast } from 'react-toastify';
 
 const Signup = () => {
   const [formData, setFormData] = useState({
@@ -32,10 +35,12 @@ const Signup = () => {
   };
 
   //Sending email to server for the OTP
+  
   const sendEmailToOtp = async () => {
     try {
       const response = await axios.post("http://localhost:8000/auth/sendOtp", { email: formData.email });
       console.log(response.data); // Log the response data if needed
+      return response;
     } catch (error) {
       console.error("Error sending email:", error.message);
       // Handle error gracefully
@@ -44,10 +49,19 @@ const Signup = () => {
 
   const handleVerifyClick = async () => {
     const formErrors = validateFormData(formData); // Validate the form data
+    const response=await sendEmailToOtp();
+    console.log("res" ,response.data);
     if (Object.keys(formErrors).length === 0) {
-      setVerifyClicked(true); // Set verifyClicked to true when verify button is clicked
-      setShowOtp(true); // Show the OTP section
-      await sendEmailToOtp(); // Send email to OTP endpoint
+      
+      if (response && response.data.message==="existingUser"){
+        console.log("...");
+        Alert.warning("This Email is Already Registered!");
+      }else{
+        console.log("https logs");
+        setVerifyClicked(true); // Set verifyClicked to true when verify button is clicked
+        setShowOtp(true); // Show the OTP section
+      }
+      //await sendEmailToOtp(); // Send email to OTP endpoint
     } else {
       setErrors(formErrors); // Set validation errors to display to the user
     }
@@ -56,9 +70,11 @@ const Signup = () => {
     try {
       const response = await axios.post("http://localhost:8000/auth/verify", { email: formData.email, otp: formData.otp });
       console.log(response.data); // Log the response data if needed
+      
       return response.data; // Return the response data for further processing
     } catch (error) {
-      console.log("Error verifying OTP:", error.message); 
+      console.log("Error verifying OTP:", error.message);
+      Alert.error('Incorrect OTP'); 
       setErrors({ otp: 'Invalid OTP' });
       //throw error; // Re-throw the error to handle it in the calling code
     }
@@ -68,7 +84,7 @@ const Signup = () => {
   const resendOTP = async () => {
     try {
       await axios.post("http://localhost:8000/auth/resendOtp", { email: formData.email });
-      alert('OTP resent successfully. Please check your email.');
+      Alert.success('OTP resent successfully.');
     } catch (error) {
       console.error("Error resending OTP:", error.message);
       alert('An error occurred while resending OTP. Please try again later.');
@@ -82,17 +98,36 @@ const Signup = () => {
       axios.post("http://localhost:8000/auth/register", formData)
         .then((res) => {
           console.log(res.data);
-          navigate('/login');
+          Alert.success("Registered Successfully");
+          setTimeout(() => {
+            navigate('/login');
+          }, 4000);
         })
         .catch((err) => {
           console.log(err.message);
         });
     } else if(result && result.message === 'Incorrect OTP'){
-      alert('Incorrect OTP');
+      Alert.error('Incorrect OTP');
     }
   };
 
   return (
+    <>
+    <ToastContainer
+      position="top-right"
+      autoClose={5000}
+      hideProgressBar={false}
+      newestOnTop={false}
+      closeOnClick
+      rtl={false}
+      pauseOnFocusLoss
+      draggable
+      pauseOnHover
+      theme="light"
+      transition= "Bounce"
+      />
+      {/* Same as */}
+    <ToastContainer />
     <div className="flex flex-row justify-center shadow-lg">
       <div className="flex flex-col">
         <img className="rounded-2xl m-4" src={logo} alt="logo" />
@@ -127,9 +162,10 @@ const Signup = () => {
       <div className='flex flex-col justify-center m-10 mt-44'>
         <button className='mx-4 px-4 my-2 border border-solid w-96 h-12 rounded-full bg-teal-300 text-2xl flex items-center justify-center' type="submit"><img className='h-8  mr-2' src={google} alt='Google Logo' />Login In with Google</button>
         <button className='mx-4 px-4 my-2 border border-solid w-96 h-12 rounded-full bg-teal-300 text-2xl flex items-center justify-center' type="submit"><img className='h-8 border border-solid mr-2' src='https://cdn.worldvectorlogo.com/logos/linkedin-icon-2.svg' alt='LinkedIn Logo' />Login In with LinkedIn</button>
-        <span className='ml-32 cursor-pointer' onClick={submitReg}>Already have an account? Sign In</span>
+        <Link to="/Login" className='ml-32 cursor-pointer'>Already have an account? Sign In</Link>
       </div>
     </div>
+    </>
   )
 }
 

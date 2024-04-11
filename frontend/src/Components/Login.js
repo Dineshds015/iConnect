@@ -3,6 +3,8 @@ import logo from "../public/logo.png"
 import google from "../public/google.png"
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import Alert from '../helper/alert';
+import { ToastContainer, toast } from 'react-toastify';
 
 const Login = () => {
   const [formData,setFormData]=useState({
@@ -30,13 +32,30 @@ const Login = () => {
 
     axios.post("http://localhost:8000/auth/login",formData).then((res)=>{
       console.log(res.data);
+      navigate('/Profile');
     }).catch((err)=>{
+      Alert.error("Invalid Details");
       console.log(err.message)
     })
-    navigate("/profile")
   }
 
   return (
+  <>
+    <ToastContainer
+      position="top-right"
+      autoClose={5000}
+      hideProgressBar={false}
+      newestOnTop={false}
+      closeOnClick
+      rtl={false}
+      pauseOnFocusLoss
+      draggable
+      pauseOnHover
+      theme="light"
+      transition= "Bounce"
+      />
+      {/* Same as */}
+    <ToastContainer />
     <div className="flex flex-row justify-center shadow-lg">
         <div className="flex flex-col">
             <img className="rounded-2xl m-4" src={logo} alt="logo"/>
@@ -53,6 +72,7 @@ const Login = () => {
 
         </div>
     </div>
+</>
   )
 }
 

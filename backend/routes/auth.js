@@ -14,7 +14,13 @@ function generateOTP(){
 }
 let otp=generateOTP();
 //Starts the email verification using Etherial smtpServer
-router.post('/sendOtp',(req,res)=>{
+router.post('/sendOtp',async(req,res)=>{
+    const existingUser=await User.findOne({email:req.body.email});
+    if(existingUser){
+        res.status(200).json({ message: "existingUser" });
+        return;
+    }
+    res.status(200).json({ message: "mailing" });
     console.log("Mail Id recieved of ",req.body.email);
     const mailing=sendMailer.sendMail(req.body.email,otp);
     if(mailing )    
@@ -22,8 +28,9 @@ router.post('/sendOtp',(req,res)=>{
     console.log(otp);
 })
 
-router.post('/resendOtp', (req, res) => {
+router.post('/resendOtp', async(req, res) => {
     // Generate a new OTP
+    
     otp = generateOTP();
     console.log("ResendOTP:",otp);
     // Send the new OTP to the user's email
