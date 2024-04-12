@@ -17,7 +17,7 @@ const Signup = () => {
   });
 
   const [errors, setErrors] = useState({}); // State to store validation errors
-  const [showOtp, setShowOtp] = useState(false); // State to control the visibility of OTP section
+  const [showOtp, setShowOtp] = useState(); // State to control the visibility of OTP section
   const [verifyClicked, setVerifyClicked] = useState(false); // State to track if verify button is clicked
 
   const navigate = useNavigate();
@@ -38,9 +38,13 @@ const Signup = () => {
   
   const sendEmailToOtp = async () => {
     try {
-      const response = await axios.post("http://localhost:8000/auth/sendOtp", { email: formData.email });
-      console.log(response.data); // Log the response data if needed
-      return response;
+      const isExist = await axios.post("http://localhost:8000/auth/checkExistingUser", { email: formData.email});
+      console.log("dataaaa:",isExist.data.message);
+      if(isExist.data.message!=="existingUser"){
+        const response = await axios.post("http://localhost:8000/auth/sendOtp", { email: formData.email});
+        console.log(response.data); // Log the response data if needed
+      }
+      return isExist;
     } catch (error) {
       console.error("Error sending email:", error.message);
       // Handle error gracefully
@@ -94,6 +98,7 @@ const Signup = () => {
   const submitReg = async(e) => {
     e.preventDefault();
     const result = await verifyOtp(formData.email, formData.otp);
+    result?console.log("msg: ",result.message):console.log("msg: none");
     if (result && result.message === 'OTP verified successfully') {
       axios.post("http://localhost:8000/auth/register", formData)
         .then((res) => {
@@ -106,7 +111,7 @@ const Signup = () => {
         .catch((err) => {
           console.log(err.message);
         });
-    } else if(result && result.message === 'Incorrect OTP'){
+    } else if(result && result.message ==="Invalid OTP"){
       Alert.error('Incorrect OTP');
     }
   };
@@ -114,20 +119,19 @@ const Signup = () => {
   return (
     <>
     <ToastContainer
-      position="top-right"
-      autoClose={5000}
+      position="top-center"
+      autoClose={1000}
       hideProgressBar={false}
       newestOnTop={false}
       closeOnClick
       rtl={false}
-      pauseOnFocusLoss
-      draggable
-      pauseOnHover
+      pauseOnFocusLoss={false}
+      draggable={false}
+      pauseOnHover={false}
       theme="light"
-      transition= "Bounce"
+      transition="Bounce"
       />
-      {/* Same as */}
-    <ToastContainer />
+    <ToastContainer/>
     <div className="flex flex-row justify-center shadow-lg">
       <div className="flex flex-col">
         <img className="rounded-2xl m-4" src={logo} alt="logo" />
@@ -148,8 +152,7 @@ const Signup = () => {
               <div className='flex justify-center'>
                 <div className='w-1/2'>
                   <input className='mx-4 px-4 my-2 border border-solid w-auto h-12 rounded-full' type="password" name="otp" placeholder='Enter 6 digit OTP' onChange={handleInputChange} />
-                  {errors.otp && <span className="text-red-500">{errors.otp}</span>}
-                  {errors.otp && <button type="button" onClick={resendOTP}>Resend OTP</button>}
+                  <button type="button" onClick={resendOTP}>Resend OTP</button>
                 </div>
                 <div className='w-1/2'>
                   <button className='mx-4 px-4 my-2 pb-0 border border-solid w-auto h-12 rounded-full bg-blue-500 font-bold text-2xl' type="submit" onClick={submitReg}>Register</button>

@@ -13,6 +13,16 @@ function generateOTP(){
     return crypto.randomBytes(3).toString('hex').toUpperCase();
 }
 let otp=generateOTP();
+
+router.post('/checkExistingUser', async (req, res) => {
+    const existingUser = await User.findOne({ email: req.body.email });
+    if (existingUser) {
+        res.status(200).json({ message: "existingUser" });
+    } else {
+        res.status(200).json({ message: "notExistingUser" });
+    }
+});
+
 //Starts the email verification using Etherial smtpServer
 router.post('/sendOtp',async(req,res)=>{
     const existingUser=await User.findOne({email:req.body.email});
@@ -41,7 +51,7 @@ router.post('/resendOtp', async(req, res) => {
         res.status(200).json({ message: "OTP resent successfully" });
     } else {
         console.log("Failed to resend mail");
-        res.status(500).json({ message: "Failed to resend OTP" });
+        res.status(200).json({ message: "Failed to resend OTP" });
     }
 });
 
@@ -54,10 +64,36 @@ router.post('/verify', (req, res) => {
     return res.status(200).json({ message: "OTP verified successfully" });
   } else {
     // If OTP does not match, send error response
-    return res.status(400).json({ error: "Invalid OTP" ,message:"Invalid OTP"});
+    return res.status(200).json({ message:"Invalid OTP"});
   }
 });
 
+router.post("/updatePass", async (req, res) => {
+    try {
+      const { email, newPassword } = req.body;
+      console.log(newPassword);
+      // Check if a user with the provided email exists
+      const user = await User.findOne({ email });
+      if (!user) {
+        return res.status(404).json({ error: "User not found" });
+      }
+  
+      // Hash the new password
+      const saltRounds = 10;
+      const hashedPassword = await bcrypt.hash(newPassword, 10);
+  
+      // Update the user's password
+      user.password = hashedPassword;
+      await user.save();
+  
+      return res.status(200).json({ message: "Password updated successfully" });
+    } catch (error) {
+      console.error(error.message);
+      return res.status(500).json({ error: "Internal server error" });
+    }
+  });
+
+  
 router.post("/register",async(req,res)=>{
     //This is the function that will handle the register user
     //step1: Get the details from req.body
