@@ -4,6 +4,9 @@ import google from "../public/google.png";
 import { useNavigate } from 'react-router-dom';
 import axios from "axios";
 import { validateFormData } from '../helper/validator'; // Import the validator
+import {Link} from "react-router-dom";
+import Alert from '../helper/alert';
+import { ToastContainer, toast } from 'react-toastify';
 
 const Signup = () => {
   const [formData, setFormData] = useState({
@@ -14,7 +17,7 @@ const Signup = () => {
   });
 
   const [errors, setErrors] = useState({}); // State to store validation errors
-  const [showOtp, setShowOtp] = useState(false); // State to control the visibility of OTP section
+  const [showOtp, setShowOtp] = useState(); // State to control the visibility of OTP section
   const [verifyClicked, setVerifyClicked] = useState(false); // State to track if verify button is clicked
 
   const navigate = useNavigate();
@@ -32,10 +35,16 @@ const Signup = () => {
   };
 
   //Sending email to server for the OTP
+  
   const sendEmailToOtp = async () => {
     try {
-      const response = await axios.post("http://localhost:8000/auth/sendOtp", { email: formData.email });
-      console.log(response.data); // Log the response data if needed
+      const isExist = await axios.post("http://localhost:8000/auth/checkExistingUser", { email: formData.email});
+      console.log("dataaaa:",isExist.data.message);
+      if(isExist.data.message!=="existingUser"){
+        const response = await axios.post("http://localhost:8000/auth/sendOtp", { email: formData.email});
+        console.log(response.data); // Log the response data if needed
+      }
+      return isExist;
     } catch (error) {
       console.error("Error sending email:", error.message);
       // Handle error gracefully
@@ -44,10 +53,19 @@ const Signup = () => {
 
   const handleVerifyClick = async () => {
     const formErrors = validateFormData(formData); // Validate the form data
+    const response=await sendEmailToOtp();
+    console.log("res" ,response.data);
     if (Object.keys(formErrors).length === 0) {
-      setVerifyClicked(true); // Set verifyClicked to true when verify button is clicked
-      setShowOtp(true); // Show the OTP section
-      await sendEmailToOtp(); // Send email to OTP endpoint
+      
+      if (response && response.data.message==="existingUser"){
+        console.log("...");
+        Alert.warning("This Email is Already Registered!");
+      }else{
+        console.log("https logs");
+        setVerifyClicked(true); // Set verifyClicked to true when verify button is clicked
+        setShowOtp(true); // Show the OTP section
+      }
+      //await sendEmailToOtp(); // Send email to OTP endpoint
     } else {
       setErrors(formErrors); // Set validation errors to display to the user
     }
@@ -58,8 +76,8 @@ const Signup = () => {
       console.log(response.data); // Log the response data if needed
       return response.data; // Return the response data for further processing
     } catch (error) {
-      console.log("Error verifying OTP:", error.message); 
-      setErrors({ otp: 'Invalid OTP' });
+      console.log("Error verifying OTP:", error.message);
+      
       //throw error; // Re-throw the error to handle it in the calling code
     }
   };
@@ -68,7 +86,7 @@ const Signup = () => {
   const resendOTP = async () => {
     try {
       await axios.post("http://localhost:8000/auth/resendOtp", { email: formData.email });
-      alert('OTP resent successfully. Please check your email.');
+      Alert.success('OTP resent successfully.');
     } catch (error) {
       console.error("Error resending OTP:", error.message);
       alert('An error occurred while resending OTP. Please try again later.');
@@ -78,21 +96,40 @@ const Signup = () => {
   const submitReg = async(e) => {
     e.preventDefault();
     const result = await verifyOtp(formData.email, formData.otp);
+    result?console.log("msg: ",result.message):console.log("msg: none");
     if (result && result.message === 'OTP verified successfully') {
       axios.post("http://localhost:8000/auth/register", formData)
         .then((res) => {
           console.log(res.data);
-          navigate('/login');
+          Alert.success("Registered Successfully");
+          setTimeout(() => {
+            navigate('/login');
+          }, 4000);
         })
         .catch((err) => {
           console.log(err.message);
         });
-    } else if(result && result.message === 'Incorrect OTP'){
-      alert('Incorrect OTP');
+    } else if(result && result.message ==="Invalid OTP"){
+      Alert.error('Incorrect OTP');
     }
   };
 
   return (
+    <>
+    <ToastContainer
+      position="top-center"
+      autoClose={1000}
+      hideProgressBar={false}
+      newestOnTop={false}
+      closeOnClick
+      rtl={false}
+      pauseOnFocusLoss={false}
+      draggable={false}
+      pauseOnHover={false}
+      theme="light"
+      transition="Bounce"
+      />
+    <ToastContainer/>
     <div className="flex flex-row justify-center shadow-lg">
       <div className="flex flex-col">
         <img className="rounded-2xl m-4" src={logo} alt="logo" />
@@ -113,8 +150,7 @@ const Signup = () => {
               <div className='flex justify-center'>
                 <div className='w-1/2'>
                   <input className='mx-4 px-4 my-2 border border-solid w-auto h-12 rounded-full' type="password" name="otp" placeholder='Enter 6 digit OTP' onChange={handleInputChange} />
-                  {errors.otp && <span className="text-red-500">{errors.otp}</span>}
-                  {errors.otp && <button type="button" onClick={resendOTP}>Resend OTP</button>}
+                  <button type="button" onClick={resendOTP}>Resend OTP</button>
                 </div>
                 <div className='w-1/2'>
                   <button className='mx-4 px-4 my-2 pb-0 border border-solid w-auto h-12 rounded-full bg-blue-500 font-bold text-2xl' type="submit" onClick={submitReg}>Register</button>
@@ -127,9 +163,10 @@ const Signup = () => {
       <div className='flex flex-col justify-center m-10 mt-44'>
         <button className='mx-4 px-4 my-2 border border-solid w-96 h-12 rounded-full bg-teal-300 text-2xl flex items-center justify-center' type="submit"><img className='h-8  mr-2' src={google} alt='Google Logo' />Login In with Google</button>
         <button className='mx-4 px-4 my-2 border border-solid w-96 h-12 rounded-full bg-teal-300 text-2xl flex items-center justify-center' type="submit"><img className='h-8 border border-solid mr-2' src='https://cdn.worldvectorlogo.com/logos/linkedin-icon-2.svg' alt='LinkedIn Logo' />Login In with LinkedIn</button>
-        <span className='ml-32 cursor-pointer' onClick={submitReg}>Already have an account? Sign In</span>
+        <Link to="/Login" className='ml-32 cursor-pointer'>Already have an account? Sign In</Link>
       </div>
     </div>
+    </>
   )
 }
 
