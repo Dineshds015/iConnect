@@ -16,19 +16,21 @@ const [userData,setUserData] = useState(null)
 const navigate = useNavigate()
 
 const fetchData = async () => {
-// fetch user and post
+  try {
+  //  fetch user nad post data and dispatch to store
 };
 
   const NavigateProfile = ()=>{
     navigate("/profile")
   }
-
+// const user = useSelector((store)=>store.user )
+//   console.log("HeaderHome",user)
   useEffect(() => {
     fetchData();
 
   }, []);
 
-  if(!userData) return
+
 
   return (
     <>
