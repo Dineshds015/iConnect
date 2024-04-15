@@ -164,7 +164,7 @@ const Login = () => {
             <span className='ml-32 cursor-pointer' onClick={handleOnClick}>Don't have an account? Sign Up</span>
             
         </div> */}
-    </div> */}
+    </div> 
 </>
   )
 }
