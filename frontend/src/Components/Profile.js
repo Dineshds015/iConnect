@@ -1,59 +1,167 @@
-import React,{useEffect, useState}from 'react'
-import cover from "../public/coverphoto.jpeg"
-import pic from "../public/profilepic.jpeg"
-import Education from './Education';
-import Experience from './Experience';
-const Profile = () => {
-  const [addProfile,setAddProfile]=useState(false);
-  const handleButtonClick=()=>{
-      setAddProfile(!addProfile);
-  }
+import React from 'react';
+import logo from "../public/logo.png";
+import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import HomeIcon from '@mui/icons-material/Home';
+import CampaignIcon from '@mui/icons-material/Campaign';
+import SearchIcon from '@mui/icons-material/Search';
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import {
+    Menu,
+    MenuButton,
+    MenuList,
+    MenuItem,
+    MenuDivider,
+    Button,
+    Avatar,
+    Tooltip, Text,
+    Drawer,
+    DrawerBody,
+    DrawerHeader,
+    DrawerOverlay,
+    DrawerContent,
+    Box,
+    Input
+  } from '@chakra-ui/react'
+  import MenuIcon from '@mui/icons-material/Menu';
+  import {useDisclosure} from '@chakra-ui/hooks'
+  import ChatIcon from '@mui/icons-material/Chat';
+const Header = () => {
+    const navigate = useNavigate();
+    const user = useSelector((store) => store.user);
 
-  
+    const { isOpen, onOpen, onClose } = useDisclosure()
+
+    const handleClick = () => {
+        navigate("/profile");
+    };
+
+    const handleLogOut = ()=>{
+
+    }
+    return (
+        <div className='flex flex-row justify-between fixed top-0 left-0 right-0 bg-white z-10  px-6 py-2 shadow-lg  bg-gradient-to-r from-green-100 to-blue-300'>
+            {/* css for medium and large devices */}
+
+            {/* logo and search */}
+            <div className='hidden md:flex col-span-4 '>
+                {/* <img className="h-14 px-4 mx-4" src={logo} alt="logo" /> */}
+                <span className='mt-4 mr-6 font-serif text-2xl'>Campus Connect</span>
+
+                {/* Chakra for making search as a buttom and onClick adding a drawer + have a tooltip saying search user */}
+                <Tooltip label="Search Users to Chat" hasArrow placement='bottom-end'>
+                <Button className='bg:transparent mt-3 mx-2' onClick={onOpen}>
+                    <SearchIcon/>
+                    <Text display={ { base: "none", md: "flex"}} px="4">
+                        Search user
+                    </Text>
+                </Button>
+            </Tooltip>
+            
+            </div>
+
+            {/* home announcemnet and avatar */}
+            <div className='hidden md:flex col-span-8 h-16 justify-self-end '>
+                <button className='p-2 mx-2 text-xl font-semibold'><HomeIcon/></button>
+                <button className='p-2 mx-2 text-xl font-semibold'><CampaignIcon/></button>
+                <button className='p-2 mx-2 text-xl font-semibold'><ChatIcon/></button>
+                {/* <img className='h-14 w-14 mx-4 mr-8 mt-2 rounded-full' src={user.avatar ?? "https://cdn-icons-png.freepik.com/512/10302/10302971.png"} alt="Profile" onClick={handleClick} /> */}
+
+                {/* added menu type on profile click */}
+                <Menu>
+                <MenuButton className="mt-3"  rightIcon={<ArrowDropDownIcon/>}>
+                    <Avatar size='md' cursor='pointer' name={user.fullName} src={user.avatar}/>
+                </MenuButton>
+                <MenuList>
+                {/* <ProfileModel user={user}> */}
+                    <MenuItem onClick={handleClick}>My Profile</MenuItem>
+                    <MenuDivider/>
+                    <MenuItem onClick={handleLogOut}>Log Out</MenuItem>
+                {/* </ProfileModel> */}
+                </MenuList>
+            </Menu>
+            </div>
 
 
-  return (
-    <div class="grid grid-cols-12">
+            {/* css for mobile */}
+            {/* a drop down of all the icons */}
+            <div className='flex flex-row justify-between md:hidden'>
+            <Menu>
+                <MenuButton className="mt-3"  rightIcon={<MenuIcon/>}>
+                {/* hamburger */}
+                    <MenuIcon/> 
+                </MenuButton>
+                {/* list of drop down */}
+                <MenuList className='flex flex-col'>
+                    <button className='p-2 mx-2 text-xl font-semibold'><HomeIcon/></button>
+                    <MenuDivider/>
+                    <button className='p-2 mx-2 text-xl font-semibold'><CampaignIcon/></button>
+                    <MenuDivider/>
+                    <button className='p-2 mx-2 text-xl font-semibold'><ChatIcon/></button>
+                    <MenuDivider/>
+                    <Tooltip label="Search Users to Chat" hasArrow placement='bottom-end'>
+                        <Button bg='white' onClick={onOpen}>
+                        <SearchIcon/>
+                            <Text display={ { base: "none", md: "flex"}} px="4">
+                                Search user
+                            </Text>
+                        </Button>
+                    </Tooltip>
+                </MenuList>
+            </Menu>
+            </div>
 
-  <div className="col-span-1"> 
-  </div>
-  <div className="col-span-4 bg-gray-100 flex flex-col"> 
-      <div className=''><Education/></div>
-      <div className=''><Experience/></div>
-  </div>
-  <div className="col-span-6 bg-gray-200"> 
-       <div> <img className="object-cover h-96 w-full "  src={cover} alt="cover photo"/>
-        <img className="object-cover rounded-full -mt-14 ml-2"  src={pic} alt="cover photo"/>
-        <div className='flex flex-col'>
-            <span className='text-black text-2xl font-bold ml-10'>Nitumoni Mech</span>
-            <span className='text-black text-lg ml-10'>Software Developer</span>
+            
+            <span className='md:hidden mt-4 mr-6 font-serif text-2xl'>Campus Connect</span>
+            {/* avatar*/}
+            <div className="block md:hidden">
+                <Menu >
+                    <MenuButton className="mt-3"  rightIcon={<ArrowDropDownIcon/>}>
+                        <Avatar size='md' cursor='pointer' name={user.fullName} src={user.avatar}/>
+                    </MenuButton>
+                    <MenuList>
+                    {/* <ProfileModel user={user}> */}
+                        <MenuItem onClick={handleClick}>My Profile</MenuItem>
+                        <MenuDivider/>
+                        <MenuItem onClick={handleLogOut}>Log Out</MenuItem>
+                    {/* </ProfileModel> */}
+                    </MenuList>
+                </Menu>
+            </div>
+           
+            
+
+            {/* drawer for search common for all devices */}
+            <Drawer placement='left' onClose={onClose} isOpen={isOpen}>
+                <DrawerOverlay />
+                <DrawerContent>
+                    <DrawerHeader borderBottomWidth='1px'>
+                        Search User
+                    </DrawerHeader>
+                    <DrawerBody>
+                        <Box display={'flex'} pb={2}>
+                        {/* value={search} onChange={(e)=> setSearch(e.target.value)} */}
+                            <Input placeholder='Search by name or email' mr={2} />
+                            <Button 
+                            // onClick={handleSearch}
+                            >
+                                Go
+                            </Button>
+                        </Box>
+                        {/* {loading ? <ChatLoading/> : (
+                            searchResult?.map(user=> (
+
+                                <UserListItem key={user._id} user={user} handleFunction={()=>accessChat(user._id)}/> 
+                                
+                            ))
+                        ) }
+                    */}
+                </DrawerBody>
+            </DrawerContent>
+            
+            </Drawer>
         </div>
-        <button class="bg-white hover:bg-blue-500 text-blue-500 hover:text-white font-bold py-2 px-4 rounded-2xl ml-7 mr-[32rem] mt-3" onClick={handleButtonClick}>
-    Add Profile
-  </button>
-  </div>
-</div>
-{ addProfile && (
-  <div className='bg-gray-200 shadow-2xl rounded-xl absolute ml-[1000px] mt-80 h-[500px] w-[400px]  transform -translate-x-1/2 -translate-y-1/2 p-4'>
-  <div className='flex flex-row   my-2 justify-around border-b-4 p-3 border-zinc-300'>
-    <button className='text-xl font-mono mr-56 from-neutral-800 font-bold '>Add To Profile</button>
-    <button className=' text-2xl font-bold' onClick={handleButtonClick}>X</button>
-  </div>
-  <div className='flex flex-col'>
-  <button className='text-xl font-mono font-semibold m-4 border-b-4 border-zinc-300 p-2 text-slate-600 mt-10 hover:text-3xl hover:text-blue-400'>Add Skills</button>
-  <button className='text-xl font-mono font-semibold m-4  border-b-4 p-2 border-zinc-300 text-slate-600 hover:text-3xl hover:text-blue-400'>Add Education</button>
-  <button className='text-xl font-mono font-semibold m-4  border-b-4 p-2 border-zinc-300 text-slate-600 hover:text-3xl hover:text-blue-400'>Add Project</button>
-  <button className='text-xl font-mono font-semibold m-4  border-b-4 p-2 border-zinc-300 text-slate-600 hover:text-3xl hover:text-blue-400'>Add Experience</button>
-  </div>
-  
-</div>
-      )}
+    );
+};
 
-
-    <div class="col-span-1">
-    </div>
-  </div>
-  )
-}
-
-export default Profile
+export default Header;
