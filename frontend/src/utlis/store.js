@@ -12,7 +12,7 @@ const store = configureStore(
             education : educationSlice,
             experience : experienceSlice,
             project : projectSlice,
-            post : postSlice,
+            // post : postSlice,
         }
     }
 )

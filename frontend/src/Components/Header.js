@@ -70,7 +70,7 @@ const Header = () => {
                 {/* added menu type on profile click */}
                 <Menu>
                 <MenuButton className="mt-3"  rightIcon={<ArrowDropDownIcon/>}>
-                    <Avatar size='md' cursor='pointer' name={user.fullName} src={user.avatar}/>
+                    <Avatar size='md' cursor='pointer' name={user?.fullName??"Guest"} src={user?.avatar}/>
                 </MenuButton>
                 <MenuList>
                 {/* <ProfileModel user={user}> */}
@@ -117,7 +117,7 @@ const Header = () => {
             <div className="block md:hidden">
                 <Menu >
                     <MenuButton className="mt-3"  rightIcon={<ArrowDropDownIcon/>}>
-                        <Avatar size='md' cursor='pointer' name={user.fullName} src={user.avatar}/>
+                        <Avatar size='md' cursor='pointer' name={user?.fullName??"Guest"} src={user?.avatar}/>
                     </MenuButton>
                     <MenuList>
                     {/* <ProfileModel user={user}> */}

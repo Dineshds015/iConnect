@@ -8,9 +8,11 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Educationform from './Components/Forms/Education.form';
 import Experienceform from './Components/Forms/Experience.form';
 import Projectform from './Components/Forms/Project.form';
-
+import { Provider } from 'react-redux';
+import store from './utlis/store';
 function App() {
   return (
+    <Provider store={store}>
    <Router>
     <div>
       <Header/>
@@ -24,6 +26,7 @@ function App() {
       </Routes>
     </div>
    </Router>
+   </Provider>
   );
 }
 
