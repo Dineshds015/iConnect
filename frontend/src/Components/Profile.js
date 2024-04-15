@@ -36,19 +36,7 @@ const Profile = () => {
   const [addSkill, setAddSkill] = useState(false);
 
   const fetchData = async () => {
-    try {
-      if (!user.length) {
-        const resp = await axios.get("http://localhost:8000/api/v1/users/getUserDetails", {
-          withCredentials: true
-        });
-        dispatch(postUser(resp.data?.data));
-        setUserData(resp.data?.data);
-      } else {
-        setUserData(user);
-      }
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
+  //  get user details
   };
 
   const handleAddSkill = () => {
@@ -98,25 +86,13 @@ const Profile = () => {
   };
 
   const handleIntroSave = async () => {
-    const postData = {
-      fullName: fullName,
-      headline: headline
-    };
-    const response = await axios.post("http://localhost:8000/api/v1/users/updatedata", postData, {
-      withCredentials: true,
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    dispatch(postUser(response?.data?.data));
-    setEditIntro(false);
+    // update user details => name and headline
   };
 
   useEffect(() => {
     fetchData();
   }, []);
 
-  if (!userData) return null;
 
   return (
     <div className="grid grid-cols-12 grid-flow-col">
@@ -125,13 +101,13 @@ const Profile = () => {
       {/* 1st col span  */}
       <div className="hidden md:block md:col-span-5 xl:col-span-4 mx-2 mt-[140px]">
         <div className="flex flex-col rounded-2xl shadow-xl bg-gradient-to-r from-green-100 to-blue-300 -mt-10">
-          <Education userId={userData._id} />
+          <Education userId={userData?._id} />
         </div>
         <div className="flex flex-col rounded-2xl shadow-xl bg-gradient-to-r from-green-100 to-blue-300 mt-2">
-          <Experience userId={userData._id} />
+          <Experience userId={userData?._id} />
         </div>
         <div className="flex flex-col rounded-2xl shadow-xl bg-gradient-to-r from-green-100 to-blue-300 mt-2">
-          <Project userId={userData._id} />
+          <Project userId={userData?._id} />
         </div>
       </div>
 
@@ -146,7 +122,7 @@ const Profile = () => {
         <div className="flex flex-col rounded-2xl shadow-xl bg-white">
           <img
             className="h-[200px] w-full rounded-xl"
-            src={userData.coverImage ? userData.coverImage : "https://i.pinimg.com/236x/53/aa/af/53aaaff2bd89ab21f55db9b5bb8bd024.jpg"}
+            src={userData?.coverImage ? userData?.coverImage : "https://i.pinimg.com/236x/53/aa/af/53aaaff2bd89ab21f55db9b5bb8bd024.jpg"}
             alt="cover Image"
           />
           <div className='absolute top-[120px] right-8 xl:right-40 2xl:right-60'>
@@ -156,16 +132,16 @@ const Profile = () => {
           <div className="h-16 w-16 -mt-[580px] rounded-full"></div>
           <img
             className="h-28 w-28 mt-[470px] ml-4 border-2 border-solid border-white rounded-full cursor-pointer"
-            src={userData?.avatar ? userData.avatar : "https://cdn-icons-png.freepik.com/512/10302/10302971.png"}
+            src={userData?.avatar ? userData?.avatar : "https://cdn-icons-png.freepik.com/512/10302/10302971.png"}
             alt="dp"
             onClick={handleEditAvatar}
           />
           <span className="font-mono font-bold text-xl ml-5">
-            {editIntro ? <input type="text" value={fullName} onChange={handleNameChange} /> : userData.fullName || "No name available"}
+            {editIntro ? <input type="text" value={fullName} onChange={handleNameChange} /> : userData?.fullName || "No name available"}
           </span>
             <img className='h-5 w-5 absolute top-[360px] right-8 xl:right-40 2xl:right-60 cursor-pointer' src={pen} onClick={handleIntro} />  
           <span className=" font-mono my-1 from-neutral-800 ml-5">
-            {editIntro ? <input type="text" value={headline} onChange={handleHeadlineChange} /> : userData.headline ?? "Headlines"}
+            {editIntro ? <input type="text" value={headline} onChange={handleHeadlineChange} /> : userData?.headline ?? "Headlines"}
           </span>
           {editIntro && <button onClick={handleIntroSave}>save</button>}
           <button
@@ -177,13 +153,13 @@ const Profile = () => {
         </div>
 
         <div className="md:hidden flex flex-col rounded-2xl shadow-xl bg-gradient-to-r from-green-100 to-blue-300 mt-2">
-          <Education userId={userData._id} />
+          <Education userId={userData?._id} />
         </div>
         <div className="md:hidden flex flex-col rounded-2xl shadow-xl bg-gradient-to-r from-green-100 to-blue-300 mt-2">
-          <Experience userId={userData._id} />
+          <Experience userId={userData?._id} />
         </div>
         <div className="md:hidden flex flex-col rounded-2xl shadow-xl bg-gradient-to-r from-green-100 to-blue-300 mt-2">
-          <Project userId={userData._id} />
+          <Project userId={userData?._id} />
         </div>
       </div>
 
