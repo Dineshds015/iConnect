@@ -128,9 +128,9 @@ const Login = () => {
       />
       {/* Same as */}
       <ToastContainer />
-    <div className="flex flex-row absolute top-60 justify-center shadow-lg">
+    <div className="flex flex-row absolute top-80 left-1/5 justify-center shadow-lg">
         <div className="flex flex-col">
-            <img className="rounded-2xl m-4" src={logo} alt="logo"/>
+            <img className="h-32 w-32 rounded-2xl m-4" src={logo} alt="logo"/>
             <form className='flex flex-col'>
               <input className='mx-4 px-4 my-2 border border-solid w-auto h-12 rounded-full' type="text" name="email" placeholder='Enter Your Email' onChange={handleInputChange}/>
               {!showOtp ?<input className='mx-4 px-4 my-2 border border-solid w-auto h-12 rounded-full' type="text" name="password" placeholder='Enter Your Password' onChange={handleInputChange}/> : 
