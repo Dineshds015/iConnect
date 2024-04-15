@@ -8,24 +8,19 @@ const Education = ({userId}) => {
   const dispatch = useDispatch()
   const [userEducation,setUserEducation] = useState([])
 
-  // const fetchData = async() => {
+  const fetchData = async() => {
+    //  fetch user education
 
-  
-  //   // if(userEducation.length) return;
-  //   const response = await axios.get(`http://localhost:8000/api/v1/users/${userId}/getUserEducation`,{
-  //       withCredentials: true
-  //     })
-     
-  //     setUserEducation(response.data.data)
-  // }
+    setUserEducation(response.data)
+  }
 
   const handleClick = ()=>{
     dispatch(toggleEducation())
   }
 
-  // useEffect(()=>{
-  //   fetchData()
-  // },[])
+  useEffect(()=>{
+    fetchData()
+  },[])
   return (
     <div className=''>
       <div className='flex justify-between mx-4 mt-2 mb-1'>
@@ -36,6 +31,7 @@ const Education = ({userId}) => {
         </div>
       </div>
 
+      {/* update the names of fields accordingly */}
       {userEducation.map((data, index) => (
           <div key={index} className={`flex flex-row ${index !== userEducation.length - 1 ? 'border-b-4 m-2' : 'm-2'}`}>
           <img className='rounded-full h-16 mr-2' src="https://png.pngtree.com/png-vector/20230306/ourmid/pngtree-scool-college-logo-victor-vector-png-image_6634445.png" alt="Institute logo" />

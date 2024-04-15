@@ -21,21 +21,8 @@ const EditCover = ({onClose}) => {
   }
 
   const handleUpload = async() => {
-    if(!selectedFile){
-      console.error("Np file selected");
-      return;
-    }
-    const formData = new FormData();
-    formData.append("coverImage", selectedFile);
-
-    // console.log(URL.createObjectURL(selectedFile))
-    const response = await axios.post("http://localhost:8000/api/v1/users/cover", formData,  {
-        withCredentials: true, // Set the withCredentials option to true
-        // other options if needed
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
+    
+      // update user data with cover image and send user data as response
 
       dispatch(postUser(response.data?.data))
   }

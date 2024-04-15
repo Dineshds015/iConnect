@@ -10,18 +10,13 @@ const Project = ({userId}) => {
     const dispatch = useDispatch()
     // const userProject = useSelector((store)=>store.project.project)
 
-    // const fetchData = async()=>{
-    //   // if(userProject.length) return;
-    //   const projectData = await axios.get(`http://localhost:8000/api/v1/users/${userId}/getUserProjects`,{
-    //     withCredentials: true
-    //   })
+    const fetchData = async()=>{
       
-    //   // dispatch(postProject(projectData?.data?.data))
-    //   console.log("project",projectData)
-    //   setUserProject(projectData.data.data)
-    //   console.log("userProject",userProject)
+      // fetch user projects
+      setUserProject(projectData.data.data)
+      
 
-    // }
+    }
 
     const handleClick = ()=>{
       dispatch(toggleProject())

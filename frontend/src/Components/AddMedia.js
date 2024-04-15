@@ -46,16 +46,7 @@ const AddMedia = ({onClose}) => {
     };
 
     const handleSubmit = async() => {
-        const formData = new FormData();
-        formData.append("desc", textArea);
-        selectedFile.forEach((file) => {
-            formData.append("images", file);
-        });
-        const response = await axios.post("http://localhost:8000/api/v1/users/post",formData,{
-            withCredentials: true
-          }) 
-
-          console.log(response)
+        // send selected file and desc to create a post
     }
 
 

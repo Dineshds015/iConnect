@@ -20,26 +20,14 @@ const EditAvatar = ({onClose}) => {
   }
 
   const handleUpload = async() => {
-    if(!selectedFile){
-      console.error("Np file selected");
-      return;
-    }
-    const formData = new FormData();
-    formData.append("avatar", selectedFile);
 
-    // console.log(URL.createObjectURL(selectedFile))
-    const response = await axios.post("http://localhost:8000/api/v1/users/avatar", formData,  {
-        withCredentials: true, // Set the withCredentials option to true
-        // other options if needed
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
+      // update user with the profile pic and send user as response
 
       dispatch(postUser(response.data?.data))
   }
 
   return (
+
     <div className=' bg-white shadow-2xl rounded-xl absolute top-80 left-1/2 transform -translate-x-1/2 -translate-y-1/2 px-2  sm:w-2/3 md:w-1/2 lg:w-1/3 xl:w-1/4 2xl:w-1/6 w-2/3  '>
         <div className='flex flex-row   my-2 justify-between'>
         <span className='text-xl font-mono  from-neutral-800 '>Add Profile Picture</span>

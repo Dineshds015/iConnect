@@ -13,7 +13,7 @@ import axios from 'axios'
 
 const MainContainer = () => {
 
-    console.log("main")
+    // console.log("main")
     const [mediaPost,setMedia] = useState(false)
     const [announcementPost,setAnnouncement] = useState(false)
     const [jobPost,setJob] = useState(false)
@@ -36,7 +36,8 @@ const MainContainer = () => {
 
     const fetchData = async()=>{
 
-        const response = await axios.get("")
+        // const response = await axios.get("")
+        // may not need to fetch if we configure redux nicelys
     }
 
     useEffect(()=>{

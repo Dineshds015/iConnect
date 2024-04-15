@@ -18,13 +18,13 @@ const navigate = useNavigate()
 const fetchData = async () => {
 
   //  fetch user nad post data and dispatch to store
+  //  i have made store
 }
 
   const NavigateProfile = ()=>{
     navigate("/profile")
   }
-// const user = useSelector((store)=>store.user )
-//   console.log("HeaderHome",user)
+
   useEffect(() => {
     fetchData();
 

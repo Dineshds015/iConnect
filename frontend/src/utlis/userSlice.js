@@ -8,10 +8,10 @@ const userSlice = createSlice({
     },
     reducers : {
         postUser : (state,action) =>{
-            return {...state,...action.payload};
+            return action.payload;
         }
     }
-})
+})s
 
 export const {postUser} = userSlice.actions;
 export default userSlice.reducer;

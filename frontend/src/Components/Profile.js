@@ -36,7 +36,7 @@ const Profile = () => {
   const [addSkill, setAddSkill] = useState(false);
 
   const fetchData = async () => {
-  //  get user details
+  //  get user details and dispatch to stores
   };
 
   const handleAddSkill = () => {

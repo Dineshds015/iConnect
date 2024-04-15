@@ -12,23 +12,21 @@ const Experience = ({userId}) => {
   const [userExperience,setUserExperience] = useState([])
   const dispatch = useDispatch()
 
-  // const fetchData = async()=>{
+  const fetchData = async()=>{
 
-  //   const response = await axios.get(`http://localhost:8000/api/v1/users/${userId}/getUserExperience`,{
-  //     withCredentials: true
-  //   })
+    // fetch user exp
    
-  //   setUserExperience(response.data.data)
+    setUserExperience(response.data.data)
 
-  // }
+  }
 
   const handleClick = ()=>{
     dispatch(toggleExperience())
   }
 
-  // useEffect(()=>{
-  //   fetchData();
-  // },[])
+  useEffect(()=>{
+    fetchData();
+  },[])
   // if(!exp)
   return (
     <div className=' '>
