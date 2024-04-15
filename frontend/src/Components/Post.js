@@ -1,8 +1,5 @@
 import React from 'react'
-import like from "../public/like.png"
-import share from "../public/share.png"
-import comment from "../public/comment.png"
-import liked from "../public/liked.png"
+
 import { useState, useRef } from 'react'
 import { useSelector } from 'react-redux'
 import axios from 'axios'
@@ -75,7 +72,7 @@ const handleViewProfile = ()=>{
             <div className='flex flex-row m-4'>
                 <img className='h-14 w-14 rounded-full' src={postData?.owner?.avatar ?? "https://cdn-icons-png.freepik.com/512/10302/10302971.png"} alt="profile"/>
                 <div className='flex flex-col mx-2' onClick={handleViewProfile}>
-                    <span className='font-bold'>{postData?.owner>.fullName ?? "Your Name"}</span>
+                    <span className='font-bold'>{postData?.owner?.fullName ?? "Your Name"}</span>
                     <span className='font-thin -mt-1 text-sm'>{postData?.owner?.headline ?? "Headline"}</span>
                     <span className='font-thin -mt-1 text-sm'>{`${secondsDifference>60 ? minutesDifference>60? hoursDifference>24? daysDifference>30 ? `${monthsDifference}mo`: `${daysDifference}d`: `${hoursDifference}hr` : `${minutesDifference}mins` : `${secondsDifference}s`} ago`}</span>
                 </div>

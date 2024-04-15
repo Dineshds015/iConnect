@@ -16,9 +16,9 @@ const [userData,setUserData] = useState(null)
 const navigate = useNavigate()
 
 const fetchData = async () => {
-  try {
+
   //  fetch user nad post data and dispatch to store
-};
+}
 
   const NavigateProfile = ()=>{
     navigate("/profile")

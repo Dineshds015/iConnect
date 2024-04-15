@@ -13,6 +13,7 @@ import axios from 'axios'
 
 const MainContainer = () => {
 
+    console.log("main")
     const [mediaPost,setMedia] = useState(false)
     const [announcementPost,setAnnouncement] = useState(false)
     const [jobPost,setJob] = useState(false)
