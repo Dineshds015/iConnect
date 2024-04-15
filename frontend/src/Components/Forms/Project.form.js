@@ -10,21 +10,21 @@ const ProjectForm = () => {
   // const [currentlyWorking,setCurrentlyWorking] = useState(false)
   const dispatch = useDispatch()
 
-  // const onSubmit = async (data) => {
-  //   dispatch(toggleProject)
-  //   console.log("Submitting data:", data);
+  const onSubmit = async (data) => {
+    dispatch(toggleProject)
+    console.log("Submitting data:", data);
     
-  //   try {
-  //     const response = await axios.post("http://localhost:8000/api/v1/users/projects", data, {
-  //       withCredentials: true,
-  //       // other options if needed
-  //     });
+    // try {
+    //   const response = await axios.post("http://localhost:8000/api/v1/users/projects", data, {
+    //     withCredentials: true,
+    //     // other options if needed
+    //   });
   
-  //     console.log("project response on post", response);
-  //   } catch (error) {
-  //     console.error("Error submitting data:", error);
-  //   }
-  // }
+    //   console.log("project response on post", response);
+    // } catch (error) {
+    //   console.error("Error submitting data:", error);
+    // }
+  }
   
 
   const months = [

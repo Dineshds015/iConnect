@@ -12,15 +12,15 @@ const Educationform = () => {
   const { register, handleSubmit, formState: { errors } } = useForm();
 
 
-//   const onSubmit = async (data) => {
-//     dispatch(toggleEducation())
-//     const response = await axios.post("http://localhost:8000/api/v1/users/Education", data, {
-//         withCredentials: true, // Set the withCredentials option to true
-//         // other options if needed
-//       });
-//       // dispatch(postEducation(response.data.data))
-//       // console.log("Education",response)
-//   }
+  const onSubmit = async (data) => {
+    dispatch(toggleEducation())
+    // const response = await axios.post("http://localhost:8000/api/v1/users/Education", data, {
+    //     withCredentials: true, // Set the withCredentials option to true
+    //     // other options if needed
+    //   });
+
+
+  }
 
   const handleClick = ()=>{
     dispatch(toggleEducation())

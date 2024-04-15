@@ -10,14 +10,12 @@ const ExperienceForm = () => {
   const [currentlyWorking,setCurrentlyWorking] = useState(false)
   const dispatch = useDispatch()
 
-//   const onSubmit = async (data) => {
-//     dispatch(toggleExperience())
-//     const response = await axios.post("http://localhost:8000/api/v1/users/Experience", data, {
-//         withCredentials: true, // Set the withCredentials option to true
-//         // other options if needed
-//       });
-
-      // dispatch(postExperience(response.data.data))
+  const onSubmit = async (data) => {
+    dispatch(toggleExperience())
+    // const response = await axios.post("http://localhost:8000/api/v1/users/Experience", data, {
+    //     withCredentials: true, // Set the withCredentials option to true
+    //     // other options if needed
+    //   });
   }
 
   const months = [
