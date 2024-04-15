@@ -1,104 +1,104 @@
-import React from 'react'
-import { useForm } from "react-hook-form";
-import { useState } from 'react';
+import React from 'react';
+import { useForm } from 'react-hook-form';
+import axios from 'axios';
+import { useDispatch } from 'react-redux';
+import {  toggleEducation } from '../../utlis/educationSlice'; 
 
 const Educationform = () => {
-    const {
-        register,handleSubmit,watch,formState: { errors },} = useForm()
-    
-      const onSubmit = (data) => console.log(data)
-    
-      const months = [
-        'January', 'February', 'March', 'April',
-        'May', 'June', 'July', 'August',
-        'September', 'October', 'November', 'December'
-      ];
-    
-      const years = Array.from({ length: 100 }, (_, index) => (new Date().getFullYear() - index).toString());
-    
-      return (
-        <div className="bg-white shadow-2xl rounded-xl absolute left-[10vw] top-[10vh] lg:left-[30vw] lg:top-[15vh] xl:left-[40vw] xl:top-[20vh] p-4">
-        <div className="flex flex-row my-2 justify-around border-b-4 p-3 border-zinc-300">
-            <button className="text-3xl font-mono mr-10 lg:mr-16 font-bold ">Add Education</button>
-            <button className="text-3xl font-bold">X</button>
-        </div>
-        <div className="flex flex-col">
-            <span className="m-4 text-gray-500">* Indicates required </span>
+  const dispatch = useDispatch()
 
-            <form className="flex flex-col m-2 text-gray-500" >
-                <label className="m-1 text-2xl">Institute*</label>
-                <input
-                    placeholder="Ex: MNNIT"
-                    className="h-10 rounded-md mb-6 border-2 border-black p-3"
-                    {...register('institute', { required: true })}
-                />
-                {errors.institute && <p className="text-red-500 -mt-6 mb-6">Please Enter the Institute Name</p>}
 
-                <label className="m-1 text-2xl">Degree</label>
-                <input
-                    placeholder="Ex: Master's"
-                    className="h-10 rounded-md mb-6 border-2 border-black p-3"
-                    type="text"
-                    {...register('degree')}
-                />
+  
+  const { register, handleSubmit, formState: { errors } } = useForm();
 
-                <label className="m-1 text-2xl">Field of Study</label>
-                <input
-                    placeholder="Ex: Computer Science"
-                    className="h-10 rounded-md mb-6 border-2 border-black p-3"
-                    type="text"
-                    {...register('fieldOfStudy')}
-                />
 
-                <div className="flex flex-col lg:flex-row">
-                    <div className="flex-1 mr-4 mb-6 lg:mb-0">
-                        <label className="block m-1 text-2xl">Start Date*</label>
-                        <div className="flex">
-                            <select className="w-1/2 mr-2 h-10 rounded-md mb-4 border-2 border-black pl-3" {...register('startMonth', { required: true })}>
-                                <option value="">Month</option>
-                                {months.map((month, index) => (
-                                    <option key={index} value={month}>{month}</option>
-                                ))}
-                            </select>
-                            <select className="w-1/2 ml-2 h-10 rounded-md mb-6 border-2 border-black pl-3" {...register('startYear', { required: true })}>
-                                <option value="">Year</option>
-                                {years.map((year) => (
-                                    <option key={year} value={year}>{year}</option>
-                                ))}
-                            </select>
-                        </div>
-                        {errors.startMonth && <p className="text-red-500 -mt-6 mb-6">Enter the Start Month</p>}
-                        {errors.startYear && <p className="text-red-500 -mt-6 mb-6">Enter the Start Year</p>}
-                    </div>
+//   const onSubmit = async (data) => {
+//     dispatch(toggleEducation())
+//     const response = await axios.post("http://localhost:8000/api/v1/users/Education", data, {
+//         withCredentials: true, // Set the withCredentials option to true
+//         // other options if needed
+//       });
+//       // dispatch(postEducation(response.data.data))
+//       // console.log("Education",response)
+//   }
 
-                    <div className="flex-1">
-                        <label className="block m-1 text-2xl">End Date (or Expected)*</label>
-                        <div className="flex">
-                            <select className="w-1/2 mr-2 h-10 rounded-md mb-4 border-2 border-black pl-3" {...register('endMonth', { required: true })}>
-                                <option value="">Month</option>
-                                {months.map((month, index) => (
-                                    <option key={index} value={month}>{month}</option>
-                                ))}
-                            </select>
-                            <select className="w-1/2 ml-2 h-10 rounded-md mb-6 border-2 border-black pl-3" {...register('endYear', { required: true })}>
-                                <option value="">Select Year</option>
-                                {years.map((year) => (
-                                    <option key={year} value={year}>{year}</option>
-                                ))}
-                            </select>
-                        </div>
-                        {errors.endMonth && <p className="text-red-500 -mt-6 mb-6">Enter the End Month</p>}
-                        {errors.endYear && <p className="text-red-500 -mt-6 mb-6">Enter the End Year</p>}
-                    </div>
-                </div>
+  const handleClick = ()=>{
+    dispatch(toggleEducation())
+  }
 
-                <label className="m-1 text-2xl">Grade</label>
-          <input className='h-10 rounded-md border-2 border-black p-3 mb-6' type='text' {...register('grade')} />  
-          <input className='border-2 border-blue-500  ml-[700px] mr-10 p-3 rounded-xl text-2xl  text-blue-500 hover:text-white hover:bg-blue-500' type='submit' />
+  const months = [
+    'January', 'February', 'March', 'April',
+    'May', 'June', 'July', 'August',
+    'September', 'October', 'November', 'December'
+  ];
+
+  const years = Array.from({ length: 100 }, (_, index) => (new Date().getFullYear() - index).toString());
+
+  return (
+    <div className={`bg-white shadow-2xl rounded-xl absolute top-96 left-1/2  sm:top-96 sm:left-1/2  transform -translate-x-1/2 -translate-y-1/2 px-2 sm:w-2/3 md:1/2  xl:w-1/3 w-full`}>
+      <div className='flex flex-row my-2 mx-2 justify-between border-b-2 p-1 border-zinc-300'>
+        <button className='text-xl font-mono  from-neutral-800 font-bold '>Add Education</button>
+        <button className='text-xl font-bold' onClick={handleClick}>X</button>
+      </div>
+      <div className='flex flex-col '>
+        <span className=' text-gray-500'>* Indicates required </span>
+
+        <form className='flex flex-col m-2 text-gray-500' onSubmit={handleSubmit(onSubmit)}>
+          <label className='mx-1'>Institute*</label>
+          <input placeholder='Ex: MNNIT' className='rounded-md mb-2 border-2 border-black py-1 px-2' {...register('institute', { required: true })} />
+          {errors.institute && <p className='text-red-500 '>Please Enter the Institute Name</p>}
+
+          <label className='m-1 '>Degree</label>
+          <input placeholder="Ex: Master's" className='rounded-md mb-2 border-2 border-black py-1 px-2' type='text' {...register('degree')} />
+
+          <label className='m-1 '>Field of Study</label>
+          <input placeholder="Ex: Computer Science" className=' rounded-md mb-2 border-2 border-black py-1 px-2' type='text' {...register('fieldOfStudy')} />
+
+          <div className='flex flex-row '>
+          <div className='w-1/2'>
+            <label className='block m-1 '>Start Date*</label>
+            <select className='w-1/3 rounded-md py-1 px-2 border-2 mr-2 border-black ' {...register('startMonth', { required: true })}>
+              <option  value=''>Month</option>
+              {months.map((month, index) => (
+                <option key={index} value={month}>{month}</option>
+              ))}
+            </select>
+            <select className='w-1/3 rounded-md py-1 px-2 border-2 border-black' {...register('startYear', { required: true })}>
+              <option value=''>Year</option>
+              {years.map((year) => (
+                <option key={year} value={year}>{year}</option>
+              ))}
+            </select>
+            {(errors.startMonth || errors.startYear) && <p className='text-red-500 '>Enter the Start Date </p>}
+           
+          </div>
+
+          <div className='w-1/2'>
+            <label className='block m-1'>End Date (or Expected)*</label>
+            <select className='w-1/3 rounded-md py-1 px-2 border-2 mr-2 border-black' {...register('endMonth', { required: true })}>
+              <option  value=''>Month</option>
+              {months.map((month, index) => (
+                <option key={index} value={month}>{month}</option>
+              ))}
+            </select>
+            <select className='w-1/3 rounded-md py-1 px-2 border-2 border-black' {...register('endYear', { required: true })}>
+              <option value=''>Year</option>
+              {years.map((year) => (
+                <option key={year} value={year}>{year}</option>
+              ))}
+            </select>
+            {(errors.endMonth || errors.endYear) && <p className='text-red-500 '>Enter the End Date </p>}
+           
+          </div>
+          </div>
+                  
+          <label className='m-1 '>Grade</label>
+          <input placeholder='grade' className='rounded-md border-2 border-black py-1 px-2 mb-4' type='text' {...register('grade')} />  
+          <input className='border-2 border-blue-500 py-1 px-2 rounded-xl mb-1  text-blue-500 hover:text-white hover:bg-blue-500' type='submit' />
         </form>
       </div>
-        </div>
-      )
-}
+    </div>
+  );
+};
 
-export default Educationform
+export default Educationform;
