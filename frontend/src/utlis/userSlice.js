@@ -11,7 +11,7 @@ const userSlice = createSlice({
             return action.payload;
         }
     }
-})s
+})
 
 export const {postUser} = userSlice.actions;
 export default userSlice.reducer;

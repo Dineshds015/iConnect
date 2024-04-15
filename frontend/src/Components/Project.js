@@ -13,7 +13,7 @@ const Project = ({userId}) => {
     const fetchData = async()=>{
       
       // fetch user projects
-      setUserProject(projectData.data.data)
+      //setUserProject(projectData.data.data)
       
 
     }

@@ -24,7 +24,7 @@ const EditCover = ({onClose}) => {
     
       // update user data with cover image and send user data as response
 
-      dispatch(postUser(response.data?.data))
+      //dispatch(postUser(response.data?.data))
   }
 
   return (

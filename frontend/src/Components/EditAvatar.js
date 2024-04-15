@@ -23,7 +23,7 @@ const EditAvatar = ({onClose}) => {
 
       // update user with the profile pic and send user as response
 
-      dispatch(postUser(response.data?.data))
+      //dispatch(postUser(response.data?.data))
   }
 
   return (

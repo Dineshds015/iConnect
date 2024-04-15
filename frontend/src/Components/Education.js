@@ -11,7 +11,7 @@ const Education = ({userId}) => {
   const fetchData = async() => {
     //  fetch user education
 
-    setUserEducation(response.data)
+    //setUserEducation(response.data)
   }
 
   const handleClick = ()=>{

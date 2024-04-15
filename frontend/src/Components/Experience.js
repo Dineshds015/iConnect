@@ -16,7 +16,7 @@ const Experience = ({userId}) => {
 
     // fetch user exp
    
-    setUserExperience(response.data.data)
+   // setUserExperience(response.data.data)
 
   }
 
