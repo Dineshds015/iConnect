@@ -1,8 +1,5 @@
 import React from 'react'
-import like from "../public/like.png"
-import share from "../public/share.png"
-import comment from "../public/comment.png"
-import liked from "../public/liked.png"
+
 import { useState, useRef } from 'react'
 import { useSelector } from 'react-redux'
 import axios from 'axios'
@@ -46,13 +43,7 @@ const timeSincePost = `${daysDifference}d ${hoursDifference}h ${minutesDifferenc
   };
 
   const handleLike = async () => {
-    try {
-      await axios.post(`http://localhost:8000/api/v1/users/${postData._id}/${user._id}/likes`);
-      setActiveLike(!activeLike);
-    } catch (error) {
-      // Handle errors, e.g., display an error message to the user
-      console.error("Error liking the post:", error);
-    }
+    // handle like
   }
   
   const settings = {
@@ -72,18 +63,17 @@ const timeSincePost = `${daysDifference}d ${hoursDifference}h ${minutesDifferenc
 };
 
 const handleViewProfile = ()=>{
-
-  navigate(`/${postData.owner._id}/profile`)
-  // console.log(`/:${postData.owner._id}/profile`)
+  // navigate(`/${postData.owner._id}/profile`)
+  // not implemented as of now
 }
   return (
     <div className='rounded-xl bg-slate-50 mt-4 shadow-md  '>
         <div className='flex flex-row justify-between'>
             <div className='flex flex-row m-4'>
-                <img className='h-14 w-14 rounded-full' src={postData?.owner.avatar ?? "https://cdn-icons-png.freepik.com/512/10302/10302971.png"} alt="profile"/>
+                <img className='h-14 w-14 rounded-full' src={postData?.owner?.avatar ?? "https://cdn-icons-png.freepik.com/512/10302/10302971.png"} alt="profile"/>
                 <div className='flex flex-col mx-2' onClick={handleViewProfile}>
-                    <span className='font-bold'>{postData?.owner.fullName ?? "Your Name"}</span>
-                    <span className='font-thin -mt-1 text-sm'>{postData?.owner.headline ?? "Headline"}</span>
+                    <span className='font-bold'>{postData?.owner?.fullName ?? "Your Name"}</span>
+                    <span className='font-thin -mt-1 text-sm'>{postData?.owner?.headline ?? "Headline"}</span>
                     <span className='font-thin -mt-1 text-sm'>{`${secondsDifference>60 ? minutesDifference>60? hoursDifference>24? daysDifference>30 ? `${monthsDifference}mo`: `${daysDifference}d`: `${hoursDifference}hr` : `${minutesDifference}mins` : `${secondsDifference}s`} ago`}</span>
                 </div>
             </div>
@@ -94,17 +84,17 @@ const handleViewProfile = ()=>{
 
         <div className='mx-4'>
         <p className=''>
-      {showFullText ? postData.desc : postData.desc.slice(0, 30)}
-      {!showFullText && postData.desc.length>30 && '...'}
+      {showFullText ? postData?.desc : postData?.desc.slice(0, 30)}
+      {!showFullText && postData?.desc?.length>30 && '...'}
     </p>
-    {!showFullText && postData.desc.length>30 && (
+    {!showFullText && postData?.desc?.length>30 && (
       <button className="text-blue-500" onClick={handleToggleText}>
         See more
       </button>
     )}
         <div className="slider"  onWheel={handleSliderScroll}>
           <Slider ref={sliderRef} {...settings}>
-              {postData.images.map((file, index) => (
+              {postData?.images.map((file, index) => (
                   <div key={index} className="flex flex-col items-center">
                       {/* <span className="mb-2 text-gray-500">{`${index + 1} / ${postData.images.length}`}</span> */}
                       <img src={file} alt={`slide-${index}`} className="w-full h-[400px]" />
@@ -114,8 +104,8 @@ const handleViewProfile = ()=>{
             </div>
         </div>
         <div className='flex flex-row justify-between mx-4'>
-            <span>{postData.likeCount===0?"":postData.likeCount}</span>
-            <span>{postData.commentCount===0?"":postData.commentCount}</span>
+            <span>{postData?.likeCount===0?"":postData?.likeCount}</span>
+            <span>{postData?.commentCount===0?"":postData?.commentCount}</span>
         </div>
         <div className='flex flex-row justify-between mx-4'>
             {/* <img className='h-10 mb-4' src={activeLike ? liked : like} alt="like" onClick={handleLike}/>

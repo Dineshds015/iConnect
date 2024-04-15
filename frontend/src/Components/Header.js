@@ -62,7 +62,7 @@ const Header = () => {
 
             {/* home announcemnet and avatar */}
             <div className='hidden md:flex col-span-8 h-16 justify-self-end '>
-                <button className='p-2 mx-2 text-xl font-semibold'><HomeIcon/></button>
+                <button className='p-2 mx-2 text-xl font-semibold' onClick={()=>navigate("/")}><HomeIcon/></button>
                 <button className='p-2 mx-2 text-xl font-semibold'><CampaignIcon/></button>
                 <button className='p-2 mx-2 text-xl font-semibold'><ChatIcon/></button>
                 {/* <img className='h-14 w-14 mx-4 mr-8 mt-2 rounded-full' src={user.avatar ?? "https://cdn-icons-png.freepik.com/512/10302/10302971.png"} alt="Profile" onClick={handleClick} /> */}
@@ -93,7 +93,7 @@ const Header = () => {
                 </MenuButton>
                 {/* list of drop down */}
                 <MenuList className='flex flex-col'>
-                    <button className='p-2 mx-2 text-xl font-semibold'><HomeIcon/></button>
+                    <button className='p-2 mx-2 text-xl font-semibold'onClick={()=>navigate()}><HomeIcon/></button>
                     <MenuDivider/>
                     <button className='p-2 mx-2 text-xl font-semibold'><CampaignIcon/></button>
                     <MenuDivider/>

@@ -16,19 +16,21 @@ const [userData,setUserData] = useState(null)
 const navigate = useNavigate()
 
 const fetchData = async () => {
-// fetch user and post
-};
+
+  //  fetch user nad post data and dispatch to store
+}
 
   const NavigateProfile = ()=>{
     navigate("/profile")
   }
-
+// const user = useSelector((store)=>store.user )
+//   console.log("HeaderHome",user)
   useEffect(() => {
     fetchData();
 
   }, []);
 
-  if(!userData) return
+
 
   return (
     <>
@@ -39,20 +41,20 @@ const fetchData = async () => {
         <div className="flex flex-col rounded-2xl shadow-xl bg-gray-50 items-center mx-4">
           <img
             className="h-[100px] w-full rounded-xl"
-            src={userData.coverImage ? userData.coverImage : "https://i.pinimg.com/236x/53/aa/af/53aaaff2bd89ab21f55db9b5bb8bd024.jpg"}
+            src={userData?.coverImage ? userData?.coverImage : "https://i.pinimg.com/236x/53/aa/af/53aaaff2bd89ab21f55db9b5bb8bd024.jpg"}
             alt="cover Image"
           />    
           <div className="h-12 w-12 -mt-[580px] rounded-full" ></div>
           <img onClick={NavigateProfile}
             className="h-20 w-20 mt-[490px]  border-2 border-solid border-white rounded-full"
-            src={userData?.avatar ? userData.avatar : "https://cdn-icons-png.freepik.com/512/10302/10302971.png"}
+            src={userData?.avatar ? userData?.avatar : "https://cdn-icons-png.freepik.com/512/10302/10302971.png"}
             alt="dp"
           />
           <span className="font-mono font-bold text-xl -my-1">
-            {userData.fullName || "No name available"}
+            {userData?.fullName || "No name available"}
           </span>
           <span className=" font-mono  from-neutral-800 text-sm mb-2">
-            { userData.headline ?? "Headlines"}
+            { userData?.headline ?? "Headlines"}
           </span>
         </div>
 

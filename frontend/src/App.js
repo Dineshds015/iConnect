@@ -1,32 +1,34 @@
-import logo from './logo.svg';
-import './App.css';
-import Header from './Components/Header';
-import Login from './Components/Login';
-import Signup from './Components/Signup';
-import Profile from './Components/Profile';
+import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Educationform from './Components/Forms/Education.form';
-import Experienceform from './Components/Forms/Experience.form';
-import Projectform from './Components/Forms/Project.form';
+import Header from './Components/Header';
+import SignUp from './Components/Signup';
+// import VerificationPage from './Components/';
+import Login from './Components/Login';
+import Home from './Components/Home';
+// import OtherUserProfile from "./Components/OtherUserProfile"
+import Profile from './Components/Profile';
 import { Provider } from 'react-redux';
 import store from './utlis/store';
 function App() {
   return (
     <Provider store={store}>
-   <Router>
-    <div>
-      <Header/>
-      <Routes>
-        <Route path="/signup" element={<Signup/>}/>
-        <Route path="/login" element={<Login/>}/>
-        <Route path="/profile" element={<Profile/>}/>
-        <Route path = "/edu" element={<Educationform/>}/>
-        <Route path = "/exp" element={<Experienceform/>}/>
-        <Route path = "/proj" element={<Projectform/>}/>
-      </Routes>
-    </div>
-   </Router>
-   </Provider>
+    <Router>
+      <div className=''>
+        {/* Your common components can go here */}
+        <Header />
+        {/* Use Routes to define your routes */}
+        <Routes>
+          <Route path="/signup" element={<SignUp />} />
+          {/* <Route path="/verify/:userId" element={<VerificationPage />} /> */}
+          <Route path="/login" element={<Login />} />
+          <Route path="/" element={<Home />}  />
+          <Route path="/profile" element={<Profile/>}/>
+          {/* <Route path = "/:user_id/profile" element = {<OtherUserProfile />}/> */}
+          {/* Add more routes as needed */}
+        </Routes>
+      </div>
+    </Router>
+    </Provider>
   );
 }
 

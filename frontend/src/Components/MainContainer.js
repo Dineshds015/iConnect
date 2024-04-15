@@ -13,6 +13,7 @@ import axios from 'axios'
 
 const MainContainer = () => {
 
+    console.log("main")
     const [mediaPost,setMedia] = useState(false)
     const [announcementPost,setAnnouncement] = useState(false)
     const [jobPost,setJob] = useState(false)
@@ -60,7 +61,7 @@ const MainContainer = () => {
             </div>
         </div>
         <div>
-            {userPosts.map((data) => <Post key={data._id} postData={data} />)}
+            {userPosts?.map((data) => <Post key={data?._id} postData={data} />)}
         </div>
 
         {mediaPost && <div className='absolute ml-[150px] mt-20 rounded-2xl w-[800px] bg-white m-4 shadow-2xl'>
