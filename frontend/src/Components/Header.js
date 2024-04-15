@@ -46,7 +46,7 @@ const Header = () => {
             {/* logo and search */}
             <div className='hidden md:flex col-span-4 '>
                 {/* <img className="h-14 px-4 mx-4" src={logo} alt="logo" /> */}
-                <span className='mt-4 mr-6 font-serif text-2xl'>Campus Connect</span>
+                <span className='mt-4 mr-6 font-serif text-2xl'>iConnect</span>
 
                 {/* Chakra for making search as a buttom and onClick adding a drawer + have a tooltip saying search user */}
                 <Tooltip label="Search Users to Chat" hasArrow placement='bottom-end'>
