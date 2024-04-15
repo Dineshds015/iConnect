@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import pen from "../public/pen.png"
-import mnc from "../public/mnc.png"
+// import mnc from "../public/mnc.png"
 import { useDispatch } from 'react-redux'
 import { toggleExperience } from '../utlis/experienceSlice'
 
@@ -42,7 +42,7 @@ const Experience = ({userId}) => {
       
       {userExperience.map((data, index) => (
         <div key={index} className={`flex flex-row ${index !== userExperience.length - 1 ? 'border-b-4 m-2' : 'm-2'}`}>
-          <img className='rounded-full h-16 mr-2' src={mnc} alt="Institute logo" />
+          <img className='rounded-full h-16 mr-2' src="" alt="Institute logo" />
           <div className='flex flex-col'>
             <span className='font-bold text-[15px]'>{data.companyName??"Google"}</span>
             <span className='text-[15px]'>{data.title??"SDE-1"}</span>

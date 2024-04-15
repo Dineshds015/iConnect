@@ -128,7 +128,7 @@ const Login = () => {
       />
       {/* Same as */}
       <ToastContainer />
-    <div className="flex flex-row justify-center shadow-lg">
+    <div className="flex flex-row absolute top-60 justify-center shadow-lg">
         <div className="flex flex-col">
             <img className="rounded-2xl m-4" src={logo} alt="logo"/>
             <form className='flex flex-col'>

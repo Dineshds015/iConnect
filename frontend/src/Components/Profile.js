@@ -1,167 +1,203 @@
-import React from 'react';
-import logo from "../public/logo.png";
-import { useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import HomeIcon from '@mui/icons-material/Home';
-import CampaignIcon from '@mui/icons-material/Campaign';
-import SearchIcon from '@mui/icons-material/Search';
-import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
-import {
-    Menu,
-    MenuButton,
-    MenuList,
-    MenuItem,
-    MenuDivider,
-    Button,
-    Avatar,
-    Tooltip, Text,
-    Drawer,
-    DrawerBody,
-    DrawerHeader,
-    DrawerOverlay,
-    DrawerContent,
-    Box,
-    Input
-  } from '@chakra-ui/react'
-  import MenuIcon from '@mui/icons-material/Menu';
-  import {useDisclosure} from '@chakra-ui/hooks'
-  import ChatIcon from '@mui/icons-material/Chat';
-const Header = () => {
-    const navigate = useNavigate();
-    const user = useSelector((store) => store.user);
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
-    const { isOpen, onOpen, onClose } = useDisclosure()
+import EditProfile from './EditProfile';
+import Educationform from './Forms/Education.form';
+// import Skill from './Forms/Skill.form';
+import ProjectForm from './Forms/Project.form';
+import ExperienceForm from './Forms/Experience.form';
+import EditCover from './EditCover';
+import Education from './Education';
+import Experience from './Experience';
+import Project from './Project';
+import EditAvatar from './EditAvatar';
+import { postUser } from '../utlis/userSlice';
+import camera from "../public/camera.gif"
+import pen from "../public/pen.png"
 
-    const handleClick = () => {
-        navigate("/profile");
-    };
+// import YourPost from './YourPost';
 
-    const handleLogOut = ()=>{
+const Profile = () => {
+  const dispatch = useDispatch();
+  const user = useSelector((store) => store.user);
+  const addEducation = useSelector((store) => store.education.addEducation);
+  const addExperience = useSelector((store) => store.experience.addExperience);
+  const addProject = useSelector((store) => store.project.addProject);
 
+  const [fullName, setFullName] = useState("");
+  const [headline, setHeadline] = useState("");
+  const [userData, setUserData] = useState();
+
+  const [editCover, setEditCover] = useState(false);
+  const [editProfile, setEditProfile] = useState(false);
+  const [editAvatar, setEditAvatar] = useState(false);
+  const [editIntro, setEditIntro] = useState(false);
+  const [addSkill, setAddSkill] = useState(false);
+
+  const fetchData = async () => {
+    try {
+      if (!user.length) {
+        const resp = await axios.get("http://localhost:8000/api/v1/users/getUserDetails", {
+          withCredentials: true
+        });
+        dispatch(postUser(resp.data?.data));
+        setUserData(resp.data?.data);
+      } else {
+        setUserData(user);
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
     }
-    return (
-        <div className='flex flex-row justify-between fixed top-0 left-0 right-0 bg-white z-10  px-6 py-2 shadow-lg  bg-gradient-to-r from-green-100 to-blue-300'>
-            {/* css for medium and large devices */}
+  };
 
-            {/* logo and search */}
-            <div className='hidden md:flex col-span-4 '>
-                {/* <img className="h-14 px-4 mx-4" src={logo} alt="logo" /> */}
-                <span className='mt-4 mr-6 font-serif text-2xl'>Campus Connect</span>
+  const handleAddSkill = () => {
+    setAddSkill(true);
+  };
 
-                {/* Chakra for making search as a buttom and onClick adding a drawer + have a tooltip saying search user */}
-                <Tooltip label="Search Users to Chat" hasArrow placement='bottom-end'>
-                <Button className='bg:transparent mt-3 mx-2' onClick={onOpen}>
-                    <SearchIcon/>
-                    <Text display={ { base: "none", md: "flex"}} px="4">
-                        Search user
-                    </Text>
-                </Button>
-            </Tooltip>
-            
-            </div>
+  const handleAddSkillClose = () => {
+    setAddSkill(false);
+  };
 
-            {/* home announcemnet and avatar */}
-            <div className='hidden md:flex col-span-8 h-16 justify-self-end '>
-                <button className='p-2 mx-2 text-xl font-semibold'><HomeIcon/></button>
-                <button className='p-2 mx-2 text-xl font-semibold'><CampaignIcon/></button>
-                <button className='p-2 mx-2 text-xl font-semibold'><ChatIcon/></button>
-                {/* <img className='h-14 w-14 mx-4 mr-8 mt-2 rounded-full' src={user.avatar ?? "https://cdn-icons-png.freepik.com/512/10302/10302971.png"} alt="Profile" onClick={handleClick} /> */}
+  const handleCoverClick = () => {
+    setEditCover(true);
+  };
 
-                {/* added menu type on profile click */}
-                <Menu>
-                <MenuButton className="mt-3"  rightIcon={<ArrowDropDownIcon/>}>
-                    <Avatar size='md' cursor='pointer' name={user.fullName} src={user.avatar}/>
-                </MenuButton>
-                <MenuList>
-                {/* <ProfileModel user={user}> */}
-                    <MenuItem onClick={handleClick}>My Profile</MenuItem>
-                    <MenuDivider/>
-                    <MenuItem onClick={handleLogOut}>Log Out</MenuItem>
-                {/* </ProfileModel> */}
-                </MenuList>
-            </Menu>
-            </div>
+  const handleEditCoverClose = () => {
+    setEditCover(false);
+  };
 
+  const handleEditAvatar = () => {
+    setEditAvatar(true);
+  };
 
-            {/* css for mobile */}
-            {/* a drop down of all the icons */}
-            <div className='flex flex-row justify-between md:hidden'>
-            <Menu>
-                <MenuButton className="mt-3"  rightIcon={<MenuIcon/>}>
-                {/* hamburger */}
-                    <MenuIcon/> 
-                </MenuButton>
-                {/* list of drop down */}
-                <MenuList className='flex flex-col'>
-                    <button className='p-2 mx-2 text-xl font-semibold'><HomeIcon/></button>
-                    <MenuDivider/>
-                    <button className='p-2 mx-2 text-xl font-semibold'><CampaignIcon/></button>
-                    <MenuDivider/>
-                    <button className='p-2 mx-2 text-xl font-semibold'><ChatIcon/></button>
-                    <MenuDivider/>
-                    <Tooltip label="Search Users to Chat" hasArrow placement='bottom-end'>
-                        <Button bg='white' onClick={onOpen}>
-                        <SearchIcon/>
-                            <Text display={ { base: "none", md: "flex"}} px="4">
-                                Search user
-                            </Text>
-                        </Button>
-                    </Tooltip>
-                </MenuList>
-            </Menu>
-            </div>
+  const handleEditAvatarClose = () => {
+    setEditAvatar(false);
+  };
 
-            
-            <span className='md:hidden mt-4 mr-6 font-serif text-2xl'>Campus Connect</span>
-            {/* avatar*/}
-            <div className="block md:hidden">
-                <Menu >
-                    <MenuButton className="mt-3"  rightIcon={<ArrowDropDownIcon/>}>
-                        <Avatar size='md' cursor='pointer' name={user.fullName} src={user.avatar}/>
-                    </MenuButton>
-                    <MenuList>
-                    {/* <ProfileModel user={user}> */}
-                        <MenuItem onClick={handleClick}>My Profile</MenuItem>
-                        <MenuDivider/>
-                        <MenuItem onClick={handleLogOut}>Log Out</MenuItem>
-                    {/* </ProfileModel> */}
-                    </MenuList>
-                </Menu>
-            </div>
-           
-            
+  const handleAddProfileSection = () => {
+    setEditProfile(true);
+  };
 
-            {/* drawer for search common for all devices */}
-            <Drawer placement='left' onClose={onClose} isOpen={isOpen}>
-                <DrawerOverlay />
-                <DrawerContent>
-                    <DrawerHeader borderBottomWidth='1px'>
-                        Search User
-                    </DrawerHeader>
-                    <DrawerBody>
-                        <Box display={'flex'} pb={2}>
-                        {/* value={search} onChange={(e)=> setSearch(e.target.value)} */}
-                            <Input placeholder='Search by name or email' mr={2} />
-                            <Button 
-                            // onClick={handleSearch}
-                            >
-                                Go
-                            </Button>
-                        </Box>
-                        {/* {loading ? <ChatLoading/> : (
-                            searchResult?.map(user=> (
+  const handleAddProfileSectionClose = () => {
+    setEditProfile(false);
+  };
 
-                                <UserListItem key={user._id} user={user} handleFunction={()=>accessChat(user._id)}/> 
-                                
-                            ))
-                        ) }
-                    */}
-                </DrawerBody>
-            </DrawerContent>
-            
-            </Drawer>
+  const handleIntro = () => {
+    setEditIntro(true);
+    setFullName(userData.fullName);
+    setHeadline(userData.headline ?? "");
+  };
+
+  const handleHeadlineChange = (e) => {
+    setHeadline(e.target.value);
+  };
+
+  const handleNameChange = (e) => {
+    setFullName(e.target.value);
+  };
+
+  const handleIntroSave = async () => {
+    const postData = {
+      fullName: fullName,
+      headline: headline
+    };
+    const response = await axios.post("http://localhost:8000/api/v1/users/updatedata", postData, {
+      withCredentials: true,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    dispatch(postUser(response?.data?.data));
+    setEditIntro(false);
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  if (!userData) return null;
+
+  return (
+    <div className="grid grid-cols-12 grid-flow-col">
+      <div className="hidden xl:block  xl:col-span-1 mx-4"></div>
+
+      {/* 1st col span  */}
+      <div className="hidden md:block md:col-span-5 xl:col-span-4 mx-2 mt-[140px]">
+        <div className="flex flex-col rounded-2xl shadow-xl bg-gradient-to-r from-green-100 to-blue-300 -mt-10">
+          <Education userId={userData._id} />
         </div>
-    );
+        <div className="flex flex-col rounded-2xl shadow-xl bg-gradient-to-r from-green-100 to-blue-300 mt-2">
+          <Experience userId={userData._id} />
+        </div>
+        <div className="flex flex-col rounded-2xl shadow-xl bg-gradient-to-r from-green-100 to-blue-300 mt-2">
+          <Project userId={userData._id} />
+        </div>
+      </div>
+
+      {/* main span */}
+      <div
+        className={`col-span-12 md:block md:col-span-7 xl:col-span-6 flex flex-col mt-24 md:mx-2 ${
+          editCover || editProfile || addEducation || addSkill || addProject || addExperience
+            ? "filter blur-sm"
+            : ""
+        }`}
+      >
+        <div className="flex flex-col rounded-2xl shadow-xl bg-white">
+          <img
+            className="h-[200px] w-full rounded-xl"
+            src={userData.coverImage ? userData.coverImage : "https://i.pinimg.com/236x/53/aa/af/53aaaff2bd89ab21f55db9b5bb8bd024.jpg"}
+            alt="cover Image"
+          />
+          <div className='absolute top-[120px] right-8 xl:right-40 2xl:right-60'>
+    <img className='h-8 w-8 rounded-full' src={camera} alt="edit Cover" onClick={handleCoverClick}/>
+  </div>
+          
+          <div className="h-16 w-16 -mt-[580px] rounded-full"></div>
+          <img
+            className="h-28 w-28 mt-[470px] ml-4 border-2 border-solid border-white rounded-full cursor-pointer"
+            src={userData?.avatar ? userData.avatar : "https://cdn-icons-png.freepik.com/512/10302/10302971.png"}
+            alt="dp"
+            onClick={handleEditAvatar}
+          />
+          <span className="font-mono font-bold text-xl ml-5">
+            {editIntro ? <input type="text" value={fullName} onChange={handleNameChange} /> : userData.fullName || "No name available"}
+          </span>
+            <img className='h-5 w-5 absolute top-[360px] right-8 xl:right-40 2xl:right-60 cursor-pointer' src={pen} onClick={handleIntro} />  
+          <span className=" font-mono my-1 from-neutral-800 ml-5">
+            {editIntro ? <input type="text" value={headline} onChange={handleHeadlineChange} /> : userData.headline ?? "Headlines"}
+          </span>
+          {editIntro && <button onClick={handleIntroSave}>save</button>}
+          <button
+            className="w-44 p-2 mx-4 my-1 mb-2 bg-white border border-blue-500 text-blue-500 font-bold rounded-2xl hover:bg-blue-500 hover:border-white hover:text-white"
+            onClick={handleAddProfileSection}
+          >
+            Add Profile Section
+          </button>
+        </div>
+
+        <div className="md:hidden flex flex-col rounded-2xl shadow-xl bg-gradient-to-r from-green-100 to-blue-300 mt-2">
+          <Education userId={userData._id} />
+        </div>
+        <div className="md:hidden flex flex-col rounded-2xl shadow-xl bg-gradient-to-r from-green-100 to-blue-300 mt-2">
+          <Experience userId={userData._id} />
+        </div>
+        <div className="md:hidden flex flex-col rounded-2xl shadow-xl bg-gradient-to-r from-green-100 to-blue-300 mt-2">
+          <Project userId={userData._id} />
+        </div>
+      </div>
+
+      {editAvatar && <EditAvatar onClose={handleEditAvatarClose} />}
+      {editCover && <EditCover onClose={handleEditCoverClose} />}
+      {editProfile && <EditProfile onClose={handleAddProfileSectionClose} onSkill={handleAddSkill} />}
+      {addEducation && <Educationform />}
+      {/* {addSkill && <Skill onCloseForm={handleAddSkillClose} />} */}
+      {addProject && <ProjectForm />}
+      {addExperience && <ExperienceForm />}
+
+      <div className="hidden xl:block  xl:col-span-1 mx-4"></div>
+    </div>
+  );
 };
 
-export default Header;
+export default Profile;
