@@ -1,101 +1,178 @@
-import React,{useEffect, useState}from 'react';
-import back from "../public/back.jpg";
-import pic from "../public/profilepic.jpeg";
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+
+import EditProfile from './EditProfile';
+import Educationform from './Forms/Education.form';
+// import Skill from './Forms/Skill.form';
+import ProjectForm from './Forms/Project.form';
+import ExperienceForm from './Forms/Experience.form';
+import EditCover from './EditCover';
 import Education from './Education';
 import Experience from './Experience';
-import axios from 'axios';
+import Project from './Project';
+import EditAvatar from './EditAvatar';
+import { postUser } from '../utlis/userSlice';
+import camera from "../public/camera.gif"
+import pen from "../public/pen.png"
 
+// import YourPost from './YourPost';
 
 const Profile = () => {
-  const getImage = (imgName) => {
-    return require(`../public/${imgName}`);
+  const dispatch = useDispatch();
+  const user = useSelector((store) => store.user);
+  const addEducation = useSelector((store) => store.education.addEducation);
+  const addExperience = useSelector((store) => store.experience.addExperience);
+  const addProject = useSelector((store) => store.project.addProject);
+
+  const [fullName, setFullName] = useState("");
+  const [headline, setHeadline] = useState("");
+  const [userData, setUserData] = useState();
+
+  const [editCover, setEditCover] = useState(false);
+  const [editProfile, setEditProfile] = useState(false);
+  const [editAvatar, setEditAvatar] = useState(false);
+  const [editIntro, setEditIntro] = useState(false);
+  const [addSkill, setAddSkill] = useState(false);
+
+  const fetchData = async () => {
+  //  get user details and dispatch to stores
   };
 
-  axios.defaults.withCredentials=true;
-  const [addProfile,setAddProfile]=useState(false);
-  const handleButtonClick=()=>{
-      setAddProfile(!addProfile);
-  }
-  // Function to get the image path dynamically
-  // const getImagePath = (imageName) => {
-  //   return images[imageName];
-  // };
-  const [newImage, setNewImage] = useState(null);
-  const [user, setUser] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const handleAddSkill = () => {
+    setAddSkill(true);
+  };
+
+  const handleAddSkillClose = () => {
+    setAddSkill(false);
+  };
+
+  const handleCoverClick = () => {
+    setEditCover(true);
+  };
+
+  const handleEditCoverClose = () => {
+    setEditCover(false);
+  };
+
+  const handleEditAvatar = () => {
+    setEditAvatar(true);
+  };
+
+  const handleEditAvatarClose = () => {
+    setEditAvatar(false);
+  };
+
+  const handleAddProfileSection = () => {
+    setEditProfile(true);
+  };
+
+  const handleAddProfileSectionClose = () => {
+    setEditProfile(false);
+  };
+
+  const handleIntro = () => {
+    setEditIntro(true);
+    setFullName(userData.fullName);
+    setHeadline(userData.headline ?? "");
+  };
+
+  const handleHeadlineChange = (e) => {
+    setHeadline(e.target.value);
+  };
+
+  const handleNameChange = (e) => {
+    setFullName(e.target.value);
+  };
+
+  const handleIntroSave = async () => {
+    // update user details => name and headline
+  };
+
   useEffect(() => {
-    const fetchUserProfile = async () => {
-      try {
-        // Send request to backend to fetch user profile
-        const response = await axios.get('http://localhost:8000/profile/details');
-        setUser(response.data); // Update state with user information
-        setIsLoading(false);
-      } catch (error) {
-        console.error('Error fetching user profile:', error);
-      }
-    };
-    fetchUserProfile();
-    //console.log(user.image);
-  }, []); // Run only once after component mount
-
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
-  // Function to handle file upload
-  const handleFileUpload = (event) => {
-    const file = event.target.files[0];
-    setNewImage(URL.createObjectURL(file)); // Update newImage state with the uploaded image
-    console.log("url: ",{img:file.name});
-    const response =axios.post("http://localhost:8000/profile/updateImages", {img: file.name});
-    console.log("uploaded");
-  };
-  
+    fetchData();
+  }, []);
 
   return (
-    <div className="grid grid-cols-12">
+    <div className="grid grid-cols-12 grid-flow-col">
+      <div className="hidden xl:block  xl:col-span-1 mx-4"></div>
 
-  <div className="col-span-1"> 
-  </div>
-  <div className="col-span-4 bg-gray-100 flex flex-col"> 
-      <div className=''><Education/></div>
-      <div className=''><Experience/></div>
-  </div>
-  <div className="col-span-6 bg-gray-200"> 
-       <div> 
-        <img className="object-cover h-96 w-full "  src={back} alt="cover photo"/>
-        
-        <img className="object-cover rounded-full -mt-14 ml-2"  src={user.image?getImage(user.image):pic} alt="profile photo"/>
-        <input type="file" onChange={handleFileUpload} accept="image/*" />
-        <div className='flex flex-col'>
-            <span className='text-black text-2xl font-bold ml-10'>{user ? user.name:"Nitumoni Mech"}</span>
-            <span className='text-black text-lg ml-10'>Software Developer</span>
+      {/* 1st col span  */}
+      <div className="hidden md:block md:col-span-5 xl:col-span-4 mx-2 mt-[140px]">
+        <div className="flex flex-col rounded-2xl shadow-xl bg-gradient-to-r from-green-100 to-blue-300 -mt-10">
+          <Education userId={userData?._id} />
         </div>
-        <button className="bg-white hover:bg-blue-500 text-blue-500 hover:text-white font-bold py-2 px-4 rounded-2xl ml-7 mr-[32rem] mt-3" onClick={handleButtonClick}>
-    Add Profile
-  </button>
-  </div>
-</div>
-{ addProfile && (
-  <div className='bg-gray-200 shadow-2xl rounded-xl absolute ml-[1000px] mt-80 h-[500px] w-[400px]  transform -translate-x-1/2 -translate-y-1/2 p-4'>
-  <div className='flex flex-row   my-2 justify-around border-b-4 p-3 border-zinc-300'>
-    <button className='text-xl font-mono mr-56 from-neutral-800 font-bold '>Add To Profile</button>
-    <button className=' text-2xl font-bold' onClick={handleButtonClick}>X</button>
-  </div>
-  <div className='flex flex-col'>
-  <button className='text-xl font-mono font-semibold m-4 border-b-4 border-zinc-300 p-2 text-slate-600 mt-10 hover:text-3xl hover:text-blue-400'>Add Skills</button>
-  <button className='text-xl font-mono font-semibold m-4  border-b-4 p-2 border-zinc-300 text-slate-600 hover:text-3xl hover:text-blue-400'>Add Education</button>
-  <button className='text-xl font-mono font-semibold m-4  border-b-4 p-2 border-zinc-300 text-slate-600 hover:text-3xl hover:text-blue-400'>Add Project</button>
-  <button className='text-xl font-mono font-semibold m-4  border-b-4 p-2 border-zinc-300 text-slate-600 hover:text-3xl hover:text-blue-400'>Add Experience</button>
-  </div>
-  
-</div>
-      )}
+        <div className="flex flex-col rounded-2xl shadow-xl bg-gradient-to-r from-green-100 to-blue-300 mt-2">
+          <Experience userId={userData?._id} />
+        </div>
+        <div className="flex flex-col rounded-2xl shadow-xl bg-gradient-to-r from-green-100 to-blue-300 mt-2">
+          <Project userId={userData?._id} />
+        </div>
+      </div>
 
+      {/* main span */}
+      <div
+        className={`col-span-12 md:block md:col-span-7 xl:col-span-6 flex flex-col mt-24 md:mx-2 ${
+          editCover || editProfile || addEducation || addSkill || addProject || addExperience
+            ? "filter blur-sm"
+            : ""
+        }`}
+      >
+        <div className="flex flex-col rounded-2xl shadow-xl bg-white">
+          <img
+            className="h-[200px] w-full rounded-xl"
+            src={userData?.coverImage ? userData?.coverImage : "https://i.pinimg.com/236x/53/aa/af/53aaaff2bd89ab21f55db9b5bb8bd024.jpg"}
+            alt="cover Image"
+          />
+          <div className='absolute top-[120px] right-8 xl:right-40 2xl:right-60'>
+    <img className='h-8 w-8 rounded-full' src={camera} alt="edit Cover" onClick={handleCoverClick}/>
+  </div>
+          
+          <div className="h-16 w-16 -mt-[580px] rounded-full"></div>
+          <img
+            className="h-28 w-28 mt-[470px] ml-4 border-2 border-solid border-white rounded-full cursor-pointer"
+            src={userData?.avatar ? userData?.avatar : "https://cdn-icons-png.freepik.com/512/10302/10302971.png"}
+            alt="dp"
+            onClick={handleEditAvatar}
+          />
+          <span className="font-mono font-bold text-xl ml-5">
+            {editIntro ? <input type="text" value={fullName} onChange={handleNameChange} /> : userData?.fullName || "No name available"}
+          </span>
+            <img className='h-5 w-5 absolute top-[360px] right-8 xl:right-40 2xl:right-60 cursor-pointer' src={pen} onClick={handleIntro} />  
+          <span className=" font-mono my-1 from-neutral-800 ml-5">
+            {editIntro ? <input type="text" value={headline} onChange={handleHeadlineChange} /> : userData?.headline ?? "Headlines"}
+          </span>
+          {editIntro && <button onClick={handleIntroSave}>save</button>}
+          <button
+            className="w-44 p-2 mx-4 my-1 mb-2 bg-white border border-blue-500 text-blue-500 font-bold rounded-2xl hover:bg-blue-500 hover:border-white hover:text-white"
+            onClick={handleAddProfileSection}
+          >
+            Add Profile Section
+          </button>
+        </div>
 
-    <div className="col-span-1">
+        <div className="md:hidden flex flex-col rounded-2xl shadow-xl bg-gradient-to-r from-green-100 to-blue-300 mt-2">
+          <Education userId={userData?._id} />
+        </div>
+        <div className="md:hidden flex flex-col rounded-2xl shadow-xl bg-gradient-to-r from-green-100 to-blue-300 mt-2">
+          <Experience userId={userData?._id} />
+        </div>
+        <div className="md:hidden flex flex-col rounded-2xl shadow-xl bg-gradient-to-r from-green-100 to-blue-300 mt-2">
+          <Project userId={userData?._id} />
+        </div>
+      </div>
+
+      {editAvatar && <EditAvatar onClose={handleEditAvatarClose} />}
+      {editCover && <EditCover onClose={handleEditCoverClose} />}
+      {editProfile && <EditProfile onClose={handleAddProfileSectionClose} onSkill={handleAddSkill} />}
+      {addEducation && <Educationform />}
+      {/* {addSkill && <Skill onCloseForm={handleAddSkillClose} />} */}
+      {addProject && <ProjectForm />}
+      {addExperience && <ExperienceForm />}
+
+      <div className="hidden xl:block  xl:col-span-1 mx-4"></div>
     </div>
-  </div>
-  )
-}
+  );
+};
 
 export default Profile;

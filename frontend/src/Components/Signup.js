@@ -84,12 +84,11 @@ const Signup = () => {
   const verifyOtp = async () => {
     try {
       const response = await axios.post("http://localhost:8000/auth/verify", { email: formData.email, otp: formData.otp });
-      console.log(response.data); // Log the response data if needed
+      console.log(response); // Log the response data if needed
       
       return response.data; // Return the response data for further processing
     } catch (error) {
       console.log("Error verifying OTP:", error.message);
-      
       //throw error; // Re-throw the error to handle it in the calling code
     }
   };
