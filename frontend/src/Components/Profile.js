@@ -1,19 +1,58 @@
-import React,{useEffect, useState}from 'react'
-import cover from "../public/coverphoto.jpeg"
-import pic from "../public/profilepic.jpeg"
+import React,{useEffect, useState}from 'react';
+import back from "../public/back.jpg";
+import pic from "../public/profilepic.jpeg";
 import Education from './Education';
 import Experience from './Experience';
+import axios from 'axios';
+
+
 const Profile = () => {
+  const getImage = (imgName) => {
+    return require(`../public/${imgName}`);
+  };
+
+  axios.defaults.withCredentials=true;
   const [addProfile,setAddProfile]=useState(false);
   const handleButtonClick=()=>{
       setAddProfile(!addProfile);
   }
+  // Function to get the image path dynamically
+  // const getImagePath = (imageName) => {
+  //   return images[imageName];
+  // };
+  const [newImage, setNewImage] = useState(null);
+  const [user, setUser] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+  useEffect(() => {
+    const fetchUserProfile = async () => {
+      try {
+        // Send request to backend to fetch user profile
+        const response = await axios.get('http://localhost:8000/profile/details');
+        setUser(response.data); // Update state with user information
+        setIsLoading(false);
+      } catch (error) {
+        console.error('Error fetching user profile:', error);
+      }
+    };
+    fetchUserProfile();
+    //console.log(user.image);
+  }, []); // Run only once after component mount
 
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+  // Function to handle file upload
+  const handleFileUpload = (event) => {
+    const file = event.target.files[0];
+    setNewImage(URL.createObjectURL(file)); // Update newImage state with the uploaded image
+    console.log("url: ",{img:file.name});
+    const response =axios.post("http://localhost:8000/profile/updateImages", {img: file.name});
+    console.log("uploaded");
+  };
   
 
-
   return (
-    <div class="grid grid-cols-12">
+    <div className="grid grid-cols-12">
 
   <div className="col-span-1"> 
   </div>
@@ -22,13 +61,16 @@ const Profile = () => {
       <div className=''><Experience/></div>
   </div>
   <div className="col-span-6 bg-gray-200"> 
-       <div> <img className="object-cover h-96 w-full "  src={cover} alt="cover photo"/>
-        <img className="object-cover rounded-full -mt-14 ml-2"  src={pic} alt="cover photo"/>
+       <div> 
+        <img className="object-cover h-96 w-full "  src={back} alt="cover photo"/>
+        
+        <img className="object-cover rounded-full -mt-14 ml-2"  src={user.image?getImage(user.image):pic} alt="profile photo"/>
+        <input type="file" onChange={handleFileUpload} accept="image/*" />
         <div className='flex flex-col'>
-            <span className='text-black text-2xl font-bold ml-10'>Nitumoni Mech</span>
+            <span className='text-black text-2xl font-bold ml-10'>{user ? user.name:"Nitumoni Mech"}</span>
             <span className='text-black text-lg ml-10'>Software Developer</span>
         </div>
-        <button class="bg-white hover:bg-blue-500 text-blue-500 hover:text-white font-bold py-2 px-4 rounded-2xl ml-7 mr-[32rem] mt-3" onClick={handleButtonClick}>
+        <button className="bg-white hover:bg-blue-500 text-blue-500 hover:text-white font-bold py-2 px-4 rounded-2xl ml-7 mr-[32rem] mt-3" onClick={handleButtonClick}>
     Add Profile
   </button>
   </div>
@@ -50,10 +92,10 @@ const Profile = () => {
       )}
 
 
-    <div class="col-span-1">
+    <div className="col-span-1">
     </div>
   </div>
   )
 }
 
-export default Profile
+export default Profile;

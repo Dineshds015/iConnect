@@ -7,9 +7,6 @@ import { validateFormData } from '../helper/validator'; // Import the validator
 import {Link} from "react-router-dom";
 import Alert from '../helper/alert';
 import { ToastContainer, toast } from 'react-toastify';
-import {Link} from "react-router-dom";
-import Alert from '../helper/alert';
-import { ToastContainer, toast } from 'react-toastify';
 
 const Signup = () => {
   const [formData, setFormData] = useState({
@@ -59,8 +56,6 @@ const Signup = () => {
     const formErrors = validateFormData(formData); // Validate the form data
     const response=await sendEmailToOtp();
     console.log("res" ,response.data);
-    const response=await sendEmailToOtp();
-    console.log("res" ,response.data);
     if (Object.keys(formErrors).length === 0) {
       
       if (response && response.data.message==="existingUser"){
@@ -104,7 +99,6 @@ const Signup = () => {
     try {
       await axios.post("http://localhost:8000/auth/resendOtp", { email: formData.email });
       Alert.success('OTP resent successfully.');
-      Alert.success('OTP resent successfully.');
     } catch (error) {
       console.error("Error resending OTP:", error.message);
       alert('An error occurred while resending OTP. Please try again later.');
@@ -119,10 +113,6 @@ const Signup = () => {
       axios.post("http://localhost:8000/auth/register", formData)
         .then((res) => {
           console.log(res.data);
-          Alert.success("Registered Successfully");
-          setTimeout(() => {
-            navigate('/login');
-          }, 4000);
           Alert.success("Registered Successfully");
           setTimeout(() => {
             navigate('/login');
@@ -186,10 +176,8 @@ const Signup = () => {
         <button className='mx-4 px-4 my-2 border border-solid w-96 h-12 rounded-full bg-teal-300 text-2xl flex items-center justify-center' type="submit"><img className='h-8  mr-2' src={google} alt='Google Logo' />Login In with Google</button>
         <button className='mx-4 px-4 my-2 border border-solid w-96 h-12 rounded-full bg-teal-300 text-2xl flex items-center justify-center' type="submit"><img className='h-8 border border-solid mr-2' src='https://cdn.worldvectorlogo.com/logos/linkedin-icon-2.svg' alt='LinkedIn Logo' />Login In with LinkedIn</button>
         <Link to="/Login" className='ml-32 cursor-pointer'>Already have an account? Sign In</Link>
-        <Link to="/Login" className='ml-32 cursor-pointer'>Already have an account? Sign In</Link>
       </div>
     </div>
-    </>
     </>
   )
 }

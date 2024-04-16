@@ -109,7 +109,6 @@ const Login = () => {
     }).catch((err)=>{
       Alert.error("Invalid Details");
     })
-    navigate("/profile")
   }
 
   return (

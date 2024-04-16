@@ -5,7 +5,6 @@ const nodemailer=require('nodemailer');
 const {getToken}=require("../utils/helpers");
 const router=express.Router();
 const crypto=require('crypto');
-
 const sendMailer=require('../utils/smtp');
 
 //Generating the alphanumeric OTP which is moreSecure
@@ -142,9 +141,18 @@ router.post("/login",async(req,res)=>{
         return res.status(401).json({err:"Invalid username or password"});
     }
 
-    //step4: Generate a token for the user and return it.
+    // Step 4: Generate a token for the user
+    const token = await getToken(email, user);
+
+    // Step 5: Store the token in a cookie
+    const cookieOptions = {
+        expires: new Date(Date.now() + 3600000), // Cookie expires in 1 hour
+        httpOnly: true,
+    };
+    res.cookie("loginToken", token, cookieOptions);
+
+    //step6: Generate a token for the user and return it.
     
-    const token=await getToken(email,user);
     const userToReturn={...user.toJSON(),token};
     delete userToReturn.password;
     return res.status(200).json(userToReturn);

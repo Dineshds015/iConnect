@@ -15,7 +15,7 @@ const Educationform = () => {
       ];
     
       const years = Array.from({ length: 100 }, (_, index) => (new Date().getFullYear() - index).toString());
-    
+      console.log(years);
       return (
         <div className="bg-white shadow-2xl rounded-xl absolute left-[10vw] top-[10vh] lg:left-[30vw] lg:top-[15vh] xl:left-[40vw] xl:top-[20vh] p-4">
         <div className="flex flex-row my-2 justify-around border-b-4 p-3 border-zinc-300">
