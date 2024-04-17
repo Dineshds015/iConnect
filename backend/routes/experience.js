@@ -1,23 +1,25 @@
 const express=require("express");
-const passport=require("passport");
 const router=express.Router();
 const Experience=require("../models/Experience");
+const existingUser = require("../utils/existingUser");
 
 //A route to create experience
 router.post("/create",
-    passport.authenticate("jwt",{session:false}),
     async (req,res)=>{
-        //1. Identify the user who is calling it.
-            //Due to passport.authenticate, my req.user will get populated with the current user details.
-        const user=req.user;
+        // Verify JWT cookie to get user information
+        const token = req.cookies.loginToken;
+        const user = await existingUser(token);
+
         //2. Create the experience object
-        const {companyName,position,startDate,endDate,description}=req.body;
+        const {companyName,position,location,startDate,endDate,description}=req.body;
+        console.log(req.body);
         if(!companyName || !position){
             return res.status(402).json({err:"Invalid Details"});
         }
         const experienceObj={
             companyName,
             position,
+            location,
             startDate,
             endDate,
             description,

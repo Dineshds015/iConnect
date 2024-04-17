@@ -1,26 +1,13 @@
-import React from 'react';
+import React,{useState,useEffect} from 'react';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import {  toggleEducation } from '../../utlis/educationSlice'; 
+import { ToastContainer, toast } from 'react-toastify';
 
 const Educationform = () => {
-  const dispatch = useDispatch()
-
-
-  
-  const { register, handleSubmit, formState: { errors } } = useForm();
-
-
-  const onSubmit = async (data) => {
-    dispatch(toggleEducation())
-    // const response = await axios.post("http://localhost:8000/api/v1/users/Education", data, {
-    //     withCredentials: true, // Set the withCredentials option to true
-    //     // other options if needed
-    //   });
-
-
-  }
+  const [formData, setFormData] = useState({});
+  const dispatch = useDispatch();
 
   const handleClick = ()=>{
     dispatch(toggleEducation())
@@ -31,6 +18,36 @@ const Educationform = () => {
     'May', 'June', 'July', 'August',
     'September', 'October', 'November', 'December'
   ];
+
+  const submitEdu = async(e) => {
+    e.preventDefault();
+    console.log(formData);
+    axios.post("http://localhost:8000/education/create",{
+      school:formData.school,
+      degree:formData.degree,
+      fieldOfStudy:formData.fieldOfStudy,
+      startDate:formData.sMonth+"-"+formData.sYear,
+      endDate:formData.eMonth+"-"+formData.eYear,
+      description:formData.description
+    })
+        .then((res) => {
+            console.log(res.data);
+            toast.success("Happy Coding!");
+            setTimeout(()=>{
+              window.location.reload();
+            },2000);
+        })
+        .catch((err) => {
+          console.log(err.message);
+        });
+  };
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value
+    });
+  };
 
   const years = Array.from({ length: 100 }, (_, index) => (new Date().getFullYear() - index).toString());
 
@@ -43,58 +60,51 @@ const Educationform = () => {
       <div className='flex flex-col '>
         <span className=' text-gray-500'>* Indicates required </span>
 
-        <form className='flex flex-col m-2 text-gray-500' onSubmit={handleSubmit(onSubmit)}>
+        <form className='flex flex-col m-2 text-gray-500'>
           <label className='mx-1'>Institute*</label>
-          <input placeholder='Ex: MNNIT' className='rounded-md mb-2 border-2 border-black py-1 px-2' {...register('institute', { required: true })} />
-          {errors.institute && <p className='text-red-500 '>Please Enter the Institute Name</p>}
-
+          <input name="school" placeholder='Ex: MNNIT' className='rounded-md mb-2 border-2 border-black py-1 px-2' onChange={handleInputChange}/>
+          
           <label className='m-1 '>Degree</label>
-          <input placeholder="Ex: Master's" className='rounded-md mb-2 border-2 border-black py-1 px-2' type='text' {...register('degree')} />
+          <input name="degree" placeholder="Ex: Master's" className='rounded-md mb-2 border-2 border-black py-1 px-2' type='text' onChange={handleInputChange}/>
 
           <label className='m-1 '>Field of Study</label>
-          <input placeholder="Ex: Computer Science" className=' rounded-md mb-2 border-2 border-black py-1 px-2' type='text' {...register('fieldOfStudy')} />
+          <input name="fieldOfStudy" placeholder="Ex: Computer Science" className=' rounded-md mb-2 border-2 border-black py-1 px-2' type='text' onChange={handleInputChange}/>
 
           <div className='flex flex-row '>
           <div className='w-1/2'>
             <label className='block m-1 '>Start Date*</label>
-            <select className='w-1/3 rounded-md py-1 px-2 border-2 mr-2 border-black ' {...register('startMonth', { required: true })}>
+            <select name="sMonth" className='w-1/3 rounded-md py-1 px-2 border-2 mr-2 border-black' onChange={handleInputChange}>
               <option  value=''>Month</option>
               {months.map((month, index) => (
                 <option key={index} value={month}>{month}</option>
               ))}
             </select>
-            <select className='w-1/3 rounded-md py-1 px-2 border-2 border-black' {...register('startYear', { required: true })}>
+            <select name="sYear" className='w-1/3 rounded-md py-1 px-2 border-2 border-black' onChange={handleInputChange}>
               <option value=''>Year</option>
               {years.map((year) => (
                 <option key={year} value={year}>{year}</option>
               ))}
             </select>
-            {(errors.startMonth || errors.startYear) && <p className='text-red-500 '>Enter the Start Date </p>}
-           
           </div>
 
           <div className='w-1/2'>
             <label className='block m-1'>End Date (or Expected)*</label>
-            <select className='w-1/3 rounded-md py-1 px-2 border-2 mr-2 border-black' {...register('endMonth', { required: true })}>
+            <select name="eMonth" className='w-1/3 rounded-md py-1 px-2 border-2 mr-2 border-black' onChange={handleInputChange}>
               <option  value=''>Month</option>
               {months.map((month, index) => (
                 <option key={index} value={month}>{month}</option>
               ))}
             </select>
-            <select className='w-1/3 rounded-md py-1 px-2 border-2 border-black' {...register('endYear', { required: true })}>
+            <select name="eYear" className='w-1/3 rounded-md py-1 px-2 border-2 border-black' onChange={handleInputChange}>
               <option value=''>Year</option>
               {years.map((year) => (
                 <option key={year} value={year}>{year}</option>
               ))}
             </select>
-            {(errors.endMonth || errors.endYear) && <p className='text-red-500 '>Enter the End Date </p>}
-           
           </div>
           </div>
-                  
-          <label className='m-1 '>Grade</label>
-          <input placeholder='grade' className='rounded-md border-2 border-black py-1 px-2 mb-4' type='text' {...register('grade')} />  
-          <input className='border-2 border-blue-500 py-1 px-2 rounded-xl mb-1  text-blue-500 hover:text-white hover:bg-blue-500' type='submit' />
+                    
+          <input className='border-2 border-blue-500 py-1 px-2 rounded-xl mt-4 mb-1  text-blue-500 hover:text-white hover:bg-blue-500' type='submit' onClick={submitEdu}/>
         </form>
       </div>
     </div>

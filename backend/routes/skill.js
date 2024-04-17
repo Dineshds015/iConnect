@@ -1,14 +1,14 @@
 const express=require("express");
-const passport=require("passport");
 const router=express.Router();
 const Skill=require("../models/Skill");
-
+const existingUser = require("../utils/existingUser");
 
 router.post(
     "/create",
-    passport.authenticate("jwt",{session:false}),
     async (req,res)=>{
-        const user=req.user;
+        // Verify JWT cookie to get user information
+        const token = req.cookies.loginToken;
+        const user = await existingUser(token);
 
         //Create skill object
         const {skillName}=req.body;

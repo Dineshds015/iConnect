@@ -8,12 +8,7 @@ const ProjectSchema=new mongoose.Schema({
     description:{
         type:String,
         required:false,
-    },
-    links:[
-        {
-            type:String,
-        },
-    ],
+    }
 });
 
 const Project=mongoose.model("Project",ProjectSchema);

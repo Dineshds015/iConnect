@@ -1,6 +1,3 @@
-// const jwt = require('jsonwebtoken');
-// const User = require('../models/User'); // Import User model
-// const { getToken } = require('../utils/helpers'); // Import verifyToken function from helper.js
 const existingUser=require('../utils/existingUser');
 const express = require('express');
 const router=express.Router();
@@ -24,12 +21,18 @@ router.get('/details', async (req, res) => {
     }
 });
 
-router.post('/updateImages', async(req, res) => {
+//All profile updation is done by this single function
+router.post('/updateUser', async(req, res) => {
     try {
         const token = req.cookies.loginToken;
         const user = await existingUser(token);
-        user.image = req.body.img;
-        console.log("img: ",req.body.img);
+        // Iterate through the fields in the request body and update them in the user object
+        for (const field in req.body) {
+            if (Object.hasOwnProperty.call(req.body, field)) {
+                user[field] = req.body[field];
+            }
+        }
+        // Save the updated user object
         await user.save();
         return res.status(200).json({ message: "image updated successfully" });
     } catch (error) {

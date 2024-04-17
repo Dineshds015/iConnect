@@ -60,11 +60,6 @@ const Header = () => {
         //console.log(userr.image);
       }, []); // Run only once after component mount
 
-    if (isLoading) {
-        return <></>
-    }
-    
-        navigate("/profile");
 
     const handleLogOut = ()=>{
 

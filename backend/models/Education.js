@@ -1,13 +1,16 @@
 const mongoose=require('mongoose');
 
 const EducationSchema=new mongoose.Schema({
-    School:{
+    school:{
         type:String,
         required:true,
     },
-    Degree:{
+    degree:{
         type:String,
         required:true,
+    },
+    fieldOfStudy:{
+        type:String,
     },
     startDate:{
         type:Date,
@@ -23,7 +26,7 @@ const EducationSchema=new mongoose.Schema({
     }
 });
 
-const Education=mongoose.model("Experience",EducationSchema);
+const Education=mongoose.model("Education",EducationSchema);
 
 module.exports=Education;
 
