@@ -1,6 +1,8 @@
-import React from 'react';
+import React,{useEffect, useState}from 'react';
 import logo from "../public/logo.png";
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+
 import { useSelector } from 'react-redux';
 import HomeIcon from '@mui/icons-material/Home';
 import CampaignIcon from '@mui/icons-material/Campaign';
@@ -32,9 +34,32 @@ const Header = () => {
 
     const { isOpen, onOpen, onClose } = useDisclosure()
 
+    const [userr,setUserr]=useState(null);
+    const [isLogin,setIsLogin]=useState(false);
+    const [isLoading,setIsLoading]=useState(true);
     const handleClick = () => {
-        navigate("/profile");
+        navigate("/");
+    }
+    
+    const getImage = (imgName) => {
+        return require(`../public/${imgName}`);
     };
+    useEffect(() => {
+        const fetchUserProfile = async () => {
+          try {
+            // Send request to backend to fetch userr profile
+            const response = await axios.get('http://localhost:8000/profile/details');
+            setUserr(response.data); // Update state with userr information
+            setIsLogin(true);
+            setIsLoading(false);
+          } catch (error) {
+            console.error('Error fetching userr profile:', error);
+          }
+        };
+        fetchUserProfile();
+        //console.log(userr.image);
+      }, []); // Run only once after component mount
+
 
     const handleLogOut = ()=>{
 

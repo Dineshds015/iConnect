@@ -46,7 +46,6 @@ const Experience = ({userId}) => {
             <span className='text-[15px]'>{data.title??"SDE-1"}</span>
             <span>{data.employmentType??"Full-Time"}</span>
             <span className='mb-4'>{`${data.startMonth??"2"} ${data.startYear??"2021"} - ${data.endMonth??"6"} ${data.endYear??"2024"}`}</span>
-            {/* <span className='mb-6'>{`Grade: 8.5 SPI`}</span> */}
           </div>
         </div> 
       ))} 

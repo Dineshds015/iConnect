@@ -36,6 +36,7 @@ const Signup = () => {
 
   //Sending email to server for the OTP
   
+  
   const sendEmailToOtp = async () => {
     try {
       const isExist = await axios.post("http://localhost:8000/auth/checkExistingUser", { email: formData.email});
@@ -66,6 +67,16 @@ const Signup = () => {
         setShowOtp(true); // Show the OTP section
       }
       //await sendEmailToOtp(); // Send email to OTP endpoint
+      
+      if (response && response.data.message==="existingUser"){
+        console.log("...");
+        Alert.warning("This Email is Already Registered!");
+      }else{
+        console.log("https logs");
+        setVerifyClicked(true); // Set verifyClicked to true when verify button is clicked
+        setShowOtp(true); // Show the OTP section
+      }
+      //await sendEmailToOtp(); // Send email to OTP endpoint
     } else {
       setErrors(formErrors); // Set validation errors to display to the user
     }
@@ -78,8 +89,6 @@ const Signup = () => {
       return response.data; // Return the response data for further processing
     } catch (error) {
       console.log("Error verifying OTP:", error.message);
-      Alert.error('Incorrect OTP'); 
-      setErrors({ otp: 'Invalid OTP' });
       //throw error; // Re-throw the error to handle it in the calling code
     }
   };

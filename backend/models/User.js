@@ -16,10 +16,25 @@ const UserSchema=new mongoose.Schema({
         type:String,
         required:true,
     },
+    headline:{
+        type:String,
+    },
+    image:{
+        type:String,
+    },
+    cimage:{
+        type:String,
+    },
     experiences:[
         {
             type:mongoose.Schema.Types.ObjectId,
             ref:"Experience",
+        },
+    ],
+    educations:[
+        {
+            type:mongoose.Schema.Types.ObjectId,
+            ref:"Education",
         },
     ],
     projects:[

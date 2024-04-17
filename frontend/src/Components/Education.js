@@ -40,7 +40,6 @@ const Education = ({userId}) => {
             <span className='text-[15px]'>{data.degree??"Master's of Computer Application"}</span>
             <span>{data.fieldOfStudy?? "Computer Science"}</span>
             <span>{`${data.startMonth?? "2"} ${data.startYear??"2021"} - ${data.endMonth??"6"} ${data.endYear??"2024"}`}</span>
-            <span className='mb-4'>{`Grade: 8.5 SPI`}</span>
           </div>
         </div> 
       ))}
