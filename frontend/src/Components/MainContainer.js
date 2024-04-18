@@ -9,6 +9,7 @@ import Post from './Post'
 import { useSelector } from 'react-redux'
 import AddMedia from './AddMedia'
 import axios from 'axios'
+import fetchUserProfile from '../helper/fetchData';
 
 
 const MainContainer = () => {
@@ -21,7 +22,11 @@ const MainContainer = () => {
     const userPosts = useSelector((store) =>store.post.posts) 
     const user = useSelector((store)=>store.user)
     // console.log("userPosts",userPosts)
-
+    const [userr,setUserr]=useState("");
+    
+    useEffect(()=>{
+        fetchUserProfile(setUserr);
+    })
     const handleMedia = () => {
         setMedia(!mediaPost)
     }
@@ -34,21 +39,16 @@ const MainContainer = () => {
         setJob(!jobPost)
     }
 
-    const fetchData = async()=>{
 
-        // const response = await axios.get("")
-        // may not need to fetch if we configure redux nicelys
-    }
+    const getImage = (imgName) => {
+        return require(`../public/${imgName}`);
+      };
 
-    useEffect(()=>{
-        fetchData()
-    },[])
-    
   return (
     <div className='flex flex-col'>
         <div className='rounded-3xl p-2 bg-gray-200 mb-3'>
             <div className='flex flex-row m-2 justify-between'>
-                <img className='h-12 w-12 rounded-full mr-1 ' src={user?.avatar??"https://cdn-icons-png.freepik.com/512/10302/10302971.png"} alt="profile" />
+                <img className='h-12 w-12 rounded-full mr-1 ' src={userr.image?getImage(userr.image):"https://cdn-icons-png.freepik.com/512/10302/10302971.png"} alt="profile" />
                 <span className='border-2 border-black w-[88%] rounded-3xl px-7 pt-2 text-xl' >Start a post</span>
             </div>
             <div className='flex flex-row mx-8 justify-between my-2'>
