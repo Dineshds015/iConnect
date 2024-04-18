@@ -9,6 +9,7 @@ const experienceRoutes=require("./routes/experience");
 const educationRoutes=require("./routes/education");
 const skillRoutes=require("./routes/skill");
 const projectRoutes=require("./routes/project");
+const postRoutes=require("./routes/post");
 const User=require("./models/User");
 
 const cors=require('cors');
@@ -43,6 +44,7 @@ app.use("/experience",experienceRoutes);
 app.use("/education",educationRoutes);
 app.use("/skill",skillRoutes);
 app.use("/project",projectRoutes);
+app.use("/post",postRoutes);
 app.use("/profile",profiles);
 
 app.listen(8000, ()=>{

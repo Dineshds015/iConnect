@@ -6,6 +6,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from 'react-slick';
 import axios from "axios"
+import { ToastContainer, toast } from 'react-toastify';
 
 const AddMedia = ({onClose}) => {
     const fileInputRef = useRef(null);
@@ -19,8 +20,11 @@ const AddMedia = ({onClose}) => {
         fileInputRef.current.click();
     };
 
+    
     const handleFileChange = (e) => {
-        setSelectedFile([...selectedFile, ...e.target.files]);
+        const files = Array.from(e.target.files);
+        const fileNames = files.map(file => file.name); // Extracting only the names of the files
+        setSelectedFile([...selectedFile, ...fileNames]);
     };
 
     const settings = {
@@ -33,9 +37,7 @@ const AddMedia = ({onClose}) => {
     };
 
     const handleTextarea = (e) =>{
-
         setTextarea(e.target.value)
-
     }
     const handleSliderScroll = (e) => {
         if (e.deltaX < 0) {
@@ -45,12 +47,47 @@ const AddMedia = ({onClose}) => {
         }
     };
 
-    const handleSubmit = async() => {
-        // send selected file and desc to create a post
+    
+    const handleSubmit = async(e) => {
+        e.preventDefault();
+        console.log("imagess: ",selectedFile);
+        axios.post("http://localhost:8000/post/create",{
+        content:textArea,
+        images:selectedFile
+    })
+        .then((res) => {
+            console.log(res.data);
+            toast.success("Happy Coding!");
+            setTimeout(()=>{
+              window.location.reload();
+            },2000);
+        })
+        .catch((err) => {
+          console.log(err.message);
+        });
     }
 
+    const getImage = (imgName) => {
+        return require(`../public/${imgName}`);
+      };
 
     return (
+        <>
+        <ToastContainer
+            position="top-center"
+            autoClose={1000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss={false}
+            draggable={false}
+            pauseOnHover={false}
+            theme="light"
+            transition="Bounce"
+        />
+        {/* Same as */}
+        <ToastContainer />
         <div className="container mx-auto p-4 ">
             <div className='flex flex-row justify-between'>
                 <div>
@@ -61,22 +98,21 @@ const AddMedia = ({onClose}) => {
             </div>
             <div className='container mx-auto p-4'>
             <textArea
+                    name="content"
                     className='text-2xl my-4 p-4 w-full h-[300px] rounded-lg border border-gray-300'
                     placeholder='What do you want to talk about?'
                     value={textArea}
                     onChange={handleTextarea}
                     // style={{ overflow: 'hidden', height: 'auto' }}
-                
-                    
-                />
+            />
             <div className="slider"  onWheel={handleSliderScroll}>
                 <Slider ref={sliderRef} {...settings}>
-                    {selectedFile.map((file, index) => (
-                        <div key={index} className="flex flex-col items-center">
-                            <span className="mb-2 text-gray-500">{`${index + 1} / ${selectedFile.length}`}</span>
-                            <img src={URL.createObjectURL(file)} alt={`slide-${index}`} className="w-full h-80" />
-                        </div>
-                    ))}
+                {selectedFile.map((fileName, index) => (
+                    <div key={index} className="flex flex-col items-center">
+                        <span className="mb-2 text-gray-500">{`${index + 1} / ${selectedFile.length}`}</span>
+                        <img src={getImage(fileName)} alt={fileName} className="w-full h-80" />
+                    </div>
+                ))}
                 </Slider>
             </div>
             </div>
@@ -84,8 +120,9 @@ const AddMedia = ({onClose}) => {
                 <img className='h-10 cursor-pointer' src={media} alt="add photos" onClick={handleAddFile}/>
                 <button className='rounded-lg px-6 py-2 bg-blue-500 text-white font-bold hover:bg-blue-600' onClick={handleSubmit}>Post</button>
             </div>
-            <input style={{display : 'none'}} type="file" ref={fileInputRef} onChange={handleFileChange} />
+            <input name="images" style={{display : 'none'}} type="file" ref={fileInputRef} onChange={handleFileChange} />
         </div>
+        </>
     );
 };
 
