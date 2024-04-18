@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import MainContainer from './MainContainer'
 import axios from 'axios'
-
+import MyConnection from './My Network/MyConnection'
 import { postUser } from '../utlis/userSlice'
 
 import { useDispatch, useSelector } from 'react-redux'
@@ -55,29 +55,7 @@ const navigate = useNavigate()
           </span>
         </div>
 
-        <div className='flex flex-col bg-gray-50 shadow-md m-4'>
-          <div className='flex flex-row justify-between'>
-            <span className='m-2 font-bold'>Connections</span>
-            <span className='m-2'><ArrowRightAltIcon/></span>
-          </div>
-          <ul className='m-4'>
-            <li className='border-b-2 border-gray-200 bg-slate-300 p-2 m-1'>Your friend</li>
-            <li className='border-b-2 border-gray-200 bg-slate-300 p-2 m-1'>Your friend</li>
-            <li className='border-b-2 border-gray-200 bg-slate-300 p-2 m-1'>Your friend</li>
-            <li className='border-b-2 border-gray-200 bg-slate-300 p-2 m-1'>Your friend</li>
-            <li className='border-b-2 border-gray-200 bg-slate-300 p-2 m-1'>Your friend</li>
-            <li className='border-b-2 border-gray-200 bg-slate-300 p-2 m-1'>Your friend</li>
-            <li className='border-b-2 border-gray-200 bg-slate-300 p-2 m-1'>Your friend</li>
-            <li className='border-b-2 border-gray-200 bg-slate-300 p-2 m-1'>Your friend</li>
-            <li className='border-b-2 border-gray-200 bg-slate-300 p-2 m-1'>Your friend</li>
-            <li className='border-b-2 border-gray-200 bg-slate-300 p-2 m-1'>Your friend</li>
-            <li className='border-b-2 border-gray-200 bg-slate-300 p-2 m-1'>Your friend</li>
-            <li className='border-b-2 border-gray-200 bg-slate-300 p-2 m-1'>Your friend</li>
-            <li className='border-b-2 border-gray-200 bg-slate-300 p-2 m-1'>Your friend</li>
-            
-
-          </ul>
-        </div>
+        <MyConnection/>
       </div>
 
       <div className='hidden md:block md:col-span-8 md:mr-2  lg:col-span-5'>

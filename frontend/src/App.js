@@ -23,6 +23,8 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/" element={<Home />}  />
           <Route path="/profile" element={<Profile/>}/>
+          <Route path="/chat" element={<MyChats/>} />
+          <Route path="/mynetwork" element={<Network/>}/>
           {/* <Route path = "/:user_id/profile" element = {<OtherUserProfile />}/> */}
           {/* Add more routes as needed */}
         </Routes>

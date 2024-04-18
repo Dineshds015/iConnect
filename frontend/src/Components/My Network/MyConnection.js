@@ -1,0 +1,84 @@
+import React from 'react'
+import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt';
+import SendIcon from '@mui/icons-material/Send';
+const FriendListItem = ({user}) =>{
+    return (
+    <div className='flex flex-row justify-between mx-4 p-2 bg-gray-50 border-b-2 border-gray-200 items-center'>
+      <div className='flex flex-row'>
+        <img className='h-12 w-12' src={user.image ?? "https://cdn-icons-png.freepik.com/512/10302/10302971.png"} alt="dp"/>
+        <div className='flex flex-col mx-2'>
+            <span className='font-semibold'>{user.name ?? "No Name"}</span>
+            <span className='text-sm font-thin'>{user.headline?? "No headline"}</span>
+        </div>
+      </div>
+      
+        <button className='border-2 border-solid border-blue-500 rounded-2xl md:p-1 p-1 px-2 '><SendIcon/></button>
+      
+    </div>
+    )
+}
+const MyConnection = () => {
+    const users = [
+        {
+          name: "John Doe",
+          headline: "Software Engineer"
+        },
+        {
+          name: "Alice Smith",
+          
+          headline: "Graphic Designer"
+        },
+        {
+          name: "Bob Johnson",
+          
+          headline: "Data Analyst"
+        },
+        {
+          name: "Emily Davis",
+          
+          headline: "Marketing Manager"
+        },
+        {
+          name: "Michael Wilson",
+          headline: "Product Manager"
+        },
+        {
+          name: "Olivia Martinez",
+          
+          headline: "UI/UX Designer"
+        },
+        {
+          name: "Ethan Taylor",
+          
+          headline: "Web Developer"
+        },
+        {
+          name: "Sophia Anderson",
+         
+          headline: "Content Writer"
+        },
+        {
+          name: "Noah Clark",
+          headline: "SEO Specialist"
+        },
+        {
+          name: "Ava Baker",
+         
+          headline: "Project Manager"
+        },
+        
+      ];
+  return (
+    <div className='flex flex-col bg-gray-50 shadow-md m-4 overflow-x-hidden overflow-y-auto'>
+    <div className='flex flex-row justify-between'>
+      <span className='m-2 font-bold'>Connections</span>
+      <span className='m-2'><ArrowRightAltIcon/></span>
+    </div>
+    {users && users.map((user,idx)=>(
+            <FriendListItem key={idx} user={user} /> // user id as key
+        ))}
+  </div>
+  )
+}
+
+export default MyConnection
