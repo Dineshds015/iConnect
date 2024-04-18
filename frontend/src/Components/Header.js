@@ -28,6 +28,7 @@ import {
   import MenuIcon from '@mui/icons-material/Menu';
   import {useDisclosure} from '@chakra-ui/hooks'
   import ChatIcon from '@mui/icons-material/Chat';
+  
 const Header = () => {
     const navigate = useNavigate();
     const user = useSelector((store) => store.user);
@@ -44,6 +45,7 @@ const Header = () => {
     const getImage = (imgName) => {
         return require(`../public/${imgName}`);
     };
+    
     useEffect(() => {
         const fetchUserProfile = async () => {
           try {
@@ -61,8 +63,16 @@ const Header = () => {
       }, []); // Run only once after component mount
 
 
+      useEffect(()=>{
+        console.log("usr: ",userr);
+      });
+      
+    function deleteCookie() {
+        // document.cookie = 'loginToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';    
+    }
     const handleLogOut = ()=>{
-
+        // deleteCookie();
+        // console.log("logout");
     }
     return (
         <div className='flex flex-row justify-between fixed top-0 left-0 right-0 bg-white z-10  px-6 py-2 shadow-lg  bg-gradient-to-r from-green-100 to-blue-300'>
@@ -93,18 +103,19 @@ const Header = () => {
                 {/* <img className='h-14 w-14 mx-4 mr-8 mt-2 rounded-full' src={user.avatar ?? "https://cdn-icons-png.freepik.com/512/10302/10302971.png"} alt="Profile" onClick={handleClick} /> */}
 
                 {/* added menu type on profile click */}
+                {isLogin &&
                 <Menu>
-                <MenuButton className="mt-3"  rightIcon={<ArrowDropDownIcon/>}>
-                    <Avatar size='md' cursor='pointer' name={user?.fullName??"Guest"} src={user?.avatar}/>
-                </MenuButton>
-                <MenuList>
-                {/* <ProfileModel user={user}> */}
-                    <MenuItem onClick={handleClick}>My Profile</MenuItem>
-                    <MenuDivider/>
-                    <MenuItem onClick={handleLogOut}>Log Out</MenuItem>
-                {/* </ProfileModel> */}
-                </MenuList>
-            </Menu>
+                    <MenuButton className="mt-3"  rightIcon={<ArrowDropDownIcon/>}>
+                        <Avatar size='md' cursor='pointer' name={user?.fullName??"Guest"} src={getImage(userr.image)}/>
+                    </MenuButton>
+                    <MenuList>
+                    {/* <ProfileModel user={user}> */}
+                        <MenuItem onClick={handleClick}>My Profile</MenuItem>
+                        <MenuDivider/>
+                        <MenuItem onClick={handleLogOut}>Log Out</MenuItem>
+                    {/* </ProfileModel> */}
+                    </MenuList>
+                </Menu>}
             </div>
 
 

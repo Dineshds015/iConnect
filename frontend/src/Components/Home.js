@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { postPosts } from '../utlis/postSlice'
 import { useNavigate } from 'react-router-dom'
 import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt';
+import fetchUserProfile from '../helper/fetchData'
 
 const Home = () => {
 
@@ -15,22 +16,18 @@ const dispatch = useDispatch();
 const [userData,setUserData] = useState(null) 
 const navigate = useNavigate()
 
-const fetchData = async () => {
 
-  //  fetch user nad post data and dispatch to store
-  //  i have made store
-}
+  useEffect(()=>{
+    fetchUserProfile(setUserData);
+  })
 
   const NavigateProfile = ()=>{
     navigate("/profile")
   }
 
-  useEffect(() => {
-    fetchData();
-
-  }, []);
-
-
+  const getImage = (imgName) => {
+    return require(`../public/${imgName}`);
+};
 
   return (
     <>
@@ -47,11 +44,11 @@ const fetchData = async () => {
           <div className="h-12 w-12 -mt-[580px] rounded-full" ></div>
           <img onClick={NavigateProfile}
             className="h-20 w-20 mt-[490px]  border-2 border-solid border-white rounded-full"
-            src={userData?.avatar ? userData?.avatar : "https://cdn-icons-png.freepik.com/512/10302/10302971.png"}
+            src={userData?.image ? getImage(userData?.image) : "https://cdn-icons-png.freepik.com/512/10302/10302971.png"}
             alt="dp"
           />
           <span className="font-mono font-bold text-xl -my-1">
-            {userData?.fullName || "No name available"}
+            {userData?.name || "No name available"}
           </span>
           <span className=" font-mono  from-neutral-800 text-sm mb-2">
             { userData?.headline ?? "Headlines"}
