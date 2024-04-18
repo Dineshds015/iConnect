@@ -9,6 +9,8 @@ import Home from './Components/Home';
 import Profile from './Components/Profile';
 import { Provider } from 'react-redux';
 import store from './utlis/store';
+import MyChats from './Components/Chats/MyChats';
+import Network from './Components/My Network/Network';
 function App() {
   return (
     <Provider store={store}>
