@@ -3,7 +3,7 @@ import logo from "../public/logo.png";
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import PeopleIcon from '@mui/icons-material/People';
-
+import Cookies from 'js-cookie';
 import { useSelector } from 'react-redux';
 import HomeIcon from '@mui/icons-material/Home';
 import CampaignIcon from '@mui/icons-material/Campaign';
@@ -40,7 +40,7 @@ const Header = () => {
     const [isLogin,setIsLogin]=useState(false);
     const [isLoading,setIsLoading]=useState(true);
     const handleClick = () => {
-        navigate("/");
+        navigate("/profile");
     }
     
     const getImage = (imgName) => {
@@ -68,12 +68,10 @@ const Header = () => {
         console.log("usr: ",userr);
       });
       
-    function deleteCookie() {
-        // document.cookie = 'loginToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';    
-    }
     const handleLogOut = ()=>{
-        // deleteCookie();
-        // console.log("logout");
+        // console.log(document.cookie);
+        // Cookies.remove("loginToken");
+        // console.log(document.cookie);
     }
     return (
         <div className='flex flex-row justify-between fixed top-0 left-0 right-0 bg-white z-10  px-6 py-2 shadow-lg  bg-gradient-to-r from-green-100 to-blue-300'>

@@ -10,6 +10,9 @@ const educationRoutes=require("./routes/education");
 const skillRoutes=require("./routes/skill");
 const projectRoutes=require("./routes/project");
 const postRoutes=require("./routes/post");
+const likeRoutes=require("./routes/like");
+const commentRoutes=require("./routes/comment");
+const connectionRoutes=require("./routes/connection");
 const User=require("./models/User");
 
 const cors=require('cors');
@@ -45,7 +48,10 @@ app.use("/education",educationRoutes);
 app.use("/skill",skillRoutes);
 app.use("/project",projectRoutes);
 app.use("/post",postRoutes);
+app.use("/like",likeRoutes);
+app.use("/comment",commentRoutes);
 app.use("/profile",profiles);
+app.use("/connection",connectionRoutes);
 
 app.listen(8000, ()=>{
     console.log("Server running on port 8000");
