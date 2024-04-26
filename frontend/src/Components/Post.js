@@ -32,8 +32,11 @@ const monthsDifference = Math.floor(daysDifference / 30);
 // Use these values in your third span
 const timeSincePost = `${daysDifference}d ${hoursDifference}h ${minutesDifference}m ${secondsDifference}s`;
   const navigate = useNavigate()
+  const userData = useSelector((store)=>store.user)
     const [showFullText, setShowFullText] = useState(false);
     const [activeLike , setActiveLike] = useState(postData.likedByCurrentUser)
+    const [addComment,setAddComment] = useState(false)
+    const [comment,setComment] = useState("")
     // console.log(postData.likedByCurrentUser)
     const sliderRef = useRef(null);
     const user = useSelector((store)=>store.user)
@@ -44,6 +47,9 @@ const timeSincePost = `${daysDifference}d ${hoursDifference}h ${minutesDifferenc
 
   const handleLike = async () => {
     // handle like
+  }
+  const handleAddComment = ()=>{
+    
   }
   
   const settings = {
@@ -107,14 +113,25 @@ const handleViewProfile = ()=>{
             <span>{postData?.commentCount===0?"":postData?.commentCount}</span>
         </div>
         <div className='flex flex-row justify-between mx-4'>
-            {/* <img className='h-10 mb-4' src={activeLike ? liked : like} alt="like" onClick={handleLike}/>
-            <img className='h-10' src={comment} alt="comment" />
-            <img className='h-10' src={share} alt="share"/> */}
-            <span className='mt-2 mb-4'><ThumbUpAltOutlinedIcon/> Like</span>
-            <span className='mt-2 mb-4'><AddCommentOutlinedIcon/> Comment</span>
-            <span className='mt-2 mb-4'><IosShareOutlinedIcon/> Share</span>
+        <span className='mt-2 mb-4 rounded-lg p-4 hover:bg-gray-200'><ThumbUpAltOutlinedIcon/> Like</span>
+            <span className='mt-2 mb-4 rounded-lg p-4 hover:bg-gray-200' onClick={()=>setAddComment(!addComment)}><AddCommentOutlinedIcon/> Comment</span>
+            <span className='mt-2 mb-4 rounded-lg p-4 hover:bg-gray-200'><IosShareOutlinedIcon/> Share</span>
 
         </div>
+        {addComment && (
+          <div className='flex flex-row  mx-4 mb-4'>
+          <img className='rounded-full h-12 w-12' src={userData?.avatar}/>
+          <textArea
+                className='text ml-2 p-2 w-[85%] h-12 rounded-xl border border-gray-200 mb-4'
+                placeholder='Add Your Comment'
+                value={comment}
+                onChange={(e)=>setComment(e.target.value)}
+            />
+            <span className='ml-1 mt-3 text-blue-500' onClick={handleAddComment} ><SendIcon/></span>
+            
+
+        </div>
+        )}
       
     </div>
   )

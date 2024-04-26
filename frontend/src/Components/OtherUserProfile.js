@@ -1,30 +1,23 @@
-import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import Education from './Education';
 import Experience from './Experience';
 import Project from './Project';
 import { useParams } from 'react-router-dom';
-
+import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
 // import YourPost from './YourPost';
 
 const OtherUserProfile = () => {
   
-  const [userData,setUserdata] = useState()
+//   const [userData,setUserdata] = useState()
   const {user_id} = useParams()
 
   console.log("other",user_id)
   
 
   const fetchData = async () => {
-    try {
-      const response = await axios.get(`http://localhost:8000/api/v1/users/${user_id}/getUser`, {
-        withCredentials: true
-      });
-      setUserdata(response.data.data);
-      console.log("other profile",response.data.data);
-    } catch (error) {
-      console.error('Error fetching user data:', error);
-    }
+   
+    // fetch other user details using their Id, check app.js for params
+    // all append the user details with connection field => status true/false.
   };
 
 
@@ -72,12 +65,14 @@ const OtherUserProfile = () => {
           <span className=" font-mono my-1 from-neutral-800 ml-5">
             {userData?.headline }
           </span>
-          <button
-            className="w-[95%] p-2 mx-4 my-1 mb-2 bg-white border border-blue-500 text-blue-500 font-bold rounded-2xl hover:bg-blue-500 hover:border-white hover:text-white"
-            
-          >
+          {userData.connected ?
+           (<button className="w-[95%] p-2 mx-4 my-1 mb-2 bg-white border border-blue-500 text-blue-500 font-bold rounded-2xl hover:bg-blue-500 hover:border-white hover:text-white">
             Message
+          </button>) : 
+          (<button className="w-[95%] p-2 mx-4 my-1 mb-2 bg-white border border-blue-500 text-blue-500 font-bold rounded-2xl hover:bg-blue-500 hover:border-white hover:text-white">
+            <PersonAddAltIcon/> Connect
           </button>
+          )}
         </div>
 
         <div className="md:hidden flex flex-col rounded-2xl shadow-xl bg-gray-50 mt-2">
