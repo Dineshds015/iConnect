@@ -8,7 +8,7 @@ import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
 
 const OtherUserProfile = () => {
   
-//   const [userData,setUserdata] = useState()
+  const [userData,setUserdata] = useState()
   const {user_id} = useParams()
 
   console.log("other",user_id)

@@ -8,6 +8,8 @@ import PersonAddOutlinedIcon from '@mui/icons-material/PersonAddOutlined';
 import ThumbUpAltOutlinedIcon from '@mui/icons-material/ThumbUpAltOutlined';
 import AddCommentOutlinedIcon from '@mui/icons-material/AddCommentOutlined';
 import IosShareOutlinedIcon from '@mui/icons-material/IosShareOutlined';
+import SendIcon from '@mui/icons-material/Send'
+
 // import "slick-carousel/slick/slick.css";
 // import "slick-carousel/slick/slick-theme.css";
 import Slider from 'react-slick';
