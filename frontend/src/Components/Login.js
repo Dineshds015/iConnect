@@ -140,10 +140,10 @@ const Login = () => {
             
             <button className='mx-4 px-4 my-2 mb-4 border border-solid w-auto h-12 rounded-full bg-blue-500 font-bold text-2xl' type = "submit" onClick={submitLogin}>Sign In</button>
           ) : (
-            <div className='flex flex-col items-center'>
-                <div className='flex flex-row w-[90%]'>
-                  <input className='px-2 my-2 border border-solid   h-12 rounded-l-full' type="password" name="otp" placeholder='Enter 6 digit OTP' onChange={handleInputChange} />
-                  <button className=' px-3 my-2 border border-solid  h-12 rounded-r-full bg-blue-500 font-bold text-2xl' type="submit" onClick={verifyOtp}>Verify</button>
+            <div className='flex flex-col mx-4 '>
+                <div className='flex flex-row w-[100%]'>
+                  <input className=' px-4 my-2 border border-solid w-[75%] h-12 rounded-full' type="password" name="otp" placeholder='Enter 6 digit OTP' onChange={handleInputChange} />
+                  <button className=' -ml-20 px-4 my-2 pb-0 border border-solid w-[40%] h-12 rounded-full bg-blue-500 font-bold text-2xl' type="submit" onClick={verifyOtp}>Verify</button>
                   {/* <button className='mx-4 cursor-pointer mb-8' type="button" onClick={resendOTP}>Resend OTP</button> */}
                 </div>
                 

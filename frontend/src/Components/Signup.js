@@ -157,11 +157,11 @@ const Signup = () => {
           {!showOtp ? (
             <button className='mx-4 px-4 my-2 mb-8 border border-solid w-auto h-12 rounded-full bg-blue-500 font-bold text-2xl' type="button" onClick={handleVerifyClick}>Verify</button>
           ) : (
-            <div className='flex flex-col'>
+            <div className='flex flex-col w-[100%]'>
               <div className='flex flex-row'>
 
-                  <input className='mx-4 px-4 my-2 border border-solid w-auto h-12 rounded-full' type="password" name="otp" placeholder='Enter 6 digit OTP' onChange={handleInputChange} />
-                  <button className='-ml-20 px-4 my-2 pb-0 border border-solid w-auto h-12 rounded-full bg-blue-500 font-bold text-2xl' type="submit" onClick={submitReg}>Register</button>
+                  <input className='mx-4 px-4 my-2 border border-solid w-[70%] h-12 rounded-full' type="password" name="otp" placeholder='Enter 6 digit OTP' onChange={handleInputChange} />
+                  <button className='-ml-20 px-4 my-2 pb-0 border border-solid w-[35%] h-12 rounded-full bg-blue-500 font-bold text-2xl' type="submit" onClick={submitReg}>Register</button>
                   </div>
 
                 <button className='mx-4 cursor-pointer mb-8' type="button" onClick={resendOTP}>Resend OTP</button>
