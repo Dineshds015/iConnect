@@ -5,7 +5,7 @@ import SignUp from './Components/Signup';
 // import VerificationPage from './Components/';
 import Login from './Components/Login';
 import Home from './Components/Home';
-// import OtherUserProfile from "./Components/OtherUserProfile"
+import OtherUserProfile from "./Components/OtherUserProfile"
 import Profile from './Components/Profile';
 import { Provider } from 'react-redux';
 import store from './utlis/store';
@@ -25,6 +25,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/" element={<Home />}  />
           <Route path="/profile" element={<Profile/>}/>
+          <Route path = "/:user_id/profile" element = {<OtherUserProfile />}/>  
           <Route path="/chat" element={<MyChats/>} />
           <Route path="/mynetwork" element={<Network/>}/>
           {/* <Route path = "/:user_id/profile" element = {<OtherUserProfile />}/> */}

@@ -63,8 +63,7 @@ const timeSincePost = `${daysDifference}d ${hoursDifference}h ${minutesDifferenc
 };
 
 const handleViewProfile = ()=>{
-  // navigate(`/${postData.owner._id}/profile`)
-  // not implemented as of now
+  navigate(`/${postData.owner._id}/profile`)
 }
   return (
     <div className='rounded-xl bg-slate-50 mt-4 shadow-md  '>
