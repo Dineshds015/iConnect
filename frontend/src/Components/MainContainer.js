@@ -45,7 +45,7 @@ const MainContainer = () => {
       };
 
   return (
-    <div className='flex flex-col'>
+    <div className='flex flex-col h-full'>
         <div className='rounded-3xl p-2 bg-gray-200 mb-3'>
             <div className='flex flex-row m-2 justify-between'>
                 <img className='h-12 w-12 rounded-full mr-1 ' src={userr.image?getImage(userr.image):"https://cdn-icons-png.freepik.com/512/10302/10302971.png"} alt="profile" />
@@ -61,7 +61,7 @@ const MainContainer = () => {
 
             </div>
         </div>
-        <div>
+        <div className='h-full overflow-x-hidden overflow-y-auto'>
             {userPosts?.map((data) => <Post key={data?._id} postData={data} />)}
         </div>
 
