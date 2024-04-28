@@ -52,9 +52,9 @@ const AddMedia = ({onClose}) => {
         e.preventDefault();
         console.log("imagess: ",selectedFile);
         axios.post("http://localhost:8000/post/create",{
-        content:textArea,
-        images:selectedFile
-    })
+            content:textArea,
+            images:selectedFile
+        })
         .then((res) => {
             console.log(res.data);
             toast.success("Happy Coding!");

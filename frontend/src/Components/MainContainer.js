@@ -10,7 +10,7 @@ import { useSelector } from 'react-redux'
 import AddMedia from './AddMedia'
 import axios from 'axios'
 import fetchUserProfile from '../helper/fetchData';
-
+import fetchPost from '../helper/fetchPost';
 
 const MainContainer = () => {
 
@@ -18,15 +18,27 @@ const MainContainer = () => {
     const [mediaPost,setMedia] = useState(false)
     const [announcementPost,setAnnouncement] = useState(false)
     const [jobPost,setJob] = useState(false)
+    const [userPosts,setUserPosts] = useState(false)
+    const [postData,setPostData]=useState([]);
 
-    const userPosts = useSelector((store) =>store.post.posts) 
+    //const userPosts = useSelector((store) =>store.post.posts) 
     const user = useSelector((store)=>store.user)
     // console.log("userPosts",userPosts)
     const [userr,setUserr]=useState("");
     
     useEffect(()=>{
         fetchUserProfile(setUserr);
-    })
+    },[])
+
+    useEffect(()=>{
+        fetchPost(setPostData);
+        setUserPosts(true);
+    },[]);
+
+    useEffect(()=>{
+        console.log("postData is: ",postData);
+    },[postData]);
+    
     const handleMedia = () => {
         setMedia(!mediaPost)
     }
@@ -62,7 +74,7 @@ const MainContainer = () => {
             </div>
         </div>
         <div>
-            {userPosts?.map((data) => <Post key={data?._id} postData={data} />)}
+            {postData?.map((data) => <Post key={data?._id} postData={data} />)}
         </div>
 
         {mediaPost && <div className='absolute ml-[150px] mt-20 rounded-2xl w-[800px] bg-white m-4 shadow-2xl'>

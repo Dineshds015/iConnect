@@ -27,7 +27,7 @@ const navigate = useNavigate()
 
   const getImage = (imgName) => {
     return require(`../public/${imgName}`);
-};
+  };
 
   return (
     <>

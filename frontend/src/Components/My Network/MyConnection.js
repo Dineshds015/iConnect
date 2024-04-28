@@ -40,56 +40,7 @@ const MyConnection = () => {
       //console.log(userr.image);
     }, []);
 
-    // const users = [
-    //     {
-    //       name: "John Doe",
-    //       headline: "Software Engineer"
-    //     },
-    //     {
-    //       name: "Alice Smith",
-          
-    //       headline: "Graphic Designer"
-    //     },
-    //     {
-    //       name: "Bob Johnson",
-          
-    //       headline: "Data Analyst"
-    //     },
-    //     {
-    //       name: "Emily Davis",
-          
-    //       headline: "Marketing Manager"
-    //     },
-    //     {
-    //       name: "Michael Wilson",
-    //       headline: "Product Manager"
-    //     },
-    //     {
-    //       name: "Olivia Martinez",
-          
-    //       headline: "UI/UX Designer"
-    //     },
-    //     {
-    //       name: "Ethan Taylor",
-          
-    //       headline: "Web Developer"
-    //     },
-    //     {
-    //       name: "Sophia Anderson",
-         
-    //       headline: "Content Writer"
-    //     },
-    //     {
-    //       name: "Noah Clark",
-    //       headline: "SEO Specialist"
-    //     },
-    //     {
-    //       name: "Ava Baker",
-         
-    //       headline: "Project Manager"
-    //     },
-        
-    //   ];
+    
   return (
     <div className='flex flex-col bg-gray-50 shadow-md m-4 overflow-x-hidden overflow-y-auto'>
     <div className='flex flex-row justify-between'>
