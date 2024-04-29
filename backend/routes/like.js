@@ -39,19 +39,24 @@ router.get('/fetchLike', async (req, res) => {
         const userId=userLogin._id;
         const postId=req.query.postId;
         const allLikes = await Like.find({ postId: postId, userId: userId});
-
+        const likeCounts=await Like.countDocuments({postId:postId});
         console.log("likess: ",allLikes);
-        if (allLikes.length === 0) {
-            return res.status(200).json('false');
-        }
-        else{
-            return res.status(200).json('true');
-        }
+        const status=allLikes.length === 0?'false':'true';
+
+        return res.status(200).json({status:status,likeCount:likeCounts});
+        
+        // if (allLikes.length === 0) {
+        //     return res.status(200).json({status:status,likeCount:likeCounts});
+        // }
+        // else{
+        //     return res.status(200).json({status:status,likeCount:likeCounts});
+        // }
 
     } catch (error) {
         console.error('Error fetching like details:', error);
         return res.status(500).json({ error: 'Internal Server Error' });    
     }
 });
+
 
 module.exports=router;
