@@ -9,7 +9,7 @@ const FriendListItem = ({user}) =>{
   };
 
     return (
-    <div className='flex flex-row justify-between mx-4 p-2 bg-gray-50 border-b-2 border-gray-200 items-center'>
+    <div className='flex flex-row justify-between mx-4 p-2 border-b-2 border-gray-200 items-center hover:shadow-lg '>
       <div className='flex flex-row'>
         <img className='h-12 w-12' src={user.image?getImage(user.image) : "https://cdn-icons-png.freepik.com/512/10302/10302971.png"} alt="dp"/>
         <div className='flex flex-col mx-2'>
@@ -42,7 +42,7 @@ const MyConnection = () => {
 
     
   return (
-    <div className='flex flex-col bg-gray-50 shadow-md m-4 overflow-x-hidden overflow-y-auto'>
+    <div className='flex flex-col bg-white shadow-md m-4 overflow-x-hidden overflow-y-auto'>
     <div className='flex flex-row justify-between'>
       <span className='m-2 font-bold'>Connections</span>
       <span className='m-2'><ArrowRightAltIcon/></span>

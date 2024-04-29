@@ -185,13 +185,13 @@ const Profile = () => {
         </div>
 
         <div className="md:hidden flex flex-col rounded-2xl shadow-xl bg-gradient-to-r from-green-100 to-blue-300 mt-2">
-          {/* <Education userId={userData?._id} /> */}
+          <Education userId={user?._id} />
         </div>
         <div className="md:hidden flex flex-col rounded-2xl shadow-xl bg-gradient-to-r from-green-100 to-blue-300 mt-2">
-          {/* <Experience userId={userData?._id} /> */}
+          <Experience userId={user?._id} />
         </div>
         <div className="md:hidden flex flex-col rounded-2xl shadow-xl bg-gradient-to-r from-green-100 to-blue-300 mt-2">
-          {/* <Project userId={userData?._id} /> */}
+          <Project userId={user?._id} />
         </div>
       </div>
 

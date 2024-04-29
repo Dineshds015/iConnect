@@ -1,14 +1,15 @@
 import React,{useEffect, useState}from 'react';
-import logo from "../public/logo.png";
+// import logo from "../public/logo.png";
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import PeopleIcon from '@mui/icons-material/People';
-import Cookies from 'js-cookie';
+// import Cookies from 'js-cookie';
 import { useSelector } from 'react-redux';
 import HomeIcon from '@mui/icons-material/Home';
 import CampaignIcon from '@mui/icons-material/Campaign';
 import SearchIcon from '@mui/icons-material/Search';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import BusinessCenterOutlinedIcon from '@mui/icons-material/BusinessCenterOutlined';
 import {
     Menu,
     MenuButton,
@@ -96,8 +97,10 @@ const Header = () => {
 
             {/* home announcemnet and avatar */}
             <div className='hidden md:flex col-span-8 h-16 justify-self-end '>
-                <button className='p-2 mx-2 text-xl font-semibold' onClick={()=>navigate("/")}><HomeIcon/></button>
-                <button className='p-2 mx-2 text-xl font-semibold'><CampaignIcon/></button>
+           
+            <button className='p-2 mx-2 text-xl font-semibold' onClick={()=> navigate("/")}><HomeIcon/></button>
+                <button className=' p-2 mx-2 text-xl font-semibold' onClick={()=> navigate("/announcements")}><CampaignIcon/></button>
+                <button className=' p-2 mx-2 text-xl font-semibold' onClick={()=> navigate("/jobs")}><BusinessCenterOutlinedIcon/></button>
                 <button className='p-2 mx-2 text-xl font-semibold' onClick={()=> navigate("/mynetwork")}><PeopleIcon/></button>
                 <button className='p-2 mx-2 text-xl font-semibold' onClick={()=>navigate("/chat")}><ChatIcon/></button>
                 {/* <img className='h-14 w-14 mx-4 mr-8 mt-2 rounded-full' src={user.avatar ?? "https://cdn-icons-png.freepik.com/512/10302/10302971.png"} alt="Profile" onClick={handleClick} /> */}
@@ -106,7 +109,7 @@ const Header = () => {
                 {isLogin &&
                 <Menu>
                     <MenuButton className="mt-3"  rightIcon={<ArrowDropDownIcon/>}>
-                        <Avatar size='md' cursor='pointer' name={user?.fullName??"Guest"} src={getImage(userr.image)}/>
+                        <Avatar size='md' cursor='pointer' name={userr?.name??"Guest"} src={getImage(userr.image)}/>
                     </MenuButton>
                     <MenuList>
                     {/* <ProfileModel user={user}> */}
@@ -157,7 +160,7 @@ const Header = () => {
             <div className="block md:hidden">
                 <Menu >
                     <MenuButton className="mt-3"  rightIcon={<ArrowDropDownIcon/>}>
-                        <Avatar size='md' cursor='pointer' name={user?.fullName??"Guest"} src={user?.avatar}/>
+                        <Avatar size='md' cursor='pointer' name={userr?.name??"Guest"} src={userr?.image}/>
                     </MenuButton>
                     <MenuList>
                     {/* <ProfileModel user={user}> */}
