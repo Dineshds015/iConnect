@@ -29,5 +29,27 @@ router.post("/create",
         return res.status(200).json(post);
 });
 
+router.get('/fetchPost', async (req, res) => {
+    try {
+        // Extract token from cookies
+        const token = req.cookies.loginToken;
+        const userLogin = await existingUser(token); 
+        const userId=userLogin._id;
+
+        const allPosts = await Post.find({ userId: { $ne: userId } }).populate('userId');
+        if (allPosts.length === 0) {
+            return res.status(404).json({ error: 'No posts found' });
+        }
+
+        const postData = allPosts.map(post => post.toObject());
+        console.log(postData);
+        return res.status(200).json(postData);
+
+    } catch (error) {
+        console.error('Error fetching post details:', error);
+        return res.status(500).json({ error: 'Internal Server Error' });    
+    }
+});
+
 
 module.exports=router;

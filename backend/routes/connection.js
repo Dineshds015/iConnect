@@ -69,23 +69,42 @@ router.post("/accept",
 
 //For new Connections
 router.get("/peopleYouMayKnow", async (req, res) => {
+    const token = req.cookies.loginToken;
+    const user = await existingUser(token);
     try {
-        // Verify JWT cookie to get user information
-        const token = req.cookies.loginToken;
-        const user = await existingUser(token);
-
-        const allUsers = await User.find({ _id: { $ne: user._id } });
-        
-        if (!allUsers || allUsers.length === 0) {
-            return res.status(404).json({ error: 'No users found' });
-        }
-
-        const userData = allUsers.map(user => {
-            const { password, ...userData } = user.toObject();
-            return userData;
+        User.aggregate([
+            // Lookup to find all users who are in connections
+            {
+                $lookup: {
+                    from: "connections",
+                    localField: "_id",
+                    foreignField: "userId",
+                    as: "connections"
+                }
+            },
+            // Match users who do not have any connections
+            {
+                $match: {
+                    connections: { $size: 0 },
+                    _id: { $ne: user._id }
+                }
+            }
+        ]).exec()
+        .then(allUsers => {
+            if (!allUsers || allUsers.length === 0) {
+                return res.status(404).json({ error: 'No users found' });
+            }
+            const userData = allUsers.map(user => {
+                const { password, ...userData } = user; // Extract user information from populated field
+                return userData;
+            });
+            console.log("userData:", userData);
+            return res.status(200).json(userData);
+        })
+        .catch(err => {
+            console.error('Error:', err);
+            return res.status(500).json({ error: 'Internal Server Error' });
         });
-
-        return res.status(200).json(userData);
     } catch (error) {
         console.error("Error:", error);
         return res.status(500).json({ error: 'Internal Server Error' });
@@ -144,7 +163,6 @@ router.get("/myConnection", async (req, res) => {
         if (!allRequest || allRequest.length === 0) {
             return res.status(404).json({ error: 'No users found' });
         }
-        console.log(allRequest);
 
         const userData = allRequest.map(connection => {
             const { userId, ...userData } = connection.userId.toObject(); // Extract user information from populated field

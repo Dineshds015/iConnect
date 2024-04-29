@@ -74,55 +74,7 @@ const FriendRequest = () => {
     //console.log(userr.image);
   }, []);
 
-    // const users = [
-    //     {
-    //       name: "John Doe",
-    //       headline: "Software Engineer"
-    //     },
-    //     {
-    //       name: "Alice Smith",
-          
-    //       headline: "Graphic Designer"
-    //     },
-    //     {
-    //       name: "Bob Johnson",
-          
-    //       headline: "Data Analyst"
-    //     },
-    //     {
-    //       name: "Emily Davis",
-          
-    //       headline: "Marketing Manager"
-    //     },
-    //     {
-    //       name: "Michael Wilson",
-    //       headline: "Product Manager"
-    //     },
-    //     {
-    //       name: "Olivia Martinez",
-          
-    //       headline: "UI/UX Designer"
-    //     },
-    //     {
-    //       name: "Ethan Taylor",
-          
-    //       headline: "Web Developer"
-    //     },
-    //     {
-    //       name: "Sophia Anderson",
-         
-    //       headline: "Content Writer"
-    //     },
-    //     {
-    //       name: "Noah Clark",
-    //       headline: "SEO Specialist"
-    //     },
-    //     {
-    //       name: "Ava Baker",
-         
-    //       headline: "Project Manager"
-    //     }
-    //   ];
+    
   return (
     <>
     {users ? (<div className='py-2 px-6 font-bold bg-blue-50 '>Connection Request</div>) : (<div className='mx-4 p-2 font-bold'>No Pending Request</div>)}
