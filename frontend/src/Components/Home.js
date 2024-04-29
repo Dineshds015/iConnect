@@ -58,7 +58,7 @@ const navigate = useNavigate()
         <MyConnection/>
       </div>
 
-      <div className='hidden md:block md:col-span-8 md:mr-2  lg:col-span-5'>
+      <div className='hidden md:block md:col-span-8 md:mr-2  lg:col-span-5 h-[100vh]'>
         <MainContainer/>
       </div>
       <div className='hidden lg:block lg:col-span-2'></div>
