@@ -109,7 +109,7 @@ const Header = () => {
                 {isLogin &&
                 <Menu>
                     <MenuButton className="mt-3"  rightIcon={<ArrowDropDownIcon/>}>
-                        <Avatar size='md' cursor='pointer' name={userr?.name??"Guest"} src={getImage(userr.image)}/>
+                        {/* <Avatar size='md' cursor='pointer' name={userr?.name??"Guest"} src={getImage(userr.image)}/> */}
                     </MenuButton>
                     <MenuList>
                     {/* <ProfileModel user={user}> */}
@@ -134,9 +134,9 @@ const Header = () => {
                 <MenuList className='flex flex-col'>
                 <button className='p-2 mx-2 text-xl font-semibold' onClick={()=> navigate("/")}><HomeIcon/></button>
                     <MenuDivider/>
-                    <button className='p-2 mx-2 text-xl font-semibold'><CampaignIcon/></button>
+                    <button className=' p-2 mx-2 text-xl font-semibold' onClick={()=> navigate("/announcements")}><CampaignIcon/></button>
                     <MenuDivider/>
-                    <button className='p-2 mx-2 text-xl font-semibold'><ChatIcon/></button>
+                    <button className=' p-2 mx-2 text-xl font-semibold' onClick={()=> navigate("/jobs")}><BusinessCenterOutlinedIcon/></button>
                     <MenuDivider/>
                     <button className='p-2 mx-2 text-xl font-semibold' onClick={()=> navigate("/mynetwork")}><PeopleIcon/></button>
                     <MenuDivider/>

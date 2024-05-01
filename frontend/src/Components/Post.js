@@ -16,6 +16,7 @@ import Slider from 'react-slick';
 import { Provider, LikeButton } from "@lyket/react";
 import fetchLike from '../helper/fetchLike';
 import fetchUserProfile from '../helper/fetchData';
+import Comments from './Comments';
 
 
 const Post = ({postData}) => {
@@ -38,7 +39,7 @@ const monthsDifference = Math.floor(daysDifference / 30);
 // Use these values in your third span
 const timeSincePost = `${daysDifference}d ${hoursDifference}h ${minutesDifference}m ${secondsDifference}s`;
   const navigate = useNavigate()
-  const userData = useSelector((store)=>store.user)
+  // const userData = useSelector((store)=>store.user)
     const [user,setUser]=useState();
     const [showFullText, setShowFullText] = useState(false);
     const [activeLike , setActiveLike] = useState(false);
@@ -106,6 +107,7 @@ const timeSincePost = `${daysDifference}d ${hoursDifference}h ${minutesDifferenc
     slidesToScroll: 1,
     // arrows: true
 };
+
   const handleSliderScroll = (e) => {
     if (e.deltaX < 0) {
         sliderRef.current.slickPrev(); // Scroll up, display previous image
@@ -126,7 +128,7 @@ const getImage = (imgName) => {
     <div className='rounded-xl bg-slate-50 mt-4 shadow-md  '>
         <div className='flex flex-row justify-between'>
             <div className='flex flex-row m-4'>
-                <img className='h-14 w-14 rounded-full' src={getImage(postData?.userId?.image) ?? "https://cdn-icons-png.freepik.com/512/10302/10302971.png"} alt="profile"/>
+                {/* <img className='h-14 w-14 rounded-full' src={getImage(postData?.userId?.image) ?? "https://cdn-icons-png.freepik.com/512/10302/10302971.png"} alt="profile"/> */}
                 <div className='flex flex-col mx-2' onClick={handleViewProfile}>
                     <span className='font-bold'>{postData?.userId?.name ?? "Your Name"}</span>
                     <span className='font-thin -mt-1 text-sm'>{postData?.userId?.headline ?? "Headline"}</span>
@@ -149,7 +151,7 @@ const getImage = (imgName) => {
       </button>
     )}
         <div className="slider"  onWheel={handleSliderScroll}>
-          <Slider ref={sliderRef} {...settings}>
+        <Slider ref={sliderRef} {...settings} dots={postData?.images.length === 1 ? false : true}>
               {postData?.images.map((file, index) => (
                   <div key={index} className="flex flex-col items-center cursor-pointer">
                       {/* <span className="mb-2 text-gray-500">{`${index + 1} / ${postData.images.length}`}</span> */}
@@ -173,8 +175,9 @@ const getImage = (imgName) => {
 
         </div>
         {addComment && (
+          <div className='flex flex-col'>
           <div className='flex flex-row  mx-4 mb-4'>
-          <img className='rounded-full h-12 w-12' src={getImage(user?.image) ?? "https://cdn-icons-png.freepik.com/512/10302/10302971.png"}/>
+          {/* <img className='rounded-full h-12 w-12' src={getImage(user?.image) ?? "https://cdn-icons-png.freepik.com/512/10302/10302971.png"}/> */}
           <textArea
                 name="commentContent"
                 className='text ml-2 p-2 w-[85%] h-12 rounded-xl border border-gray-200 mb-4'
@@ -186,6 +189,10 @@ const getImage = (imgName) => {
             
 
         </div>
+        <div className=''>
+            <Comments />
+            </div>
+            </div>
         )}
       
     </div>
