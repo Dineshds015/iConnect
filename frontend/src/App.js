@@ -11,6 +11,8 @@ import { Provider } from 'react-redux';
 import store from './utlis/store';
 import MyChats from './Components/Chats/MyChats';
 import Network from './Components/My Network/Network';
+import AnnouncementPage from './Components/Announcement/AnnouncementPage';
+import JobsPage from './Components/Jobs/JobsPage';
 function App() {
   return (
     <Provider store={store}>
@@ -28,6 +30,9 @@ function App() {
           <Route path = "/:user_id/profile" element = {<OtherUserProfile />}/>  
           <Route path="/chat" element={<MyChats/>} />
           <Route path="/mynetwork" element={<Network/>}/>
+          <Route path = "/announcements" element={<AnnouncementPage/>}/>
+          <Route path = "/jobs" element={<JobsPage/>}/>
+          {/* <Route path="/myConnections" element={<MyConnectionPage/>}/> */}
           {/* <Route path = "/:user_id/profile" element = {<OtherUserProfile />}/> */}
           {/* Add more routes as needed */}
         </Routes>
