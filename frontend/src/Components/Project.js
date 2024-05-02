@@ -3,8 +3,8 @@ import pen from "../public/pen.png"
 import {useDispatch } from 'react-redux'
 import axios from 'axios'
 import { toggleProject } from '../utlis/projectSlice'
-const Project = ({userId}) => {
 
+const Project = ({userId}) => {
 
     const [userProject,setUserProject] = useState([])
     const dispatch = useDispatch()
@@ -13,7 +13,11 @@ const Project = ({userId}) => {
 
   const fetchData = async()=>{
     try {
-      const response = await axios.get('http://localhost:8000/project/fetchProject');
+      const response = await axios.get('http://localhost:8000/project/fetchProject',{
+        params:{
+          userId:userId
+        }
+      });
       setUserProject(response.data.projects);
       //console.log("projects by resp: ",response.data.projects);
     } catch (error) {
@@ -25,8 +29,9 @@ const Project = ({userId}) => {
   // }, [userProject]);
 
   useEffect(()=>{
+    console.log("projectReloading");
     fetchData();
-  },[]);
+  },[userId]);
 
     const handleClick = ()=>{
       dispatch(toggleProject())
@@ -43,10 +48,10 @@ const Project = ({userId}) => {
     <div className=' '>
        <div className='flex justify-between mx-4 mt-2 mb-1 '>
         <span className='font-bold text-xl '>Projects</span>
-        <div className='flex flex-row '>
+        {/* <div className='flex flex-row '>
           <span className='mx-2 font-mono font-semibold text-2xl cursor-pointer' onClick={handleClick}>+</span>
           <img className='h-6 w-6 mx-2 mt-1 ' src={pen} />  
-        </div>
+        </div> */}
       </div>
       {userProject.map((data, index) => (
   <div key={index} className={`flex flex-row ${index !== userProject.length - 1 ? 'border-b-4 m-2' : 'm-2'}`}>

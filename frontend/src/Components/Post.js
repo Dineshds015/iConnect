@@ -133,9 +133,9 @@ const getImage = (imgName) => {
                     <span className='font-thin -mt-1 text-sm'>{`${secondsDifference>60 ? minutesDifference>60? hoursDifference>24? daysDifference>30 ? `${monthsDifference}mo`: `${daysDifference}d`: `${hoursDifference}hr` : `${minutesDifference}mins` : `${secondsDifference}s`} ago`}</span>
                 </div>
             </div>
-            <div className='flex flex-row m-4'>
-                <span className='text-blue-700 font-bold '><PersonAddOutlinedIcon/> connect</span>
-            </div>
+            {/* <div className='flex flex-row m-4'>
+                {!isConnected && <span className='text-blue-700 font-bold' onClick={handleConnect}><PersonAddOutlinedIcon/> connect</span>}
+            </div> */}
         </div>
 
         <div className='mx-4'>

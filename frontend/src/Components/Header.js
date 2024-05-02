@@ -3,7 +3,7 @@ import React,{useEffect, useState}from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import {logoutUser} from '../helper/fetchData';
-
+import MyConnection from './My Network/MyConnection';
 import PeopleIcon from '@mui/icons-material/People';
 // import Cookies from 'js-cookie';
 import { useSelector } from 'react-redux';
@@ -32,6 +32,7 @@ import {
   import MenuIcon from '@mui/icons-material/Menu';
   import {useDisclosure} from '@chakra-ui/hooks'
   import ChatIcon from '@mui/icons-material/Chat';
+import FriendRequest from './My Network/FriendRequest';
   
 const Header = () => {
     const navigate = useNavigate();
@@ -39,13 +40,27 @@ const Header = () => {
 
     const { isOpen, onOpen, onClose } = useDisclosure()
 
+    const [errors, setErrors] = useState({}); // State to store validation errors
     const [userr,setUserr]=useState(null);
     const [isLogin,setIsLogin]=useState(false);
     const [isLoading,setIsLoading]=useState(true);
+    const [formData, setFormData]=useState([]);
     const handleClick = () => {
         navigate("/profile");
     }
     
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setFormData({
+          ...formData,
+          [name]: value
+        });
+        setErrors({
+          ...errors,
+          [name]: '' // Clear the error message when input changes
+        });
+      };
+
     const getImage = (imgName) => {
         return require(`../public/${imgName}`);
     };
@@ -67,7 +82,8 @@ const Header = () => {
 
 
       useEffect(()=>{
-        console.log("usr: ",userr);
+        const value=formData[''];
+        console.log("usr: ",value);
       });
       
     const handleLogOut = async()=>{
@@ -188,13 +204,15 @@ const Header = () => {
                     <DrawerBody>
                         <Box display={'flex'} pb={2}>
                         {/* value={search} onChange={(e)=> setSearch(e.target.value)} */}
-                            <Input placeholder='Search by name or email' mr={2} />
+                            <Input placeholder='Search by name or email' mr={2} onChange={handleInputChange}/>
                             <Button 
                             // onClick={handleSearch}
                             >
                                 Go
                             </Button>
                         </Box>
+                        <label >{formData['']}</label>
+                        <FriendRequest search={formData['']} panel="searching"/>
                         {/* {loading ? <ChatLoading/> : (
                             searchResult?.map(user=> (
 

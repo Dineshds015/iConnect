@@ -28,3 +28,19 @@ export const fetchUserProfile = async (setState) => {
       return false;
     }
   }
+
+  export const fetchUsingId = async (userId,setState) => {
+    try {
+      // Send request to backend to fetch user profile
+      const response = await axios.get('http://localhost:8000/profile/fetchUser',{
+        params: {
+          userId: userId
+        }
+      });
+      console.log("inFetchUsingId: ",response.data[0]);
+      setState(response.data[0]); // Update state with fetched user profile data
+    } catch (error) {
+      console.error('Error fetching user profile:', error);
+      //window.location.href="/login";
+    }
+  };

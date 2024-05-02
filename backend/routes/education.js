@@ -37,8 +37,8 @@ router.get('/fetchEducation', async (req, res) => {
         // Extract token from cookies
         const token = req.cookies.loginToken;
         const userLogin = await existingUser(token); 
-        const userId=userLogin._id;
-
+        //const userId=userLogin._id;
+        const userId=req.query.userId;
         const user = await User.findById(userId).populate('educations');
         if (!user) {
             return res.status(404).json({ error: 'User not found' });
