@@ -3,16 +3,12 @@ import CheckIcon from '@mui/icons-material/Check';
 import ClearIcon from '@mui/icons-material/Clear';
 import axios from 'axios';
 
-const FriendRequestCard = ({user}) => {
+const FriendRequestCard = ({user,panel}) => {
 
   const getImage = (imgName) => {
     return require(`../../public/${imgName}`);
   };
 
-  useEffect(()=>{
-    handleAccept();
-    handleReject();
-  })
   const handleAccept=async()=>{
     axios.post("http://localhost:8000/connection/accept",{
       connectionUserId:user._id,
@@ -50,20 +46,33 @@ const FriendRequestCard = ({user}) => {
         </div>
       </div>
       <div className='flex flex-row '>
-        <button className='border-2 border-green-500 px-2 py-1 rounded-3xl my-2 w-[60%] text-green-500 font-semibold hover:bg-green-200' onClick={handleAccept}><CheckIcon/></button>
-        <button className='border-2 border-red-500 px-2 py-1 rounded-3xl mx-2 my-2 w-[60%] text-red-500 font-semibold hover:bg-red-200' onClick={handleReject}><ClearIcon/></button>
+        {
+            panel==="request" ?
+            (
+              <div>
+                <button className='border-2 border-green-500 px-2 py-1 rounded-3xl my-2 w-[60%] text-green-500 font-semibold hover:bg-green-200' onClick={handleAccept}><CheckIcon/></button>
+                <button className='border-2 border-red-500 px-2 py-1 rounded-3xl mx-2 my-2 w-[60%] text-red-500 font-semibold hover:bg-red-200' onClick={handleReject}><ClearIcon/></button>
+              </div>
+            ):
+            <button className='border-2 border-red-500 px-2 py-1 rounded-3xl my-2 w-[60%] text-red-500 font-semibold hover:bg-red-200' onClick={handleReject}><ClearIcon/></button>
+              
+        }
       </div>
     </div>
     )
 }
-const FriendRequest = () => {
+const FriendRequest = ({panel}) => {
 
   const [users,setUsers]=useState([]);
   useEffect(() => {
     const fetchUserProfile = async () => {
       try {
         // Send request to backend to fetch userr profile
-        const response = await axios.get('http://localhost:8000/connection/conRequest');
+        const response = await axios.get('http://localhost:8000/connection/conManage', {
+          params: {
+            panel: panel
+          }
+        });
         setUsers(response.data); // Update state with userr information
         console.log("ressData",response.data);
       } catch (error) {
@@ -77,11 +86,19 @@ const FriendRequest = () => {
     
   return (
     <>
-    {users ? (<div className='py-2 px-6 font-bold bg-blue-50 '>Connection Request</div>) : (<div className='mx-4 p-2 font-bold'>No Pending Request</div>)}
+    {users ? (
+      panel === "request" ? (
+        <div className='py-2 px-6 font-bold bg-blue-50'>Connection Request</div>
+      ) : (
+        <div className='py-2 px-6 font-bold bg-blue-50'>Connection Sent</div>
+      )
+    ) : (
+      <div className='mx-4 p-2 font-bold'>No Connection pending</div>
+    )}
     <div className={`bg-blue-50 rounded-lg}`}>
     
         {users && users.map((user,idx)=>(
-            <FriendRequestCard key={idx} user={user} /> // user id as key
+            <FriendRequestCard panel={panel} key={idx} user={user} /> // user id as key
         ))}
     </div>
     </>

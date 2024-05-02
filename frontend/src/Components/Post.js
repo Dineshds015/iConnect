@@ -15,7 +15,7 @@ import Slider from 'react-slick';
 
 import { Provider, LikeButton } from "@lyket/react";
 import fetchLike from '../helper/fetchLike';
-import fetchUserProfile from '../helper/fetchData';
+import {fetchUserProfile} from '../helper/fetchData';
 
 
 const Post = ({postData}) => {

@@ -5,10 +5,10 @@ const fetchLike = async (state,setLikeCount,postId) => {
       // Send request to backend to fetch user profile
       console.log("postIDD: ",postId);
       const response = await axios.get('http://localhost:8000/like/fetchLike', {
-      params: {
-        postId: postId
-      }
-    });
+        params: {
+          postId: postId
+        }
+      });
       console.log(postId, " is ", response.data);
       response.data.status==='true'?state(true):state(false);
       setLikeCount(response.data.likeCount);

@@ -15,7 +15,7 @@ import { postUser } from '../utlis/userSlice';
 import camera from "../public/camera.gif"
 import pen from "../public/pen.png"
 import tick from "../public/tick.png"
-import fetchUserProfile from '../helper/fetchData';
+import {fetchUserProfile} from '../helper/fetchData';
 import { ToastContainer, toast } from 'react-toastify';
 // import YourPost from './YourPost';
 

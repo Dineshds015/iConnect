@@ -10,11 +10,12 @@ const Network = () => {
     {/* for medium and above */}
         <div className='hidden lg:block lg:col-span-2'></div>
         <div className='hidden md:block md:col-span-5 lg:col-span-3 m-2 mt-24 '>
-            <MyConnection/>
+          <MyConnection/>
         </div>
       
       <div className='hidden md:block md:col-span-7 md:mr-2  lg:col-span-6 mt-24 w-full overflow-x-hidden overflow-y-auto'>
-        <FriendRequest/>
+        <FriendRequest panel="request"/>
+        <FriendRequest panel="sent"/>
         <PeopleYouMayKnow/>
       </div>
       <div className='hidden lg:block lg:col-span-1 '></div>

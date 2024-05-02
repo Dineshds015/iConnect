@@ -112,30 +112,45 @@ router.get("/peopleYouMayKnow", async (req, res) => {
 });
 
 
-//For new Connections
-router.get("/conRequest", async (req, res) => {
+//For Connection Manage (Request, Sent)
+router.get("/conManage", async (req, res) => {
     try {
         // Verify JWT cookie to get user information
         const token = req.cookies.loginToken;
         const user = await existingUser(token);
-
+        const panel=req.query.panel;
         const {connectionUserId}=req.body;
         const userId=user._id;
-
-        const allRequest = await Connection.find({ 
-            connectionUserId: userId,
-            connectionStatus: "pending" 
-        }).populate('userId');
-        if (!allRequest || allRequest.length === 0) {
-            return res.status(404).json({ error: 'No users found' });
+        if(panel==="request")
+        {
+            const uData = await Connection.find({ 
+                connectionUserId: userId,
+                connectionStatus: "pending" 
+            }).populate('userId')
+            if (!uData || uData.length === 0) {
+                return res.status(404).json({ error: 'No users found' });
+            }
+            const userData = uData.map(connection => {
+                const {...userData } = connection.userId.toObject();
+                return userData;
+            });
+            return res.status(200).json(userData);
         }
-        console.log(allRequest);
-
-        const userData = allRequest.map(connection => {
-            const { userId, ...userData } = connection.userId.toObject(); // Extract user information from populated field
-            return userData;
-        });
-        return res.status(200).json(userData);
+        else{
+            const uData = await Connection.find({ 
+                userId: userId,
+                connectionStatus: "pending" 
+            }).populate('connectionUserId');
+            if (!uData || uData.length === 0) {
+                return res.status(404).json({ error: 'No users found' });
+            }
+            const userData = uData.map(connection => {
+                const {...userData } = connection.connectionUserId.toObject();
+                return userData;
+            });
+            return res.status(200).json(userData);
+        }
+        
 
     } catch (error) {
         console.error("Error:", error);
@@ -159,13 +174,16 @@ router.get("/myConnection", async (req, res) => {
                 { userId: userId }
             ],
             connectionStatus: "accepted" 
-        }).populate('userId');
+        })
+        .populate('userId')
+        .populate('connectionUserId');
         if (!allRequest || allRequest.length === 0) {
             return res.status(404).json({ error: 'No users found' });
         }
 
         const userData = allRequest.map(connection => {
-            const { userId, ...userData } = connection.userId.toObject(); // Extract user information from populated field
+            console.log("connection.userId._id===user._id: ",connection.userId._id===user._id);
+            const { userId, ...userData } = connection.userId._id===user._id ? connection.connectionUserId.toObject():connection.userId.toObject(); // Extract user information from populated field
             return userData;
         });
         return res.status(200).json(userData);

@@ -8,7 +8,7 @@ import Slider from 'react-slick';
 import axios from "axios"
 import { ToastContainer, toast } from 'react-toastify';
 
-const AddMedia = ({onClose}) => {
+const AddMedia = ({postType,onClose}) => {
     const fileInputRef = useRef(null);
     const [selectedFile, setSelectedFile] = useState([]);
     const [textArea,setTextarea] = useState("")
@@ -53,7 +53,8 @@ const AddMedia = ({onClose}) => {
         console.log("imagess: ",selectedFile);
         axios.post("http://localhost:8000/post/create",{
             content:textArea,
-            images:selectedFile
+            images:selectedFile,
+            postType:postType
         })
         .then((res) => {
             console.log(res.data);

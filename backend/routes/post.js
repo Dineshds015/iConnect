@@ -11,7 +11,7 @@ router.post("/create",
         const user = await existingUser(token);
 
         //2. Create the post object
-        const { content, images}=req.body;
+        const { content, images, postType}=req.body;
         const userId=user._id;
         const postDate = new Date();
         if(!userId || !content){
@@ -23,6 +23,7 @@ router.post("/create",
             content,
             images,
             postDate,
+            postType
         };
         const post=await Post.create(postObj);
         //4. Return a response

@@ -2,6 +2,8 @@ import React,{useEffect, useState}from 'react';
 // import logo from "../public/logo.png";
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import {logoutUser} from '../helper/fetchData';
+
 import PeopleIcon from '@mui/icons-material/People';
 // import Cookies from 'js-cookie';
 import { useSelector } from 'react-redux';
@@ -50,29 +52,31 @@ const Header = () => {
     
     useEffect(() => {
         const fetchUserProfile = async () => {
-          try {
-            // Send request to backend to fetch userr profile
-            const response = await axios.get('http://localhost:8000/profile/details');
-            setUserr(response.data); // Update state with userr information
-            setIsLogin(true);
-            setIsLoading(false);
-          } catch (error) {
-            console.error('Error fetching userr profile:', error);
-          }
+            try {
+                // Send request to backend to fetch userr profile
+                const response = await axios.get('http://localhost:8000/profile/details');
+                setUserr(response.data); // Update state with userr information
+                setIsLogin(true);
+                setIsLoading(false);
+            } catch (error) {
+                console.error('Error fetching userr profile:', error);
+            }
         };
         fetchUserProfile();
-        //console.log(userr.image);
-      }, []); // Run only once after component mount
+    },[]);
 
 
       useEffect(()=>{
         console.log("usr: ",userr);
       });
       
-    const handleLogOut = ()=>{
-        // console.log(document.cookie);
-        // Cookies.remove("loginToken");
-        // console.log(document.cookie);
+    const handleLogOut = async()=>{
+        try {
+            await axios.get("http://localhost:8000/auth/logout");
+            navigate("/login");
+          } catch (error) {
+            console.error("Error in logout:", error.message);
+          }
     }
     return (
         <div className='flex flex-row justify-between fixed top-0 left-0 right-0 bg-white z-10  px-6 py-2 shadow-lg  bg-gradient-to-r from-green-100 to-blue-300'>

@@ -8,10 +8,29 @@ import Home from './Components/Home';
 import OtherUserProfile from "./Components/OtherUserProfile"
 import Profile from './Components/Profile';
 import { Provider } from 'react-redux';
+import { useState,useEffect } from 'react';
 import store from './utlis/store';
 import MyChats from './Components/Chats/MyChats';
 import Network from './Components/My Network/Network';
+import axios from 'axios';
+import { Navigate } from 'react-router-dom';
+
 function App() {
+
+  const [isLogin,setIsLogin]=useState(false);
+  useEffect(()=>{
+    const loginUser=async()=>{
+      try {
+        await axios.get("http://localhost:8000/profile/details");
+        setIsLogin(true);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    loginUser();
+  },[]);
+  
+
   return (
     <Provider store={store}>
     <Router>
@@ -20,10 +39,19 @@ function App() {
         <Header />
         {/* Use Routes to define your routes */}
         <Routes>
+          <Route
+            path="/signup"
+            element={isLogin ? <Navigate to="/" replace /> : <SignUp />}
+          />
           <Route path="/signup" element={<SignUp />} />
           {/* <Route path="/verify/:userId" element={<VerificationPage />} /> */}
-          <Route path="/login" element={<Login />} />
-          <Route path="/" element={<Home />}  />
+          <Route
+            path="/login"
+            element={isLogin ? <Navigate to="/" replace /> : <Login />}
+          />
+          {/* <Route path="/login" element={<Login />} /> */}
+          <Route path="/" element={<Home />}/>
+          {/* <Route path="/" element={<Home />}  /> */}
           <Route path="/profile" element={<Profile/>}/>
           <Route path = "/:user_id/profile" element = {<OtherUserProfile />}/>  
           <Route path="/chat" element={<MyChats/>} />

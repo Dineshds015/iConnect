@@ -9,7 +9,7 @@ import Post from './Post'
 import { useSelector } from 'react-redux'
 import AddMedia from './AddMedia'
 import axios from 'axios'
-import fetchUserProfile from '../helper/fetchData';
+import {fetchUserProfile} from '../helper/fetchData';
 import fetchPost from '../helper/fetchPost';
 
 const MainContainer = () => {
@@ -78,17 +78,17 @@ const MainContainer = () => {
         </div>
 
         {mediaPost && <div className='absolute ml-[150px] mt-20 rounded-2xl w-[800px] bg-white m-4 shadow-2xl'>
-            <AddMedia onClose={handleMedia} />
+            <AddMedia postType="post" onClose={handleMedia} />
         </div>
         
         }
         {announcementPost && <div className='absolute ml-[150px] mt-20 rounded-2xl w-[800px] bg-white m-4 shadow-2xl'>
-            <AddMedia onClose={handleAnnouncement} />
+            <AddMedia postType="announcement" onClose={handleAnnouncement} />
         </div>
         
         }
         {jobPost && <div className='absolute ml-[150px] mt-20 rounded-2xl w-[800px] bg-white m-4 shadow-2xl'>
-            <AddMedia onClose={handleJobs} />
+            <AddMedia postType="job" onClose={handleJobs} />
         </div>
         
         }

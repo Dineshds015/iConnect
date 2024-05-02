@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { postPosts } from '../utlis/postSlice'
 import { useNavigate } from 'react-router-dom'
 import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt';
-import fetchUserProfile from '../helper/fetchData'
+import {fetchUserProfile,logoutUser} from '../helper/fetchData'
 import Annoucement from './Announcement/Announcement'
 import Jobs from './Jobs/Jobs'
 
