@@ -34,7 +34,7 @@ const FriendListItem = ({user}) =>{
         </div>
       </div>
       
-        <button className='border-2 border-solid border-blue-500 rounded-2xl md:p-1 p-1 px-2 '><SendIcon/></button>
+        <button className='rounded-2xl md:p-1 p-1 px-2 text-blue-500 '><SendIcon/></button>
       
     </div>
     )
@@ -58,7 +58,7 @@ const MyConnection = () => {
 
     
   return (
-    <div className='flex flex-col bg-white shadow-md m-4 overflow-x-hidden overflow-y-auto'>
+    <div className='flex flex-col bg-white shadow-md m-4 overflow-x-hidden overflow-y-auto rounded-lg p-2'>
     <div className='flex flex-row justify-between'>
       <span className='m-2 font-bold'>Connections</span>
       <span className='m-2'><ArrowRightAltIcon/></span>

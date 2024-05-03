@@ -4,13 +4,23 @@ import { useNavigate } from 'react-router-dom';
 
 const AnnouncementCard = ({postData}) =>{
     const [isHovered, setIsHovered] = useState(false);
+    const owner="";
     return (
-        <div className='flex flex-col mx-4 my-2 bg-gray-50 p-2 rounded-xl hover:shadow-md hover:-translate-y-2 transition duration-300'  onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)}>
+        <div className='flex flex-col mx-4 my-2 bg-gray-50 p-2 rounded-xl hover:shadow-lg hover:-translate-y-2 transition duration-200'  onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)}>
             <span className='font-bold text-lg'>{postData?.topic}</span>
             <span className='text-sm font-thin'>{postData?.desc.length > 60 ? postData.desc.substring(0, 60) + '...' : postData.desc}</span>
             {isHovered && (
-                <div className='absolute top-0 -left-80 w-auto h-auto shadow-2xl bg-white flex justify-center items-center'>
-                    <img src="https://i.pinimg.com/236x/53/aa/af/53aaaff2bd89ab21f55db9b5bb8bd024.jpg"/>
+                <div className='flex flex-col absolute -top-16 -left-80 w-96  shadow-2xl bg-white p-4 rounded-xl '>
+                <div className='flex flex-row '>
+                    <img className='h-12 w-12 rounded-full' src="https://cdn-icons-png.freepik.com/512/10302/10302971.png"/>
+                    <div className='flex flex-col ml-2'>
+                        <span className='font-bold'>{owner?.name ? owner?.name : "No Name"}</span>
+                        <span className='text-sm'>{owner?.headline ? owner?.headline : "No Headline"}</span>
+                    </div>
+                </div>
+                <span className='font-bold text-lg'>{postData?.topic}</span>
+                <span className='text-sm font-thin'>{postData?.desc.length > 60 ? postData.desc.substring(0, 60) + '...' : postData.desc}</span>
+                    <img className='mt-2' src="https://i.pinimg.com/236x/53/aa/af/53aaaff2bd89ab21f55db9b5bb8bd024.jpg"/>
                 </div>
             )}
         </div>
