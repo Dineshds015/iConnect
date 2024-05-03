@@ -9,7 +9,6 @@ import axios from "axios"
 import { ToastContainer, toast } from 'react-toastify';
 import CloseIcon from '@mui/icons-material/Close';
 
-
 const AddMedia = ({postType,onClose}) => {
     const fileInputRef = useRef(null);
     const [selectedFile, setSelectedFile] = useState([]);
@@ -53,6 +52,7 @@ const AddMedia = ({postType,onClose}) => {
     
     const handleSubmit = async(e) => {
         e.preventDefault();
+        
         console.log("imagess: ",selectedFile);
         axios.post("http://localhost:8000/post/create",{
             content:textArea,

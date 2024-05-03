@@ -16,7 +16,6 @@ import AnnouncementPage from './Components/Announcement/AnnouncementPage';
 import JobsPage from './Components/Jobs/JobsPage';
 import axios from 'axios';
 import { Navigate } from 'react-router-dom';
-
 function App() {
 
   const [isLogin,setIsLogin]=useState(false);
