@@ -3,6 +3,10 @@ const router=express.Router();
 const Connection=require("../models/Connection");
 const existingUser=require("../utils/existingUser");
 const User = require("../models/User");
+const Education=require('../models/Education');
+const Experience = require("../models/Experience");
+const Project = require("../models/Project");
+const Skill=require('../models/Skill');
 
 
 router.post("/create",
@@ -202,39 +206,82 @@ router.get("/search", async (req, res) => {
         const user = await existingUser(token);
         const searchKey = req.query.search; // Correct variable name
         const userId = user._id;
+        
+        //For education searching
+        const educationDocs = await Education.find({
+            $or: [
+                { school: { $regex: new RegExp(searchKey, 'i') } },
+                { degree: { $regex: new RegExp(searchKey, 'i') } },
+                { fieldOfStudy: { $regex: new RegExp(searchKey, 'i') } }
+            
+            ]
+        });
 
+        //For experience searching
+        const experienceDocs = await Experience.find({
+            $or: [
+                { companyName: { $regex: new RegExp(searchKey, 'i') } },
+                { position: { $regex: new RegExp(searchKey, 'i') } }
+            ]
+        });
+
+        //For project searching
+        const projectDocs = await Project.find({
+            $or: [
+                { name: { $regex: new RegExp(searchKey, 'i') } },
+                { description: { $regex: new RegExp(searchKey, 'i') } }
+            ]
+        });
+        
+        //For skill searching
+        const skillDocs = await Skill.find({
+            $or: [
+                { name: { $regex: new RegExp(searchKey, 'i') } },
+                { description: { $regex: new RegExp(searchKey, 'i') } }
+            ]
+        });
+
+        // Extract IDs from documents
+        const educationIds = educationDocs.map(edu => edu._id);
+        const experienceIds = experienceDocs.map(exp => exp._id);
+        const projectIds = projectDocs.map(proj => proj._id);
+        const skillIds = skillDocs.map(skill => skill._id);
+
+        // Find users with education IDs matching the ones found
+        //const users = await User.find({ "educations": { $in: educationIds } }).populate('educations');
         const users = await User.find({
             $and: [
                 { _id: { $ne: userId } }, // Exclude current user's document
                 {
                     $or: [
-                        { name: { $regex: searchKey, $options: 'i' } },
-                        { email: { $regex: searchKey, $options: 'i' } },
-                        { headline: { $regex: searchKey, $options: 'i' } },
-                        { 'educations.school': { $regex: searchKey, $options: 'i' } },
-                        { 'educations.degree': { $regex: searchKey, $options: 'i' } },
-                        { 'experiences.companyName': { $regex: searchKey, $options: 'i' } },
-                        { 'experiences.position': { $regex: searchKey, $options: 'i' } },
-                        { 'projects.name': { $regex: searchKey, $options: 'i' } },
-                        { 'projects.description': { $regex: searchKey, $options: 'i' } },
-                        { 'skills.skillName': { $regex: searchKey, $options: 'i' } }
-                        // Add more fields here as needed
+                        { name: { $regex: new RegExp(searchKey, 'i') } },
+                        { email: { $regex: new RegExp(searchKey, 'i') } },
+                        { headline: { $regex: new RegExp(searchKey, 'i') } },
+                        { "educations": { $in: educationIds } },
+                        { "experiences": { $in: experienceIds } },
+                        { "projects": { $in: projectIds } },
+                        { "skills": { $in: skillIds } }
                     ]
                 }
             ]
-        });
+        })
+        .populate('educations')
+        .populate('experiences')
+        .populate('projects')
+        .populate('skills');
 
         if (!users || users.length === 0) { // Correct variable name
             return res.status(404).json({ error: 'No users found' });
         }
         
         const userData = users.map(user => user.toObject());
-        console.log("USERDETAILS: ",userData);
+        console.log("USERDETAILS: ", userData);
         return res.status(200).json(userData);
     } catch (error) {
         console.error("Error:", error);
         return res.status(500).json({ error: 'Internal Server Error' });
     }
 });
+
 
 module.exports=router;
