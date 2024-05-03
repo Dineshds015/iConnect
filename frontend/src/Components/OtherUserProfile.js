@@ -2,28 +2,31 @@ import React, { useEffect, useState } from 'react';
 import Education from './Education';
 import Experience from './Experience';
 import Project from './Project';
-import { useParams } from 'react-router-dom';
+import { useParams,useLocation } from 'react-router-dom';
 import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
+import { fetchUsingId } from '../helper/fetchData';
 // import YourPost from './YourPost';
 
 const OtherUserProfile = () => {
   
-  const [userData,setUserdata] = useState()
-  const {user_id} = useParams()
+  const location=useLocation();
 
-  console.log("other",user_id)
-  
-
-  const fetchData = async () => {
-   
-    // fetch other user details using their Id, check app.js for params
-    // all append the user details with connection field => status true/false.
-  };
-
+  const [userData,setUserData] = useState([]);
+  // const userId = location.state.userId;
+  //const userId="66202ec2b682440664dd3a91";
+  const userId = useParams();
 
   useEffect(() => {
-    fetchData();
+    fetchUsingId(userId.user_id,setUserData);
+  }, [userId]);
+
+  useEffect(() => {
+    console.log("ResuAtad",userData);
   }, []);
+
+  const getImage = (imgName) => {
+    return require(`../public/${imgName}`);
+  };
 
   if (!userData) return null;
 
@@ -55,11 +58,11 @@ const OtherUserProfile = () => {
           <div className="h-16 w-16 -mt-[580px] rounded-full"></div>
           <img
             className="h-28 w-28 mt-[470px] ml-4 border-2 border-solid border-white rounded-full cursor-pointer"
-            src={userData?.avatar ? userData?.avatar : "https://cdn-icons-png.freepik.com/512/10302/10302971.png"}
+            src={userData?.image ? getImage(userData?.image) : "https://cdn-icons-png.freepik.com/512/10302/10302971.png"}
             alt="dp"
           />
           <span className="font-mono font-bold text-xl ml-5"> 
-            {userData?.fullName}
+            {userData?.name}
           </span>
             {/* <img className='h-5 w-5 absolute top-[360px] right-8 xl:right-40 2xl:right-60 cursor-pointer' />   */}
           <span className=" font-mono my-1 from-neutral-800 ml-5">
@@ -70,7 +73,7 @@ const OtherUserProfile = () => {
             Message
           </button>) : 
           (<button className="w-[95%] p-2 mx-4 my-1 mb-2 bg-white border border-blue-500 text-blue-500 font-bold rounded-2xl hover:bg-blue-500 hover:border-white hover:text-white">
-            <PersonAddAltIcon/> Connect
+            <PersonAddAltIcon/>Connect
           </button>
           )}
         </div>

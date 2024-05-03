@@ -2,6 +2,8 @@ import React,{useEffect, useState}from 'react';
 // import logo from "../public/logo.png";
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import {logoutUser} from '../helper/fetchData';
+import MyConnection from './My Network/MyConnection';
 import PeopleIcon from '@mui/icons-material/People';
 // import Cookies from 'js-cookie';
 import { useSelector } from 'react-redux';
@@ -30,6 +32,7 @@ import {
   import MenuIcon from '@mui/icons-material/Menu';
   import {useDisclosure} from '@chakra-ui/hooks'
   import ChatIcon from '@mui/icons-material/Chat';
+import FriendRequest from './My Network/FriendRequest';
   
 const Header = () => {
     const navigate = useNavigate();
@@ -37,42 +40,59 @@ const Header = () => {
 
     const { isOpen, onOpen, onClose } = useDisclosure()
 
+    const [errors, setErrors] = useState({}); // State to store validation errors
     const [userr,setUserr]=useState(null);
     const [isLogin,setIsLogin]=useState(false);
     const [isLoading,setIsLoading]=useState(true);
+    const [formData, setFormData]=useState([]);
     const handleClick = () => {
         navigate("/profile");
     }
     
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setFormData({
+          ...formData,
+          [name]: value
+        });
+        setErrors({
+          ...errors,
+          [name]: '' // Clear the error message when input changes
+        });
+      };
+
     const getImage = (imgName) => {
         return require(`../public/${imgName}`);
     };
     
     useEffect(() => {
         const fetchUserProfile = async () => {
-          try {
-            // Send request to backend to fetch userr profile
-            const response = await axios.get('http://localhost:8000/profile/details');
-            setUserr(response.data); // Update state with userr information
-            setIsLogin(true);
-            setIsLoading(false);
-          } catch (error) {
-            console.error('Error fetching userr profile:', error);
-          }
+            try {
+                // Send request to backend to fetch userr profile
+                const response = await axios.get('http://localhost:8000/profile/details');
+                setUserr(response.data); // Update state with userr information
+                setIsLogin(true);
+                setIsLoading(false);
+            } catch (error) {
+                console.error('Error fetching userr profile:', error);
+            }
         };
         fetchUserProfile();
-        //console.log(userr.image);
-      }, []); // Run only once after component mount
+    },[]);
 
 
       useEffect(()=>{
-        console.log("usr: ",userr);
+        const value=formData[''];
+        console.log("usr: ",value);
       });
       
-    const handleLogOut = ()=>{
-        // console.log(document.cookie);
-        // Cookies.remove("loginToken");
-        // console.log(document.cookie);
+    const handleLogOut = async()=>{
+        try {
+            await axios.get("http://localhost:8000/auth/logout");
+            navigate("/login");
+          } catch (error) {
+            console.error("Error in logout:", error.message);
+          }
     }
     return (
         <div className='flex flex-row justify-between fixed top-0 left-0 right-0 bg-white z-10  px-6 py-2 shadow-lg  bg-gradient-to-r from-green-100 to-blue-300'>
@@ -184,13 +204,15 @@ const Header = () => {
                     <DrawerBody>
                         <Box display={'flex'} pb={2}>
                         {/* value={search} onChange={(e)=> setSearch(e.target.value)} */}
-                            <Input placeholder='Search by name or email' mr={2} />
+                            <Input placeholder='Search by name or email' mr={2} onChange={handleInputChange}/>
                             <Button 
                             // onClick={handleSearch}
                             >
                                 Go
                             </Button>
                         </Box>
+                        <label >{formData['']}</label>
+                        <FriendRequest search={formData['']} panel="searching"/>
                         {/* {loading ? <ChatLoading/> : (
                             searchResult?.map(user=> (
 

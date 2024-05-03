@@ -11,10 +11,13 @@ const Experience = ({userId}) => {
 
   const [userExperience,setUserExperience] = useState([])
   const dispatch = useDispatch()
-
   const fetchData = async()=>{
     try {
-      const response = await axios.get('http://localhost:8000/experience/fetchExperience');
+      const response = await axios.get('http://localhost:8000/experience/fetchExperience',{
+        params:{
+          userId:userId
+        }
+      });
       setUserExperience(response.data.experiences);
       //console.log("exp by res: ",response.data.experiences);
     } catch (error) {
@@ -27,7 +30,7 @@ const Experience = ({userId}) => {
 
   useEffect(()=>{
     fetchData();
-  },[]);
+  },[userId]);
 
   const handleClick = ()=>{
     dispatch(toggleExperience())
@@ -45,10 +48,10 @@ const Experience = ({userId}) => {
     <div className=' '>
        <div className='flex justify-between mx-4 mt-2 mb-1 '>
         <span className='font-bold text-xl mb-2'>Experience</span>
-        <div className='flex flex-row '>
+        {/* <div className='flex flex-row '>
           <span className='mx-2 font-mono font-semibold text-2xl cursor-pointer' onClick={handleClick}>+</span>
           <img className='h-6 w-6 mx-2 mt-1' src={pen} alt="Pen icon"/>
-        </div>
+        </div> */}
       </div>
       
       {userExperience.map((data, index) => (

@@ -1,5 +1,6 @@
 const existingUser=require('../utils/existingUser');
 const express = require('express');
+const User=require("../models/User");
 const router=express.Router();
 
 router.get('/details', async (req, res) => {
@@ -41,5 +42,18 @@ router.post('/updateUser', async(req, res) => {
     }
 });
 
+router.get('/fetchUser', async (req, res) => {
+    console.log("----------------=-=-==-=-=-===============--------");
+    try {
+        const userId=req.query.userId;
+        const userData = await User.find({ _id:userId});
+        console.log("<<<<<<>>>>>>>\n",userData);
+        return res.status(200).json(userData);
+
+    } catch (error) {
+        console.error('Error fetching user details:', error);
+        return res.status(500).json({ error: 'Internal Server Error' });    
+    }
+});
 
 module.exports=router;

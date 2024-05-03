@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import axios from 'axios';
 import { postUser } from '../utlis/userSlice';
 import { useDispatch } from 'react-redux';
-import fetchUserProfile from '../helper/fetchData';
+import {fetchUserProfile} from '../helper/fetchData';
 import { ToastContainer, toast } from 'react-toastify';
 
 const EditAvatar = ({onClose}) => {

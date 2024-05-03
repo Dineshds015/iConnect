@@ -12,7 +12,11 @@ const Education = ({userId}) => {
 
   const fetchData = async()=>{
     try {
-      const response = await axios.get('http://localhost:8000/education/fetchEducation');
+      const response = await axios.get('http://localhost:8000/education/fetchEducation',{
+        params:{
+          userId:userId
+        }
+      });
       setUserEducation(response.data.educations);
       //console.log("education: ",response.data.educations);
     } catch (error) {
@@ -25,7 +29,7 @@ const Education = ({userId}) => {
 
   useEffect(()=>{
     fetchData();
-  },[]);
+  },[userId]);
 
   const handleClick = ()=>{
     dispatch(toggleEducation())
@@ -43,10 +47,10 @@ const Education = ({userId}) => {
     <div className=''>
       <div className='flex justify-between mx-4 mt-2 mb-1'>
         <span className='font-bold text-xl'>Education</span>
-        <div className='flex flex-row '>
+        {/* <div className='flex flex-row '>
           <span className='mx-2 font-mono font-semibold text-2xl cursor-pointer' onClick={handleClick}>+</span>
           <img className='h-6 w-6 mx-2 mt-1' src={pen} alt="Pen icon"/>
-        </div>
+        </div> */}
       </div>
 
       {/* update the names of fields accordingly */}

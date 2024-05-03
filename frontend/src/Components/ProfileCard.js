@@ -1,5 +1,5 @@
 import React,{useState,useEffect} from 'react'
-import fetchUserProfile from '../helper/fetchData'
+import {fetchUserProfile} from '../helper/fetchData'
 import { useNavigate } from 'react-router-dom'
 
 const ProfileCard = () => {

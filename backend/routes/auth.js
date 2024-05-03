@@ -158,4 +158,9 @@ router.post("/login",async(req,res)=>{
     return res.status(200).json(userToReturn);
 });
 
+router.get("/logout",async(req,res)=>{
+    res.clearCookie("loginToken");
+    res.sendStatus(200);
+});
+
 module.exports=router;

@@ -2,19 +2,35 @@ import React,{useState,useEffect} from 'react'
 import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt';
 import SendIcon from '@mui/icons-material/Send';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
+
 
 const FriendListItem = ({user}) =>{
+
+  const handleToProfile=()=>{
+    
+  };
   const getImage = (imgName) => {
     return require(`../../public/${imgName}`);
   };
 
     return (
     <div className='flex flex-row justify-between mx-4 p-2 border-b-2 border-gray-200 items-center hover:shadow-lg '>
-      <div className='flex flex-row'>
+      <div className='flex flex-row '>
         <img className='h-12 w-12' src={user.image?getImage(user.image) : "https://cdn-icons-png.freepik.com/512/10302/10302971.png"} alt="dp"/>
         <div className='flex flex-col mx-2'>
-            <span className='font-semibold'>{user.name ?? "No Name"}</span>
-            <span className='text-sm font-thin'>{user.headline?? "No headline"}</span>
+            {/* <span className='font-semibold cursor-pointer' onClick={handleToProfile}>{user.name ?? "No Name"}</span>
+            <span className='text-sm font-thin'>{user.headline?? "No headline"}</span> */}
+            <Link
+              to={{
+                pathname: `/${user._id}/Profile/`,
+                state: { userId: user._id }
+              }}
+            >
+            {/* <Link to={`${user._id}/Profile/`}> */}
+              <div className='font-semibold cursor-pointer'>{user.name ?? "No Name"}</div>
+              <div className='text-sm font-thin'>{user.headline ?? "No headline"}</div>
+            </Link>
         </div>
       </div>
       
