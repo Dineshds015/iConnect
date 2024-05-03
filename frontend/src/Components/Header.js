@@ -82,6 +82,7 @@ const Header = () => {
 
 
       useEffect(()=>{
+        
         const value=formData[''];
         console.log("usr: ",value);
       });
@@ -129,7 +130,7 @@ const Header = () => {
                 {isLogin &&
                 <Menu>
                     <MenuButton className="mt-3"  rightIcon={<ArrowDropDownIcon/>}>
-                        {/* <Avatar size='md' cursor='pointer' name={userr?.name??"Guest"} src={getImage(userr.image)}/> */}
+                        <Avatar size='md' cursor='pointer' name={userr?.name??"Guest"} src={getImage(userr.image)}/>
                     </MenuButton>
                     <MenuList>
                     {/* <ProfileModel user={user}> */}
@@ -212,7 +213,9 @@ const Header = () => {
                             </Button>
                         </Box>
                         <label >{formData['']}</label>
-                        <FriendRequest search={formData['']} panel="searching"/>
+                        {formData[''] && (
+                            <FriendRequest search={formData['']} panel="searching"/>
+                        )}
                         {/* {loading ? <ChatLoading/> : (
                             searchResult?.map(user=> (
 
