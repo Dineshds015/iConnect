@@ -90,6 +90,7 @@ const Header = () => {
     const handleLogOut = async()=>{
         try {
             await axios.get("http://localhost:8000/auth/logout");
+            
             navigate("/login");
           } catch (error) {
             console.error("Error in logout:", error.message);

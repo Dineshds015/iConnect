@@ -1,11 +1,12 @@
 import axios from 'axios';
 
-const fetchPost = async (state,cType) => {
+const fetchPost = async (state,cType,userId) => {
     try {
       // Send request to backend to fetch user profile
       const response = await axios.get('http://localhost:8000/post/fetchPost',{
         params:{
-          postType:cType
+          postType:cType,
+          userId:userId
         }
       });
       state(response.data);

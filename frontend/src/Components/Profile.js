@@ -42,7 +42,8 @@ const Profile = () => {
 
   useEffect(() => {
     fetchUserProfile(setUser);
-  }, []);
+    fetchPost(setPostData,"",user._id);
+  }, [user._id]);
 
   useEffect(() => {
     setName(user.name);

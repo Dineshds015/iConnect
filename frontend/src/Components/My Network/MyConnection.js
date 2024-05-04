@@ -54,7 +54,7 @@ const MyConnection = () => {
       };
       fetchUserProfile();
       //console.log(userr.image);
-    }, []);
+    }, [users]);
 
     
   return (
