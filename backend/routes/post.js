@@ -36,8 +36,9 @@ router.get('/fetchPost', async (req, res) => {
         const token = req.cookies.loginToken;
         const userLogin = await existingUser(token); 
         const userId=userLogin._id;
+        const postType=req.query.postType;
 
-        const allPosts = await Post.find({ userId: { $ne: userId } }).populate('userId');
+        const allPosts = await Post.find({ userId: { $ne: userId },postType:postType }).populate('userId');
         if (allPosts.length === 0) {
             return res.status(404).json({ error: 'No posts found' });
         }

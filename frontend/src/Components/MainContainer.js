@@ -12,7 +12,7 @@ import axios from 'axios'
 import {fetchUserProfile} from '../helper/fetchData';
 import fetchPost from '../helper/fetchPost';
 
-const MainContainer = () => {
+const MainContainer = ({cType}) => {
 
     // console.log("main")
     const [mediaPost,setMedia] = useState(false)
@@ -31,9 +31,9 @@ const MainContainer = () => {
     },[])
 
     useEffect(()=>{
-        fetchPost(setPostData);
+        fetchPost(setPostData,cType);
         setUserPosts(true);
-    },[]);
+    },[cType]);
 
     useEffect(()=>{
         console.log("postData is: ",postData);
@@ -58,7 +58,7 @@ const MainContainer = () => {
 
   return (
     <div className='flex flex-col h-[100vh] w-full '>
-        <div className='rounded-3xl  p-2 bg-white mt-6 mb-3 md:mr-4 lg:mr-0'>
+        {cType==="media"?<div className='rounded-3xl  p-2 bg-white mt-6 mb-3 md:mr-4 lg:mr-0'>
             <div className='flex flex-row m-2 justify-between'>
                 <img className='h-12 w-12 rounded-full mr-1 ' src={userr.image?getImage(userr.image):"https://cdn-icons-png.freepik.com/512/10302/10302971.png"} alt="profile" />
                 <span className='border-2 border-black w-[90%] rounded-3xl px-7 pt-2 text-xl' >Start a post</span>
@@ -70,15 +70,15 @@ const MainContainer = () => {
                 <span className='text-blue-800 cursor-pointer' onClick={handleMedia}><AddPhotoAlternateOutlinedIcon /> media</span>
                 <span className='text-green-700 cursor-pointer' onClick={handleAnnouncement}><CampaignOutlinedIcon/> announcement</span>
                 <span className='text-blue-800 cursor-pointer' onClick={handleJobs}><BusinessCenterOutlinedIcon/> Jobs</span>
-
             </div>
         </div>
+        :<></>}
         <div className='md:mr-4 lg:mr-0 overflow-x-hidden overflow-y-auto'>
-            {postData?.map((data) => <Post key={data?._id} postData={data} />)}
+            {postData?.map((data) => <Post cType={cType} key={data?._id} postData={data} />)}
         </div>
         <div className=''>
         {mediaPost && <div className=''>
-            <AddMedia postType="post" onClose={handleMedia} />
+            <AddMedia postType="media" onClose={handleMedia} />
         </div>
         
         }
