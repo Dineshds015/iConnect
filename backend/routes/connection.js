@@ -70,49 +70,49 @@ router.post("/accept",
         return res.status(200).json(connection);
 });
 
+async function getUsersNotConnected(userId) {
+    try {
+        const connectedUsers = await Connection.distinct('userId', { connectionUserId: userId });
+        const connectedToUsers = await Connection.distinct('connectionUserId', { userId });
+
+        const usersNotConnected = await User.find({
+            _id: {
+                $nin: [...connectedUsers, ...connectedToUsers, userId] // excluding the user itself
+            }
+        });
+
+        return usersNotConnected;
+    } catch (error) {
+        console.error("Error retrieving users not connected:", error);
+        throw error;
+    }
+}
 
 //For new Connections
 router.get("/peopleYouMayKnow", async (req, res) => {
     const token = req.cookies.loginToken;
     const user = await existingUser(token);
     try {
-        User.aggregate([
-            // Lookup to find all users who are in connections
-            {
-                $lookup: {
-                    from: "connections",
-                    localField: "_id",
-                    foreignField: "userId",
-                    as: "connections"
-                }
-            },
-            // Match users who do not have any connections
-            {
-                $match: {
-                    connections: { $size: 0 },
-                    _id: { $ne: user._id }
-                }
-            }
-        ]).exec()
-        .then(allUsers => {
-            if (!allUsers || allUsers.length === 0) {
-                return res.status(404).json({ error: 'No users found' });
-            }
-            const userData = allUsers.map(user => {
-                const { password, ...userData } = user; // Extract user information from populated field
-                return userData;
-            });
-            console.log("userData:", userData);
-            return res.status(200).json(userData);
+        getUsersNotConnected(user._id)
+        .then(users => {
+            console.log("Users not connected:", users);
+            return res.status(200).json(users);
         })
-        .catch(err => {
-            console.error('Error:', err);
-            return res.status(500).json({ error: 'Internal Server Error' });
+        .catch(error => {
+            console.error("Error:", error);
         });
     } catch (error) {
         console.error("Error:", error);
         return res.status(500).json({ error: 'Internal Server Error' });
     }
+    getUsersNotConnected(user._id)
+    .then(users => {
+        console.log("Users not connected:", users);
+        return res.status(200).json(users);
+    })
+    .catch(error => {
+        console.error("Error:", error);
+    });
 });
 
 
