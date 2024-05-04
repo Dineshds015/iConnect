@@ -45,7 +45,7 @@ const navigate = useNavigate()
       </div>
 
       <div className='hidden md:block md:col-span-8 md:mr-2  lg:col-span-5  h-[100vh]'>
-        <MainContainer cType="Job"/>
+        <MainContainer cType="job"/>
       </div>
 
 

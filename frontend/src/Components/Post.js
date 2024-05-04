@@ -19,7 +19,7 @@ import {fetchUserProfile} from '../helper/fetchData';
 import Comments from './Comments';
 
 
-const Post = ({cType,postData}) => {
+const Post = ({cType,postData,page}) => {
 
   // console.log("postDta",postData)
 
@@ -128,7 +128,7 @@ const getImage = (imgName) => {
     <div className='rounded-xl bg-slate-50 mt-4 shadow-md  '>
         <div className='flex flex-row justify-between'>
             <div className='flex flex-row m-4'>
-                {/* <img className='h-14 w-14 rounded-full' src={getImage(postData?.userId?.image) ?? "https://cdn-icons-png.freepik.com/512/10302/10302971.png"} alt="profile"/> */}
+                <img className='h-14 w-14 rounded-full' src={getImage(postData?.userId?.image) ?? "https://cdn-icons-png.freepik.com/512/10302/10302971.png"} alt="profile"/>
                 <div className='flex flex-col mx-2' onClick={handleViewProfile}>
                     <span className='font-bold'>{postData?.userId?.name ?? "Your Name"}</span>
                     <span className='font-thin -mt-1 text-sm'>{postData?.userId?.headline ?? "Headline"}</span>
@@ -141,30 +141,35 @@ const getImage = (imgName) => {
         </div>
 
         <div className='mx-4'>
-        <p className=''>
-      {showFullText ? postData?.content : postData?.content.slice(0, 30)}
-      {!showFullText && postData?.content?.length>30 && '...'}
-    </p>
-    {!showFullText && postData?.content?.length>30 && (
-      <button className="text-blue-500" onClick={handleToggleText}>
-        See more
-      </button>
-    )}
-        <div className="slider"  onWheel={handleSliderScroll}>
-        <Slider ref={sliderRef} {...settings} dots={postData?.images.length === 1 ? false : true}>
-              {postData?.images.map((file, index) => (
-                  <div key={index} className="flex flex-col items-center cursor-pointer">
-                      {/* <span className="mb-2 text-gray-500">{`${index + 1} / ${postData.images.length}`}</span> */}
-                      <img src={getImage(file)} alt={`slide-${index}`} className="w-full h-[400px]" />
-                  </div>
-              ))}
-          </Slider>
-            </div>
+              <p className=''>
+            {showFullText ? postData?.content : postData?.content.slice(0, 30)}
+            {!showFullText && postData?.content?.length>30 && '...'}
+          </p>
+          {!showFullText && postData?.content?.length>30 && (
+            <button className="text-blue-500" onClick={handleToggleText}>
+              See more
+            </button>
+          )}
+        {page!=="home" &&
+          <div className="slider"  onWheel={handleSliderScroll}>
+          <Slider ref={sliderRef} {...settings} dots={postData?.images.length === 1 ? false : true}>
+                {postData?.images.map((file, index) => (
+                    <div key={index} className="flex flex-col items-center cursor-pointer">
+                        {/* <span className="mb-2 text-gray-500">{`${index + 1} / ${postData.images.length}`}</span> */}
+                        <img src={getImage(file)} alt={`slide-${index}`} className="w-full h-[400px]" />
+                    </div>
+                ))}
+            </Slider>
+          </div>
+        }
         </div>
+        {page!=="home" &&
         <div className='flex flex-row justify-between mx-4 font-thin text-sm'>
             <span>Likes: {postData?.likeCount===0?"":countLike}</span>
             <span>Comments: {postData?.commentCount===0?"":postData?.commentCount}</span>
         </div>
+        }
+        {page!=="home" &&
         <div className='flex flex-row justify-between mx-4'>
         <span key={buttonKey} className='mt-2 mb-4 rounded-lg p-4 hover:bg-gray-200 cursor-pointer' onClick={handleLike}>
   {activeLike ? <ThumbUpAltIcon/> : <ThumbUpOffAltIcon/>} {activeLike ? 'Liked' : 'Like'}
@@ -174,6 +179,8 @@ const getImage = (imgName) => {
             <span className='mt-2 mb-4 rounded-lg p-4 hover:bg-gray-200'><IosShareOutlinedIcon/> Share</span>
 
         </div>
+
+      }
         {addComment && (
           <div className='flex flex-col'>
           <div className='flex flex-row  mx-4 mb-4'>
