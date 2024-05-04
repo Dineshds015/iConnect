@@ -12,7 +12,7 @@ import axios from 'axios'
 import {fetchUserProfile} from '../helper/fetchData';
 import fetchPost from '../helper/fetchPost';
 
-const MainContainer = ({cType}) => {
+const MainContainer = ({cType,page}) => {
 
     // console.log("main")
     const [mediaPost,setMedia] = useState(false)
@@ -74,7 +74,11 @@ const MainContainer = ({cType}) => {
         </div>
         :<></>}
         <div className='md:mr-4 lg:mr-0 overflow-x-hidden overflow-y-auto'>
-            {postData?.map((data) => <Post cType={cType} key={data?._id} postData={data} />)}
+        {page !== "home" ? 
+            postData?.map((data) => <Post cType={cType} page={page} key={data?._id} postData={data} />)
+            :
+            postData?.slice(0, 2).map((data) => <Post cType={cType} page={page} key={data?._id} postData={data} />)
+        }
         </div>
         <div className=''>
         {mediaPost && <div className=''>

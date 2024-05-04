@@ -48,14 +48,26 @@ const navigate = useNavigate()
       <div className='hidden md:block md:col-span-8 md:mr-2  lg:col-span-5  h-[100vh]'>
         <MainContainer cType="media"/>
       </div>
-      <div className='hidden lg:block lg:col-span-4  h-[100vh] mr-4'>
-        {/* <Annoucement/>
-        <Jobs/> */}
-      </div>
-
-
-
-
+      <div className=" pt-6 hidden lg:flex lg:col-span-4 h-[100vh] mr-4">
+        <div className="w-1/2 mr-2">
+            <div className="bg-blue-500 text-white font-bold rounded-lg p-4 mb-4 flex items-center justify-between">
+            <a href="announcements" className="mr-2">Announcement</a>
+                <svg className="h-6 w-6 fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M9 5l7 7-7 7"></path>
+                </svg>
+            </div>
+            <MainContainer cType="announcement" page="home"/>
+        </div>
+        <div className="w-1/2 ml-2">
+            <div className="bg-blue-500 text-white font-bold rounded-lg p-4 mb-4 flex items-center justify-between">
+            <a href="jobs" className="mr-2">Jobs</a>
+                <svg className="h-6 w-6 fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M9 5l7 7-7 7"></path>
+                </svg>
+            </div>
+            <MainContainer cType="job" page="home"/>
+        </div>  
+    </div>
 
     {/* for smaller screen */}
     
