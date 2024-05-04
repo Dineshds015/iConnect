@@ -5,6 +5,8 @@ import Project from './Project';
 import { useParams,useLocation } from 'react-router-dom';
 import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
 import { fetchUsingId } from '../helper/fetchData';
+import Post from './Post';
+import fetchPost from '../helper/fetchPost';
 // import YourPost from './YourPost';
 
 const OtherUserProfile = () => {
@@ -12,12 +14,14 @@ const OtherUserProfile = () => {
   const location=useLocation();
 
   const [userData,setUserData] = useState([]);
+  const [postData,setPostData]=useState([]);
   // const userId = location.state.userId;
   //const userId="66202ec2b682440664dd3a91";
   const userId = useParams();
 
   useEffect(() => {
     fetchUsingId(userId.user_id,setUserData);
+    fetchPost(setPostData,"",userId.user_id);
   }, [userId]);
 
   useEffect(() => {
@@ -77,7 +81,9 @@ const OtherUserProfile = () => {
           </button>
           )}
         </div>
-
+        <div className='md:mr-4 lg:mr-0 overflow-x-hidden overflow-y-auto'>
+            {postData?.map((data) => <Post key={data?._id} postData={data} />)}
+        </div>
         <div className="md:hidden flex flex-col rounded-2xl shadow-xl bg-gray-50 mt-2">
           <Education userId={userData?._id} />
         </div>

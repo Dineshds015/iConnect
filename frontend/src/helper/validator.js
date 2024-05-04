@@ -8,9 +8,10 @@ export const validateFormData = (formData) => {
   
     if (!formData.email.trim()) {
       errors.email = 'Email is required';
-    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      errors.email = 'Email is invalid';
+    } else if (!/^[a-zA-Z0-9._%+-]+@mnnit\.ac\.in$/.test(formData.email)) {
+      errors.email = 'Please enter gSuite Id';
     }
+    
   
     if (!formData.password.trim()) {
       errors.password = 'Password is required';
