@@ -9,7 +9,7 @@ const FriendRequestCard = ({user,panel}) => {
   const getImage = (imgName) => {
     return require(`../../public/${imgName}`);
   };
-
+  
   const handleAccept=async()=>{
     axios.post("http://localhost:8000/connection/accept",{
       connectionUserId:user._id,
@@ -101,7 +101,7 @@ const FriendRequest = ({search,panel}) => {
     };
     fetchUserProfile();
     //console.log(userr.image);
-  }, [search]);
+  }, [search,users]);
 
     
   return (

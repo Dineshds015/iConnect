@@ -9,11 +9,11 @@ import { postPosts } from '../utlis/postSlice'
 import { useNavigate } from 'react-router-dom'
 import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt';
 import {fetchUserProfile,logoutUser} from '../helper/fetchData'
-import Annoucement from './Announcement'
-import Jobs from './Jobs'
+// import Annoucement from './Announcement/Announcement'
+// import Jobs from './Jobs/Jobs'
 import ProfileCard from './ProfileCard'
 
-const Home = () => {
+const Announcement = () => {
 
 const dispatch = useDispatch();
 const [userData,setUserData] = useState(null) 
@@ -40,17 +40,12 @@ const navigate = useNavigate()
 
 
       <div className='hidden md:block md:col-span-4 lg:col-span-3  m-2 -mt-1 '>
-       
         <ProfileCard/>
         <MyConnection />
       </div>
 
       <div className='hidden md:block md:col-span-8 md:mr-2  lg:col-span-5  h-[100vh]'>
-        <MainContainer cType="media"/>
-      </div>
-      <div className='hidden lg:block lg:col-span-4  h-[100vh] mr-4'>
-        {/* <Annoucement/>
-        <Jobs/> */}
+        <MainContainer cType="announcement"/>
       </div>
 
 
@@ -73,4 +68,4 @@ const navigate = useNavigate()
     </>  )
 }
 
-export default Home
+export default Announcement;

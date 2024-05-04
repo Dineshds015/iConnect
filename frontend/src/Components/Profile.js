@@ -12,11 +12,13 @@ import Experience from './Experience';
 import Project from './Project';
 import EditAvatar from './EditAvatar';
 import { postUser } from '../utlis/userSlice';
+import fetchPost from '../helper/fetchPost';
 import camera from "../public/camera.gif"
 import pen from "../public/pen.png"
 import tick from "../public/tick.png"
 import {fetchUserProfile} from '../helper/fetchData';
 import { ToastContainer, toast } from 'react-toastify';
+import Post from './Post';
 // import YourPost from './YourPost';
 
 const Profile = () => {
@@ -25,7 +27,7 @@ const Profile = () => {
   const addEducation = useSelector((store) => store.education.addEducation);
   const addExperience = useSelector((store) => store.experience.addExperience);
   const addProject = useSelector((store) => store.project.addProject);
-
+  const [postData,setPostData]=useState([]);
   const [user, setUser] = useState("");
   const [newImage,setNewImage] = useState(null);
   const [name, setName] = useState("");
@@ -159,8 +161,8 @@ const Profile = () => {
             alt="cover Image"
           />
           <div className='absolute top-[120px] right-8 xl:right-40 2xl:right-60'>
-    <img className='h-8 w-8 rounded-full' src={camera} alt="edit Cover" onClick={handleCoverClick}/>
-  </div>
+            <img className='h-8 w-8 rounded-full' src={camera} alt="edit Cover" onClick={handleCoverClick}/>
+          </div>
           
           <div className="h-16 w-16 -mt-[580px] rounded-full"></div>
           <img
@@ -182,8 +184,11 @@ const Profile = () => {
           >
             Add Profile Section
           </button>
+          
         </div>
-
+        <div className='md:mr-4 lg:mr-0 overflow-x-hidden overflow-y-auto'>
+            {postData?.map((data) => <Post key={data?._id} postData={data} />)}
+          </div>
         <div className="md:hidden flex flex-col rounded-2xl shadow-xl bg-gradient-to-r from-green-100 to-blue-300 mt-2">
           <Education userId={user?._id} />
         </div>

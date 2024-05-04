@@ -19,7 +19,7 @@ import {fetchUserProfile} from '../helper/fetchData';
 import Comments from './Comments';
 
 
-const Post = ({postData}) => {
+const Post = ({cType,postData}) => {
 
   // console.log("postDta",postData)
 
