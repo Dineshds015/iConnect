@@ -104,7 +104,7 @@ const Login = () => {
     axios.post("http://localhost:8000/auth/login",formData).then((res)=>{
       console.log(res.data);
       setTimeout(() => {
-        navigate('/profile');
+        navigate('/');
       }, 1000);
     }).catch((err)=>{
       Alert.error("Invalid Details");

@@ -39,15 +39,7 @@ router.get('/fetchPost', async (req, res) => {
         const postType=req.query.postType;
         const uId=req.query.userId
 
-<<<<<<< HEAD
-        //const allPosts = await Post.find({ userId: { $ne: userId },postType:postType }).populate('userId');
-        
-        const allPosts = postType 
-            ?await Post.find({postType:postType }).populate('userId')
-            :await Post.find({userId:uId}).populate('userId');
-=======
         const allPosts = await Post.find({postType}).populate('userId');
->>>>>>> 0aadb9a (fixed frontend, added announcement,jobs,yourPosts pages)
         if (allPosts.length === 0) {
             return res.status(404).json({ error: 'No posts found' });
         }

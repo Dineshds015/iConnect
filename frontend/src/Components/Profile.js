@@ -18,6 +18,7 @@ import tick from "../public/tick.png"
 import {fetchUserProfile} from '../helper/fetchData';
 import { ToastContainer, toast } from 'react-toastify';
 import YourPosts from './YourPosts';
+import fetchPost from '../helper/fetchPost';
 // import YourPost from './YourPost';
 
 const Profile = () => {
@@ -31,6 +32,7 @@ const Profile = () => {
   const [newImage,setNewImage] = useState(null);
   const [name, setName] = useState("");
   const [headline, setHeadline] = useState("");
+  const [postData,setPostData] = useState("");
   // const [userData, setUserData] = useState();
 
   const [editCover, setEditCover] = useState(false);
