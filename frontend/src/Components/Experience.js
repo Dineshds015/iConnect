@@ -56,7 +56,7 @@ const Experience = ({userId}) => {
       
       {userExperience.map((data, index) => (
         <div key={index} className={`flex flex-row ${index !== userExperience.length - 1 ? 'border-b-4 m-2' : 'm-2'}`}>
-          <img className='rounded-full h-16 mr-2' src="" alt="Institute logo" />
+          <img className='rounded-full h-16 mr-2' src="https://c8.alamy.com/comp/PXPBDW/building-logo-design-real-estate-company-logo-design-abstract-construction-logo-design-building-logo-design-PXPBDW.jpg" alt="Institute logo" />
           <div className='flex flex-col'>
             <span className='font-bold text-[15px]'>{data.companyName??"Google"}</span>
             <span className='text-[15px]'>{data.position??"SDE-1"}</span>

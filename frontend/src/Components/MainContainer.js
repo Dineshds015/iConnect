@@ -14,7 +14,7 @@ import fetchPost from '../helper/fetchPost';
 
 const MainContainer = ({cType,page}) => {
 
-    // console.log("main")
+    // console.log("main",page)
     const [mediaPost,setMedia] = useState(false)
     const [announcementPost,setAnnouncement] = useState(false)
     const [jobPost,setJob] = useState(false)
@@ -61,7 +61,7 @@ const MainContainer = ({cType,page}) => {
         {cType==="media"?<div className='rounded-3xl  p-2 bg-white mt-6 mb-3 md:mr-4 lg:mr-0'>
             <div className='flex flex-row m-2 justify-between'>
                 <img className='h-12 w-12 rounded-full mr-1 ' src={userr.image?getImage(userr.image):"https://cdn-icons-png.freepik.com/512/10302/10302971.png"} alt="profile" />
-                <span className='border-2 border-black w-[90%] rounded-3xl px-7 pt-2 text-xl' >Start a post</span>
+                <span className='border-2 border-black w-[90%] rounded-3xl px-7 pt-2 text-xl' onClick={()=>setMedia(true)} >Start a post</span>
             </div>
             <div className='flex flex-row mx-8 justify-between my-2'>
                 {/* <img className='h-6 ' src={media} alt="media" onClick={handleMedia}/>

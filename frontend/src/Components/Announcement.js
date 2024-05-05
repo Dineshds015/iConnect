@@ -12,8 +12,17 @@ import {fetchUserProfile,logoutUser} from '../helper/fetchData'
 // import Annoucement from './Announcement/Announcement'
 // import Jobs from './Jobs/Jobs'
 import ProfileCard from './ProfileCard'
-
+import Post from './Post'
+import fetchPost from '../helper/fetchPost'
 const Announcement = () => {
+
+  const [userPosts,setUserPosts] = useState(false)
+  const [postData,setPostData]=useState([]);
+
+  useEffect(()=>{
+      fetchPost(setPostData,"announcement");
+      setUserPosts(true);
+  },[]);
 
 const dispatch = useDispatch();
 const [userData,setUserData] = useState(null) 
@@ -33,39 +42,36 @@ const navigate = useNavigate()
   };
 
   return (
-    <>
-    {/* screen division for large screen and above */}
-    <div className='grid grid-cols-12 grid-flow-col mt-[77px] bg-slate-200'>
-      {/* <div className='hidden lg:blo xl:hidden'></div> */}
-
-
-      <div className='hidden md:block md:col-span-4 lg:col-span-3  m-2 -mt-1 '>
+    <div className='grid grid-flow-col grid-cols-12 mt-20 bg-slate-200 h-[100vh] '>
+    <div className='hidden md:block md:col-span-4 xl:hidden ' >
         <ProfileCard/>
-        <MyConnection />
-      </div>
-
-      <div className='hidden md:block md:col-span-8 md:mr-2  lg:col-span-5  h-[100vh]'>
-        <MainContainer cType="announcement"/>
-      </div>
-
-
-
-
-
-    {/* for smaller screen */}
+        <MyConnection/>
+    </div>
+    <div className='hidden xl:block xl:col-span-1 '></div>
+    <div className='hidden xl:block xl:col-span-3  2xl:col-span-3' >
+        <ProfileCard/>
+        <MyConnection/>
+    </div>
     
-    <div className='hidden sm:block sm:col-span-1 md:hidden'></div>
-    <div className='col-span-12 sm:col-span-10 md:hidden'>
-        <ProfileCard/>
-        <div className='w-full'>
-          <MainContainer/>
-        </div>
+    <div className='col-span-12 md:col-span-8 xl:col-span-7 2xl:col-span-7 flex flex-col m-4 h-full bg-slate-200 rounded-xl '> 
+    
+    <div className='flex flex-row bg-white justify-between font-bold text-xl rounded-xl -mb-1 p-2'>
+        <span>Announcements</span>
+        {/* <span className='cursor-pointer' onClick={()=>navigate("/announcements")}><ArrowRightAltIcon/></span> */}
     </div>
-    <div className='hidden sm:block sm:col-span-1 md:hidden'></div>
+    <div className='h-[95vh] overflow-x-hidden overflow-y-auto'>
+    {postData.map((data,idx) =>
+        {    
+            return <Post cType="announcement" key={data._id} postData={data}/>  // Don't render this post
+        }   
+    )}
+    </div>
+   
     </div>
 
-
-    </>  )
+    <div className='hidden md:block md:col-span-1 xl:col-span-2 2xl:col-span-2' ></div>
+    </div>
+  )
 }
 
 export default Announcement;

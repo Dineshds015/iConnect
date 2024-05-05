@@ -17,7 +17,7 @@ const FriendListItem = ({user}) =>{
     return (
     <div className='flex flex-row justify-between mx-4 p-2 border-b-2 border-gray-200 items-center hover:shadow-lg '>
       <div className='flex flex-row '>
-        <img className='h-12 w-12' src={user.image?getImage(user.image) : "https://cdn-icons-png.freepik.com/512/10302/10302971.png"} alt="dp"/>
+        {/* <img className='h-12 w-12' src={user.image?getImage(user.image) : "https://cdn-icons-png.freepik.com/512/10302/10302971.png"} alt="dp"/> */}
         <div className='flex flex-col mx-2'>
             {/* <span className='font-semibold cursor-pointer' onClick={handleToProfile}>{user.name ?? "No Name"}</span>
             <span className='text-sm font-thin'>{user.headline?? "No headline"}</span> */}

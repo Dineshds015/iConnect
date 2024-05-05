@@ -44,7 +44,7 @@ const ConnectCard = ({ user }) => {
   return (
     <div className='flex flex-col justify-center items-center m-2 rounded-xl bg-blue-50 w-[45%] sm:ml-6 md:ml-2 xl:w-[30%]'>
       <img className='h-24 w-full rounded-xl' src={user?.coverImage ?? "https://i.pinimg.com/236x/53/aa/af/53aaaff2bd89ab21f55db9b5bb8bd024.jpg"} alt="cover image"/>
-      <img className='h-14 w-14 -mt-7 border-2 border-solid border-white rounded-full' src={user.image?getImage(user.image) : "https://cdn-icons-png.freepik.com/512/10302/10302971.png"} alt="dp"/>
+      {/* <img className='h-14 w-14 -mt-7 border-2 border-solid border-white rounded-full' src={user.image?getImage(user.image) : "https://cdn-icons-png.freepik.com/512/10302/10302971.png"} alt="dp"/> */}
       <Link
           to={{
             pathname: `/${user._id}/Profile/`,
