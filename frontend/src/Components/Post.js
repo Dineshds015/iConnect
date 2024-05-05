@@ -128,7 +128,7 @@ const getImage = (imgName) => {
     <div className='rounded-xl bg-slate-50 mt-4 shadow-md  '>
         <div className='flex flex-row justify-between'>
             <div className='flex flex-row m-4'>
-                <img className='h-14 w-14 rounded-full' src={getImage(postData?.userId?.image) ?? "https://cdn-icons-png.freepik.com/512/10302/10302971.png"} alt="profile"/>
+                {/* <img className='h-14 w-14 rounded-full' src={getImage(postData?.userId?.image) ?? "https://cdn-icons-png.freepik.com/512/10302/10302971.png"} alt="profile"/> */}
                 <div className='flex flex-col mx-2' onClick={handleViewProfile}>
                     <span className='font-bold'>{postData?.userId?.name ?? "Your Name"}</span>
                     <span className='font-thin -mt-1 text-sm'>{postData?.userId?.headline ?? "Headline"}</span>
@@ -184,7 +184,7 @@ const getImage = (imgName) => {
         {addComment && (
           <div className='flex flex-col'>
           <div className='flex flex-row  mx-4 mb-4'>
-          {/* <img className='rounded-full h-12 w-12' src={getImage(user?.image) ?? "https://cdn-icons-png.freepik.com/512/10302/10302971.png"}/> */}
+          <img className='rounded-full h-12 w-12' src={getImage(user?.image) ?? "https://cdn-icons-png.freepik.com/512/10302/10302971.png"}/>
           <textArea
                 name="commentContent"
                 className='text ml-2 p-2 w-[85%] h-12 rounded-xl border border-gray-200 mb-4'
