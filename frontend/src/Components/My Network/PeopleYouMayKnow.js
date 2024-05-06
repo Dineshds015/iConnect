@@ -10,7 +10,7 @@ const PeopleYouMayKnow = () => {
         // Send request to backend to fetch userr profile
         const response = await axios.get('http://localhost:8000/connection/peopleYouMayKnow');
         setUsers(response.data); // Update state with userr information
-        console.log("resData",response.data);
+        console.log("response wala Data",response.data);
       } catch (error) {
         console.error('Error fetching userr profile:', error);
       }

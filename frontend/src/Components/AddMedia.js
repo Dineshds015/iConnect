@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import media from "../public/media.png";
 import { useSelector } from 'react-redux';
 import { useRef, useState } from 'react';
@@ -8,13 +8,19 @@ import Slider from 'react-slick';
 import axios from "axios"
 import { ToastContainer, toast } from 'react-toastify';
 import CloseIcon from '@mui/icons-material/Close';
+import { fetchUserProfile } from '../helper/fetchData';
 
 const AddMedia = ({postType,onClose}) => {
     const fileInputRef = useRef(null);
     const [selectedFile, setSelectedFile] = useState([]);
     const [textArea,setTextarea] = useState("")
-    const user = useSelector((store) => store.user);
+    const userr = useSelector((store) => store.user);
+    const [user,setUser]=useState([]);
     const sliderRef = useRef(null);
+
+    useEffect(() => {
+        fetchUserProfile(setUser);
+      }, [user._id]);
 
     const handleAddFile = () => {
         fileInputRef.current.setAttribute('multiple', 'multiple');

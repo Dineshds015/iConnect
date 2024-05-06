@@ -1,7 +1,7 @@
 import React,{useEffect,useState,useRef} from 'react'
 import { useSelector } from 'react-redux'
 import axios from 'axios'
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import PersonAddOutlinedIcon from '@mui/icons-material/PersonAddOutlined';
 import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
 import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
@@ -116,9 +116,6 @@ const timeSincePost = `${daysDifference}d ${hoursDifference}h ${minutesDifferenc
     }
 };
 
-const handleViewProfile = ()=>{
-  navigate(`/${postData.owner._id}/profile`)
-}
 
 const getImage = (imgName) => {
   return require(`../public/${imgName}`);
@@ -128,10 +125,19 @@ const getImage = (imgName) => {
     <div className='rounded-xl bg-slate-50 mt-4 shadow-md  '>
         <div className='flex flex-row justify-between'>
             <div className='flex flex-row m-4'>
-                {/* <img className='h-14 w-14 rounded-full' src={getImage(postData?.userId?.image) ?? "https://cdn-icons-png.freepik.com/512/10302/10302971.png"} alt="profile"/> */}
-                <div className='flex flex-col mx-2' onClick={handleViewProfile}>
-                    <span className='font-bold'>{postData?.userId?.name ?? "Your Name"}</span>
-                    <span className='font-thin -mt-1 text-sm'>{postData?.userId?.headline ?? "Headline"}</span>
+                <img className='h-14 w-14 rounded-full' src={getImage(postData?.userId?.image) ?? "https://cdn-icons-png.freepik.com/512/10302/10302971.png"} alt="profile"/>
+                <div className='flex flex-col mx-2'>
+                    {/* <span className='font-bold'>{postData?.userId?.name ?? "Your Name"}</span>
+                    <span className='font-thin -mt-1 text-sm'>{postData?.userId?.headline ?? "Headline"}</span> */}
+                    <Link
+                      to={{
+                        pathname: `/${postData?.userId?._id}/Profile/`,
+                        state: { userId: postData?.userId?._id }
+                      }}
+                    >
+                      <div className='font-semibold cursor-pointer'>{postData?.userId?.name ?? "Your Name"}</div>
+                      <div className='text-sm font-thin'>{postData?.userId?.headline ?? "Headline"}</div>
+                    </Link>
                     <span className='font-thin -mt-1 text-sm'>{`${secondsDifference>60 ? minutesDifference>60? hoursDifference>24? daysDifference>30 ? `${monthsDifference}mo`: `${daysDifference}d`: `${hoursDifference}hr` : `${minutesDifference}mins` : `${secondsDifference}s`} ago`}</span>
                 </div>
             </div>
