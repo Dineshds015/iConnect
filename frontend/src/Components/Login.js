@@ -133,7 +133,7 @@ const Login = () => {
             <img className="rounded-2xl h-52 w-52 mx-4" src={logo} alt="logo"/>
             <form className='flex flex-col w-[100%]'>
               <input className='mx-4 px-4 my-2 border border-solid w-auto h-12 rounded-full' type="text" name="email" placeholder='Enter Your Email' onChange={handleInputChange}/>
-              {!showOtp ?<input className='mx-4 px-4 my-2 border border-solid w-auto h-12 rounded-full' type="text" name="password" placeholder='Enter Your Password' onChange={handleInputChange}/> : 
+              {!showOtp ?<input className='mx-4 px-4 my-2 border border-solid w-auto h-12 rounded-full' type="password" name="password" placeholder='Enter Your Password' onChange={handleInputChange}/> : 
               <input className='mx-4 px-4 my-2 border border-solid w-auto h-12 rounded-full' type="text" name="newPassword" placeholder='Enter New Password' onChange={handleInputChange}/>}
               
               {!showOtp ? (

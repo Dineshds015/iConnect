@@ -9,11 +9,15 @@ const AnnouncementAndJobCard = ({cType, page, postData}) => {
   const handleToggleText = () => {
     setShowFullText(!showFullText);
   };
+
+  const getImage = (imgName) => {
+    return require(`../public/${imgName}`);
+  };
   return (
     <div className='rounded-xl bg-slate-100 py-1 mt-4  hover:shadow-lg hover:-translate-y-2 transition duration-200'  onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)} >
     <div className='flex flex-row justify-between'>
         <div className='flex flex-row m-4'>
-            {/* <img className='h-14 w-14 rounded-full' src={getImage(postData?.userId?.image) ?? "https://cdn-icons-png.freepik.com/512/10302/10302971.png"} alt="profile"/> */}
+            <img className='h-14 w-14 rounded-full' src={getImage(postData?.userId?.image) ?? "https://cdn-icons-png.freepik.com/512/10302/10302971.png"} alt="profile"/>
             <div className='flex flex-col mx-2' >
                 <span className='font-bold'>{postData?.userId?.name ?? "Your Name"}</span>
                 <span className='font-thin -mt-1 text-sm'>{postData?.userId?.headline ?? "Headline"}</span>

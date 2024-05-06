@@ -103,10 +103,10 @@ const Header = () => {
             {/* logo and search */}
             <div className='hidden md:flex col-span-4 '>
                 {/* <img className="h-14 px-4 mx-4" src={logo} alt="logo" /> */}
-                <span className='mt-4 mr-6 font-serif text-2xl cursor-pointer' onClick={()=> navigate("/")}>iConnect</span>
-
+                {/* <span className='mt-4 mr-6 font-serif text-2xl cursor-pointer' onClick={()=> navigate("/")}>iConnect</span> */}
+                <img className='h-12 w-50 mr-10' src={getImage("iclogo.png")} alt="dp"/>
                 {/* Chakra for making search as a buttom and onClick adding a drawer + have a tooltip saying search user */}
-                <Tooltip label="Search Users to Chat" hasArrow placement='bottom-end'>
+                <Tooltip className='mx-50' label="Search Users to Chat" hasArrow placement='bottom-end'>
                 <Button className='bg:transparent mt-3 mx-2' onClick={onOpen}>
                     <SearchIcon/>
                     <Text display={ { base: "none", md: "flex"}} px="4">
@@ -131,7 +131,8 @@ const Header = () => {
                 {isLogin &&
                 <Menu>
                     <MenuButton className="mt-3"  rightIcon={<ArrowDropDownIcon/>}>
-                        <Avatar size='md' cursor='pointer' name={userr?.name??"Guest"} src={getImage(userr.image)}/>
+                        <Avatar size='md' cursor='pointer' name={userr?.name??"Guest"} src={userr.image?getImage(userr.image):"https://cdn-icons-png.freepik.com/512/10302/10302971.png"}/>
+                        
                     </MenuButton>
                     <MenuList>
                     {/* <ProfileModel user={user}> */}

@@ -4,6 +4,7 @@ import Experience from './Experience';
 import Project from './Project';
 import { useParams,useLocation } from 'react-router-dom';
 import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
+import SendIcon from '@mui/icons-material/Send';
 import { fetchUsingId } from '../helper/fetchData';
 import Post from './Post';
 import fetchPost from '../helper/fetchPost';
@@ -74,7 +75,7 @@ const OtherUserProfile = () => {
           </span>
           {userData.connected ?
            (<button className="w-[95%] p-2 mx-4 my-1 mb-2 bg-white border border-blue-500 text-blue-500 font-bold rounded-2xl hover:bg-blue-500 hover:border-white hover:text-white">
-            Message
+            <SendIcon />Message
           </button>) : 
           (<button className="w-[95%] p-2 mx-4 my-1 mb-2 bg-white border border-blue-500 text-blue-500 font-bold rounded-2xl hover:bg-blue-500 hover:border-white hover:text-white">
             <PersonAddAltIcon/>Connect

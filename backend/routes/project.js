@@ -39,7 +39,7 @@ router.get('/fetchProject', async (req, res) => {
         const userId=req.query.userId;
         const user = await User.findById(userId).populate('projects');
         if (!user) {
-            return res.status(404).json({ error: 'User not found' });
+            return res.status(404).json({ error: 'Project not found' });
         }
 
         const { password, ...userData } = user.toObject();
