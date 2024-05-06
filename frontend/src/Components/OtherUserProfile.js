@@ -8,6 +8,8 @@ import SendIcon from '@mui/icons-material/Send';
 import { fetchUsingId } from '../helper/fetchData';
 import Post from './Post';
 import fetchPost from '../helper/fetchPost';
+import { fetchIsConnected,removeConnection } from '../helper/fetchOtherUserData';
+import axios from 'axios';
 // import YourPost from './YourPost';
 
 const OtherUserProfile = () => {
@@ -16,6 +18,7 @@ const OtherUserProfile = () => {
 
   const [userData,setUserData] = useState([]);
   const [postData,setPostData]=useState([]);
+  const [isConnected,setIsConnected]=useState(false);
   // const userId = location.state.userId;
   //const userId="66202ec2b682440664dd3a91";
   const userId = useParams();
@@ -23,6 +26,7 @@ const OtherUserProfile = () => {
   useEffect(() => {
     fetchUsingId(userId.user_id,setUserData);
     fetchPost(setPostData,"",userId.user_id);
+    fetchIsConnected(userId.user_id,setIsConnected);
   }, [userId]);
 
   useEffect(() => {
@@ -32,6 +36,24 @@ const OtherUserProfile = () => {
   const getImage = (imgName) => {
     return require(`../public/${imgName}`);
   };
+
+    //handle send request
+    const handleConnect=async()=>{
+      axios.post("http://localhost:8000/connection/create",{
+        connectionUserId:userId.user_id
+      })
+          .then((res) => {
+              console.log(res.data);
+          })
+          .catch((err) => {
+            console.log(err.message);
+          });
+    }
+
+  const handleDisconnect=()=>{
+    removeConnection(userId.user_id);
+  }
+
 
   if (!userData) return null;
 
@@ -73,14 +95,21 @@ const OtherUserProfile = () => {
           <span className=" font-mono my-1 from-neutral-800 ml-5">
             {userData?.headline }
           </span>
-          {userData.connected ?
-           (<button className="w-[95%] p-2 mx-4 my-1 mb-2 bg-white border border-blue-500 text-blue-500 font-bold rounded-2xl hover:bg-blue-500 hover:border-white hover:text-white">
-            <SendIcon />Message
-          </button>) : 
-          (<button className="w-[95%] p-2 mx-4 my-1 mb-2 bg-white border border-blue-500 text-blue-500 font-bold rounded-2xl hover:bg-blue-500 hover:border-white hover:text-white">
+          {isConnected ?
+            <div className='flex'>
+              
+              <a href={`mailto:${userData.email}?subject=Subject%20Here&body=Body%20Here`} className='w-[45%] p-2 mx-4 my-1 mb-2 bg-white border border-blue-500 text-blue-500 font-bold rounded-2xl hover:bg-blue-500 hover:border-white hover:text-white'>
+                <SendIcon /> Contact
+              </a>
+              <button className="w-[45%] p-2 mx-4 my-1 mb-2 bg-white border border-blue-500 text-blue-500 font-bold rounded-2xl hover:bg-red-500 hover:border-white hover:text-white" onClick={handleDisconnect}>
+                Remove
+              </button>
+            </div> 
+            : 
+          <button className="w-[95%] p-2 mx-4 my-1 mb-2 bg-white border border-blue-500 text-blue-500 font-bold rounded-2xl hover:bg-blue-500 hover:border-white hover:text-white" onClick={handleConnect}>
             <PersonAddAltIcon/>Connect
           </button>
-          )}
+          }
         </div>
         <div className='md:mr-4 lg:mr-0 overflow-x-hidden overflow-y-auto'>
             {postData?.map((data) => <Post key={data?._id} postData={data} />)}
