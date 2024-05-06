@@ -26,7 +26,7 @@ const ConnectCard = ({ user }) => {
           console.log(err.message);
         });
   }
-  //handle cancel request
+  //handle send request
   const handleSendRequest=async()=>{
     axios.post("http://localhost:8000/connection/create",{
       connectionUserId:user._id

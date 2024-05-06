@@ -54,6 +54,31 @@ router.post("/cancel",
         return res.status(200).json(connection);
 });
 
+router.post("/removeConnection",
+    async(req,res)=>{
+        //verify JWT cookie to get user information
+        const token=req.cookies.loginToken;
+        const user=await existingUser(token);
+
+        //Create the like object
+        const connectionUserId=req.body.connectionUserId;
+        const userId=user._id;
+        
+        if(!connectionUserId){
+            return res.status(402).json({err:"Invalid Details"});
+        }
+        const connection = await Connection.deleteMany({
+            $or: [
+              { userId: userId, connectionUserId: connectionUserId },
+              { userId: connectionUserId, connectionUserId: userId }
+            ]
+          });
+        //const connection=await Connection.deleteMany({ connectionUserId: connectionUserId, userId: userId });
+
+        //4. Return a response
+        return res.status(200).json(connection);
+});
+
 router.post("/accept",
     async(req,res)=>{
         //verify JWT cookie to get user information
@@ -178,7 +203,6 @@ router.get("/myConnection", async (req, res) => {
                 { userId: userId }
             ],
             connectionStatus: "accepted" 
-
         })
         .populate('userId')
         .populate('connectionUserId');
@@ -191,6 +215,40 @@ router.get("/myConnection", async (req, res) => {
             return userData;
         });
         return res.status(200).json(userData);
+        
+
+    } catch (error) {
+        console.error("Error:", error);
+        return res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
+
+//For accepted Connections
+router.get("/isConnected", async (req, res) => {
+    try {
+        // Verify JWT cookie to get user information
+        
+        const token = req.cookies.loginToken;
+        const user = await existingUser(token);
+
+        const connectionUserId=req.query.connectionUserId;
+        console.log("connectionUserId: ",req.query);
+        const userId=user._id;
+        const isConnect = await Connection.exists({ 
+            $or: [
+                { $and:[
+                    { connectionUserId: connectionUserId },
+                    { userId: userId }
+                ]},
+                { $and:[
+                    { connectionUserId: userId },
+                    { userId: connectionUserId }
+                ]}
+            ],
+            connectionStatus: "accepted" 
+        });
+        console.log(isConnect?"COnnecteDUser":"notConnectED");
+        return res.status(200).json(isConnect?true:false);
         
 
     } catch (error) {
