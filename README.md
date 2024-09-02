@@ -1,16 +1,17 @@
 # iConnect
 
-**iConnect** is a dynamic platform designed to connect students within the same campus, fostering a strong community and enhancing collaboration.
+**iConnect** is a comprehensive platform designed to connect students within a campus, facilitating seamless interaction, networking, and collaboration. The platform includes robust search functionality and secure communication features to enhance student engagement of perticular campus.
 
-## 🚀 Features
+## 🚀 Key Features
 
-- **Peer Assistance**: Seek help and guidance from fellow students.
-- **Skill Discovery**: Identify highly skilled individuals across campus.
-- **Community Building**: Strengthen the sense of unity and collaboration among students.
+- **User Authentication**: Secure login using OTP sent via GSuite email, provided by the institute.
+- **Search Functionality**: Easily find users based on education, skills, tech stack, previous college, branch, or name.
+- **Connection Management**: Send, accept, and reject connection requests to build your network.
+- **Communication**: Utilize Gmail for direct messaging and stay connected with peers.
 
 ## 🛠️ Tech Stack
 
 - **Frontend**: ReactJS, Tailwind CSS
 - **Backend**: NodeJS, ExpressJS
 - **Database**: MongoDB, Mongoose
-- **Services**: NodeMailer for communication
+- **Services**: NodeMailer
